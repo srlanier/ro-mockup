@@ -1,0 +1,26 @@
+#uga-header {
+    height: 43px;
+    background-color: #000;
+    border-bottom: 3px solid #BA0C2F;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+#uga-header img {
+    height: 8px;
+}
+
+/* Hides UGA bar when scrolled */
+body.scrolled #uga-header {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+

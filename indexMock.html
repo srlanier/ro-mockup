@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/uga-branding.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Font Awesome (for icons) -->
+<!--    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>-->
+
+
+    <style>
+        :root {
+            --uga-red: #BA0C2F; /* Official UGA Red */
+            --uga-grey: #4A4A4A;
+            --white: #ffffff;
+            --light-grey: #f0f0f0;
+            --dark-blue: #0A2342; /* A dark blue for contrast */
+            --dark-grey-text: #333333;
+            --dark-grey: #3e3e3e;
+            --tan: #d6d2c4;
+            /*--background: #ffffff;*/
+            /*--navbar: #ffffff;*/
+            /*--navbartext: #4A4A4A;*/
+            /*--datesbox: #ffffff;*/
+            /*--datesboxText: #ffffff*/
+        }
+
+        [data-theme="light"] {
+            --background: #ffffff;
+            --navbar: #fffff;
+            --navbarscroll: white;
+            --navbartext: white;
+            --datesbox: #4A4A4A;
+            --datesboxText: #ffffff;
+        }
+            [data-theme="dark"] {
+                --background: #3e3e3e;
+                --navbar: #ffffff;
+                --navbartext: black;
+                --datesbox: #ffffff;
+                --datesboxText: #ffffff;
+            }
+
+            [data-theme="uga"]
+            {
+                --background: black;
+                --navbar: #BA0C2F;
+                --navbartext: white;
+                --datesbox: #BA0C2F;
+                --datesboxText: #ffffff;
+            }
+
+
+
+        @font-face {
+            font-family: "Oswald";
+            src: url('fonts/Oswald-VariableFont_wght.ttf');
+        }
+
+        @font-face {
+            font-family: "Merriweather Sans";
+            src: url('fonts/MerriweatherSans-VariableFont_wght.ttf');
+        }
+        @font-face {
+            font-family: "Montserrat";
+            src: url('fonts/Montserrat-VariableFont_wght.ttf');
+        }
+        body {
+            font-family: 'Merriweather Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--background); /* Light grey background for the whole page */
+        }
+        /* Custom font utility for Merriweather Sans */
+        .font-merriweather-sans {
+            font-family: 'Merriweather Sans', sans-serif;
+        }
+
+        /* Navbar Styles (Copied from main page) */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--navbar);
+            padding: 10px 20px;
+            /*box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.7);*/
+            box-shadow: none;
+            position: fixed; /* Changed to fixed so it stays at the top */
+            top: 43px;
+            left: 0;
+            width: 100%;
+            gap: 40px; /* Space between logo, nav links, and search icon */
+            z-index: 1000;
+            box-sizing: border-box; /* Include padding in width calculation */
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            transition: top 0.3s ease;
+            transition: color .5s ease;
+        }
+
+        .navbar-left .uga-logo {
+            height: 70px;
+            width: auto;
+            margin-top: -10px;
+            margin-bottom: -10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            position: relative;
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--navbartext);
+            font-weight: 400;
+            font-size: 1.3em;
+            padding: 10px 0;
+            display: block;
+            text-shadow:   0 1px 2px rgba(0, 0, 0, 1),      /* sharp dark outline */
+            0 0 6px rgba(0, 0, 0, 0.8);      /* soft glow for extra contrast */
+            transition: color 0.3s ease;
+            transition: .2s ease;
+        }
+
+        .nav-links a:hover {
+            /*transform: translateY(-3px); !* Moves link text up by 3 pixels *!*/
+            /*color: var(--uga-red);*/
+            /*text-shadow:   0 1px 2px rgba(0, 0, 0, 0),      !* sharp dark outline *!*/
+            /*0 0 6px rgba(0, 0, 0, 0.0);      !* soft glow for extra contrast *!*/
+        }
+
+        /* Show dropdown menu on hover */
+        .nav-links li:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Dropdown Menu (Desktop specific positioning) */
+        .dropdown-menu {
+            position: fixed;
+            background-color: var(--background);
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-top: 3px solid var(--uga-red);
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .dropdown-menu.active-desktop {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-menu a {
+            color: var(--uga-grey);
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            white-space: nowrap;
+            text-shadow: none;
+            font-size: 1em;
+            font-family: "Montserrat", sans-serif;
+            transition: background-color 0.1s ease, color 0.1s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--uga-red);
+            color: var(--white);
+        }
+
+        /* Search Icon and Bar */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        body.scrolled #navbar {
+            top: 0;
+            background-color: var(--navbarscroll);
+            color: black;
+            box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.7);
+        }
+        body.scrolled #navbar .dropdown a {
+            color: black;
+            text-shadow: none;
+        }
+        body.scrolled #navbar .search-icon {
+            color: black;
+        }
+
+        body.scrolled .dropdown .dropdown-menu a:hover {
+            color: white !important;
+
+        }
+        body.scrolled #navbar .search-icon:hover {
+            color: #BA0C2F;
+        }
+
+        .search-icon {
+            font-size: 1.3em;
+            color: var(--navbartext);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: var(--uga-red);
+        }
+
+        .search-bar {
+            position: fixed;
+            background-color: var(--white);
+            padding: 8px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 999;
+            width: 250px;
+            display: flex;
+            align-items: center;
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-bar.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 5px 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1em;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--uga-red);
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        /* Hamburger Menu (Desktop: hidden, Mobile: absolute on right) */
+        .hamburger-menu {
+            display: none; /* Hidden by default on desktop */
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            position: absolute; /* Positioned absolutely within .navbar */
+            right: 20px; /* Keep it on the right edge */
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001; /* Ensure it's above other elements if they overlap */
+        }
+
+        .hamburger-menu .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--uga-grey);
+            margin: 4px 0;
+            transition: 0.4s;
+
+        }
+
+
+
+
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+<div id="uga-header">
+    <img src="https://osfa.uga.edu/wp-content/themes/osfa/_assets/img/GEORGIA-HW-W.svg" alt="UGA Logo">
+</div>
+<!-- Navigation Bar - White background, touches top and sides -->
+<header class="h-[0px] bg-[var(--background)] shadow shrink-0">
+    <div id="navbar-container"></div>
+
+    <script>
+        fetch('/partials/navbar.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+    </script>
+
+    <!--    <nav class="navbar" id="navbar">-->
+<!--        <div class="navbar-left">-->
+<!--            <a href="p/uga-navbar-preview" class="logo-link"> &lt;!&ndash; Link back to home &ndash;&gt;-->
+<!--                &lt;!&ndash; Placeholder for UGA Logo &ndash;&gt;-->
+<!--                <img id="uga-logo" src="images/OfficeRegistrar_logo_Formal_1C.png" alt="UGA Logo" class="uga-logo">-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--        <ul class="nav-links">-->
+<!--            <li class="dropdown">-->
+<!--                <a href="sf3.html">STUDENTS</a>-->
+<!--                <div class="dropdown-menu">-->
+<!--                    <a href="#">Admissions</a>-->
+<!--                    <a href="#">Academics</a>-->
+<!--                    <a href="#">Student Life</a>-->
+<!--                    <a href="p/student-forms-policies">Student Forms & Policies</a>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="dropdown">-->
+<!--                <a href="#">FACULTY & STAFF</a>-->
+<!--                <div class="dropdown-menu">-->
+<!--                    <a href="#">Human Resources</a>-->
+<!--                    <a href="#">Research</a>-->
+<!--                    <a href="#">Resources</a>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li><a href="#">CALENDARS</a></li>-->
+<!--            <li><a href="#">GENERAL INFORMATION</a></li>-->
+<!--            <li><a href="#">FACULTY GOVERNANCE</a></li>-->
+<!--        </ul>-->
+
+<!--        <div class="navbar-right relative">-->
+<!--            &lt;!&ndash; Search icon &ndash;&gt;-->
+<!--            <div class="search-icon" id="searchIcon" style="cursor: pointer;">-->
+<!--                <i class="fas fa-search"></i>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Dev Tools popup placeholder &ndash;&gt;-->
+<!--            <div id="dev-tools-container" class="absolute top-full right-0 mt-2 z-50"></div>-->
+<!--        </div>-->
+
+<!--        <div class="hamburger-menu" id="hamburgerMenu">-->
+<!--            <div class="bar"></div>-->
+<!--            <div class="bar"></div>-->
+<!--            <div class="bar"></div>-->
+<!--        </div>-->
+<!--    </nav>-->
+</header>
+
+<!--Whole Page Content Area-->
+<div id="contentArea" class="w-full mx-auto">
+    <!-- Main page Content -->
+<div class="flex flex-col md:flex-row flex-grow gap-2 h-[calc(100vh-4px)] mt-[40px]">
+    <!-- Left Section -->
+    <div class="w-full md:w-[100%] overflow-hidden">
+        <div class="relative bg-teal-500 shadow-xl overflow-hidden flex items-center justify-center h-64 md:h-full min-h-[200px]">
+            <!-- Text overlay -->
+            <div class="absolute left-24 top-1/2 transform -translate-y-1/2 text-white z-10 max-w-md">
+                <h1 class="text-3xl font-bold leading-tight mb-2 drop-shadow-lg" style="font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 5.8rem; text-transform: uppercase;">
+                    Office<br>of the<br>Registrar
+                </h1>
+                <p class="text-lg bg-black bg-opacity-60 px-2 drop-shadow-lg">
+<!--                    Your resource from <i>Registration</i>&nbspto <i>Graduation</i>-->
+                </p>
+            </div>
+            <!--events overaly -->
+            <div class="absolute right-6 top-1/2 transform -translate-y-1/2 text-white z-10 w-80 max-w-[95%]">
+                <h2 class="text-xl font-bold mb-4 drop-shadow-md" style="font-size: 28px;">Upcoming Events</h2>
+                <div class="space-y-4" style="font-family: 'Montserrat';">
+
+                    <!-- Event Item -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
+                            <div class="uppercase text-[12px] tracking-widest">JUL</div>
+                            <div class="text-lg" style="color:#BA0C2F;">1</div>
+                        </div>
+                        <div class="bg-black/40 px-2 py-1 text-base font-medium drop-shadow-sm">
+                            Fall Registration Opens
+                        </div>
+                    </div>
+
+                    <!-- Event Item -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
+                            <div class="uppercase text-[12px] tracking-widest">AUG</div>
+                            <div class="text-lg" style="color:#BA0C2F;">12</div>
+                        </div>
+                        <div class="bg-black/40 px-2 py-1 text-base font-medium drop-shadow-sm">
+                            Orientation/Advisement
+                        </div>
+                    </div>
+
+                    <!-- Event Item -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
+                            <div class="uppercase text-[12px] tracking-widest">AUG</div>
+                            <div class="text-lg" style="color:#BA0C2F;">14</div>
+                        </div>
+                        <div class="bg-black/40 px-2 py-1 text-base font-medium drop-shadow-sm">
+                            Classes Begin
+                        </div>
+                    </div>
+
+                    <!-- Event Item -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
+                            <div class="uppercase text-[12px] tracking-widest">AUG</div>
+                            <div class="text-lg" style="color:#BA0C2F;">20</div>
+                        </div>
+                        <div class="bg-black/40 px-2 py-1 text-base font-medium drop-shadow-sm">
+                            Drop/Add Deadline
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!-- hero -->
+            <div id="heroWrapper" class="relative w-full h-full">
+            <img
+                    id="heroImage"
+                    src="https://news.uga.edu/wp-content/uploads/2020/09/USNWR_Arch.jpg"
+                    alt="Hero Image"
+                    class="absolute inset-0 w-full h-full object-cover object-right transition-opacity duration-300"
+            />
+                </div>
+        </div>
+    </div>
+
+
+    </div>
+</div>
+
+<!--whole page area -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('dev-tools-container');
+        const searchIcon = document.getElementById('searchIcon');
+
+        fetch('/partials/dev-tools.html')
+            .then(res => res.text())
+            .then(html => {
+                container.innerHTML = html;
+
+                const popup = document.getElementById('devToolsPopup');
+                popup.classList.add('hidden');
+
+                searchIcon.addEventListener('click', () => {
+                    popup.classList.toggle('hidden');
+                });
+
+                // ✅ Hero image switch
+                // document.querySelectorAll('[data-hero-src]').forEach(button => {
+                //     button.addEventListener('click', () => {
+                //         const newSrc = button.getAttribute('data-hero-src');
+                //         const heroImage = document.getElementById('heroImage');
+                //         if (heroImage && newSrc) {
+                //             console.log("Switching image to:", newSrc);
+                //             heroImage.src = newSrc;
+                //         }
+                //     });
+                // });
+                document.querySelectorAll('[data-hero-src]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const newSrc = button.getAttribute('data-hero-src');
+                        const heroImage = document.getElementById('heroImage');
+
+                        if (heroImage && newSrc) {
+                            const label = button.textContent.trim();
+                            console.log("Switching image to:", newSrc);
+
+                            heroImage.src = newSrc;
+
+                            // Set object-position based on label
+                            if (label === "Arch 4"||label ==="Arch 2"||label ==="Winter :)"){
+                                heroImage.style.objectPosition = "center 25%";
+                            } else {
+                                heroImage.style.objectPosition = "center";
+                            }
+                        }
+                    });
+                });
+                //Hero toggle tint button
+                document.getElementById('toggleHeroTint').addEventListener('click', () => {
+                    const heroWrapper = document.getElementById('heroWrapper');
+                    let existingTint = document.getElementById('heroTint');
+
+                    if (existingTint) {
+                        existingTint.remove();
+                        console.log("Tint removed");
+                    } else {
+                        const tint = document.createElement('div');
+                        tint.id = 'heroTint';
+                        tint.className = 'absolute inset-0 bg-black/30 pointer-events-none transition-opacity duration-300';
+                        heroWrapper.appendChild(tint);
+                        console.log("Tint applied");
+                    }
+                });
+
+
+
+
+
+
+                // Width changer
+                document.querySelectorAll('[data-content-width]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const newWidth = button.getAttribute('data-content-width');
+                        const content = document.getElementById('contentArea');
+
+                        if (content) {
+                            // Remove all possible width/max-width/margin combos
+                            content.classList.remove(
+                                'max-w-screen-sm',
+                                'max-w-screen-md',
+                                'max-w-screen-lg',
+                                'max-w-screen-xl',
+                                'max-w-screen-2xl',
+                                'max-w-full',
+                                'max-w-none',
+                                'max-w-[1440px]',
+                                'max-w-[1000px]',
+                                'mx-auto'
+                            );
+
+                            // If the mode includes "comfortable", add centering
+                            if (newWidth.includes('1440') || newWidth.includes('screen') || newWidth.includes('1000'))  {
+                                content.classList.add('mx-auto');
+                            }
+
+                            content.classList.add(newWidth);
+                        }
+                    });
+                });
+                // Themes
+                document.querySelectorAll('[data-theme-toggle]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const theme = button.getAttribute('data-theme-toggle');
+                        document.documentElement.setAttribute('data-theme', theme);
+                    });
+                });
+            })
+            .catch(err => {
+                console.error('Failed to load dev tools:', err);
+            });
+    });
+</script>
+<!--UGA NAV script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
+        const navbar = document.getElementById('nav-links');
+        const logo = document.getElementById('uga-logo');
+
+        window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+        body.classList.add('scrolled');
+        logo.src = 'images/OfficeRegistrar_logo_Formal_FC.png'; // dark logo
+    } else {
+        body.classList.remove('scrolled');
+        logo.src = 'images/OfficeRegistrar_logo_Formal_1C.png'; // light logo
+    }
+    });
+    });
+
+
+
+</script>
+
+<!--//alphabetize nav script-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+
+        dropdownMenus.forEach(menu => {
+            const links = Array.from(menu.querySelectorAll("a"));
+
+            links.sort((a, b) => a.textContent.localeCompare(b.textContent));
+
+            // Clear and re-append sorted links
+            menu.innerHTML = "";
+            links.forEach(link => menu.appendChild(link));
+        });
+    });
+</script>
+
+
+</body>
+</html>
