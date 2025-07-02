@@ -311,15 +311,141 @@
 </div>
 <!-- Navigation Bar - White background, touches top and sides -->
 <header class="h-[0px] bg-[var(--background)] shadow shrink-0">
-    <div id="navbar-container"></div>
+    <div id="navbar-container">
+<nav class="navbar" id="navbar" xmlns="http://www.w3.org/1999/html">
+  <div class="navbar-left">
+    <a href="p/uga-navbar-preview" class="logo-link"> <!-- Link back to home -->
+      <!-- Placeholder for UGA Logo -->
+      <img id="uga-logo" src="images/OfficeRegistrar_logo_Formal_FC.png" alt="UGA Logo" class="uga-logo">
+    </a>
+  </div>
 
-    <script>
+  <ul class="nav-links">
+    <li class="dropdown">
+      <a href="#">REGISTRATION</a>
+      <div class="dropdown-menu">
+        <a href="#">62+ Program</a>
+        <a href="#">Academic Common Market</a>
+        <a href="#">Athena</a>
+        <a href="#">Campus Carry Information</a>
+        <a href="#">Daily Class Schedule</a>
+        <a href="#">Holds</a>
+        <a href="#">Registration</a>
+        <a href="#">Repeating a Course</a>
+        <a href="#">Residency Classification & Waivers</a>
+        <a href="#">Schedule Adjustments</a>
+        <a href="#">Schedule of Classes</a>
+        <a href="#">Tuition Assistance Program (TAP)</a>
+        <a href="#">Veterans</a>
+        <a href="#">Withdrawals</a>
+      </div>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">STUDENT RECORDS</a>
+    <div class="dropdown-menu">
+      <a href="#">Academic Standing</a>
+      <a href="#">Credit From Testing</a>
+      <a href="#">Diplomas</a>
+      <a href="#">Enrollment Verifications</a>
+      <a href="#">FERPA</a>
+      <a href="#">Forms and Policies</a>
+      <a href="#">Grades</a>
+      <a href="#">Graduation</a>
+      <a href="#">Transcripts</a>
+      <a href="#">Reports and Data Requests</a>
+
+    </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">CALENDARS</a>
+      <div class="dropdown-menu">
+        <a href="#">Academic Calendars</a>
+        <a href="#">Centralized Classroom Scheduling Dates</a>
+        <a href="#">Daily Class Schedule</a>
+        <a href="#">Final Exam Schedule</a>
+        <a href="#">Important Dates for Faculty/Staff</a>
+        <a href="#">Key Dates for Semester</a>
+        <a href="#">Parts of Term</a>
+        <a href="#">Payment Dates</a>
+        <a href="#">Registration Dates</a>
+
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">FACULTY & STAFF</a>
+    <div class="dropdown-menu">
+      <a href="#">Banner Cohorts</a>
+      <a href="#">Centralized Classroom and Event Scheduling</a>
+      <a href="#">Class Rolls</a>
+      <a href="#">Course Attributes</a>
+      <a href="#">Course Evaluations</a>
+      <a href="#">Course Scheduling</a>
+      <a href="#">Course/Lab Materials Funding</a>
+      <a href="#">Curriculum Changes (Student)</a>
+      <a href="#">Drop/Withdrawal Non-Attendance</a>
+      <a href="#">FERPA</a>
+      <a href="#">PARC</a>
+      <a href="#">Registrar's Advisory Council</a>
+      <a href="#">Reporting</a>
+      <a href="#">Submission of Grades</a>
+      <a href="#">Training Materials</a>
+      <a href="#">User Access - CASIS</a>
+    </div>
+    <li class="dropdown">
+      <a href="#">ACADEMICS</a>
+      <div class="dropdown-menu">
+        <a href="#">Academic Affairs Policies</a>
+        <a href="#">Bulletin</a>
+        <a href="#">CAPA (Course Approval)</a>
+        <a href="#">CLR</a>
+        <a href="#">DegreeWorks</a>
+        <a href="#">Double Dawgs</a>
+        <a href="#">First-Year Odyssey</a>
+        <a href="#">Gen. Ed. Core Curriculum</a>
+        <a href="#">Institutional Competencies</a>
+
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">FACULTY GOVERNANCE</a>
+      <div class="dropdown-menu">
+    <a href="#">Educational Affairs Committee</a>
+    <a href="#">University Curriculum Committee</a>
+    <a href="#">University Council</a>
+    <div>
+    </li>
+  </ul>
+
+  <div class="navbar-right relative">
+    <!-- Search icon -->
+    <div class="search-icon" id="searchIcon" style="cursor: pointer;">
+      <i class="fas fa-search"></i>
+    </div>
+
+    <!-- Dev Tools popup placeholder -->
+    <div id="dev-tools-container" class="absolute top-full right-0 mt-2 z-50"></div>
+  </div>
+
+  <div class="hamburger-menu" id="hamburgerMenu">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+
+</nav>
+
+        
+    </div>
+
+<!--     <script>
         fetch('/partials/navbar.html')
             .then(res => res.text())
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
             });
-    </script>
+    </script> -->
 
     <!--    <nav class="navbar" id="navbar">-->
 <!--        <div class="navbar-left">-->
