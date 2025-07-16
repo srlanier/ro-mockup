@@ -41,10 +41,26 @@
             font-family: 'Oswald', sans-serif;
             /*font-family: 'Merriweather-sans', sans-serif;*/
             margin: 0;
-            background-color: var(--light-grey);
+            background-color: #888888;
             color: var(--dark-grey-text);
             overflow-x: hidden; /* Ensure no horizontal scrollbar */
         }
+
+        main { display: flex;
+            max-width: 1200px;
+            font-family: "Merriweather", serif;
+            margin: 0px auto;
+            gap: 0px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.35);
+
+        }
+
+        /*.content {*/
+        /*    flex: 4;*/
+        /*    padding: 0px;*/
+        /*    background: var(--white);*/
+        /*    border-radius: 0 0 8px 8px;*/
+        /*}*/
 
 
         /* Navbar Styles (Copied from main page) */
@@ -54,7 +70,7 @@
             align-items: center;
             background-color: var(--white);
             padding: 12px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
             position: fixed; /* Changed to fixed so it stays at the top */
             top: 0;
             left: 0;
@@ -195,7 +211,7 @@
         /* Content Page Specific Styles */
         .container {
             display: flex;
-            max-width: 1160px; /* Adjusted max-width to allow for side margins */
+            max-width: 1200px; /* Adjusted max-width to allow for side margins */
             /*margin: 0px 20px 20px 58px; !* Top, Right, Bottom, Left margins *!*/
             margin: 0 auto;
             background-color: var(--white);
@@ -351,30 +367,30 @@
 
         }
 
-         .page-title-box {
-             width: calc(100% + 0px); /* 50px offset + 50px right spacing */
-             max-width: 1160px; /* 1160px - 100px (50px offset) */
-             margin: 75px auto 0 auto; /* top: 75px, centered */
-             transform: translateX(-4px); /* visually shifts it 50px to the right */
-             padding: 16px 0px;
-             /*margin-top: 75px;*/
-             /*margin-bottom: 0px;*/
-             /*margin-left: 50px;*/
-             background: linear-gradient(-65deg, #9e0a28 30%, #ba0c2f 30%);
-             border-left: 8px solid #495057;
-             border-radius: 0px 0px 0px 8px;
-             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        .page-title-box {
+            width: calc(100% + 0px); /* 50px offset + 50px right spacing */
+            max-width: 1200px; /* 1160px - 100px (50px offset) */
+            margin: 75px auto 0 auto; /* top: 75px, centered */
+            /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
+            padding: 10px 0px;
+            /*margin-top: 75px;*/
+            /*margin-bottom: 0px;*/
+            /*margin-left: 50px;*/
+            background: linear-gradient(-66deg, #9e0a28 30%, #ba0c2f 30%);
+            /*border-bottom: 2px solid #8a8a8a;*/
+            border-bottom: 1px solid #2b2b2b;
+            /*border-left: 4px solid #2b2b2b;*/
+            /*border-radius: 0px 0px 0px 8px;*/
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
 
-         }
+        }
         .page-title-box-title {
             font-size: 2.75rem;
             font-weight: 600;
             color: #ffffff;
             letter-spacing: 0.4px;
             text-shadow: 0 0 3px #000000cc;
-            margin: 5px 5px 5px 40px;
-
-
+            margin: 5px 5px 5px 150px;
         }
         .accordion-section {
             border: 0.8px solid rgba(211, 211, 211, 0.7);
@@ -533,12 +549,14 @@
 /*Calendar style*/
 
         .calendar-container {
-            width: 1160px;
+            width: 1200px;
             margin: 0 auto;
             font-family: "Merriweather Sans", sans-serif;
             background: #fff;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            /*margin-top: 40px;*/
+            border-radius: 6px;
         }
 
         .calendar-container h2 {
@@ -602,13 +620,14 @@
         .term-nav {
             display: flex;
             background: #fafafa;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #bdada8;
             margin: 0 0px;
         }
         .term-nav button {
             flex: 1;
             padding: 9px 0;
-            background: #f9f9f9;
+            /*background: #f9f9f9;*/
+            background: #e0e0e0;
             border: none;
             border-bottom: 3px solid transparent;
             font-family: "Merriweather Sans", sans-serif;
@@ -622,10 +641,9 @@
             border-bottom-color: #BA0C2F;
         }
         .term-nav button.active {
-            background: #BA0C2F;
-            color: #fff;
-            font-weight: 700;
-
+            background: #fff;
+            border-bottom-color: #BA0C2F;
+            color: #BA0C2F;
         }
         /* Content area */
         .calendar-content {
@@ -690,9 +708,12 @@
         <div class="bar"></div>
     </div>
 </nav>
+
 <div class="page-title-box">
     <h1 class="page-title-box-title">ACADEMIC CALENDAR</h1>
 </div>
+<main>
+        <div class="content">
         <!-- 		Calendar -->
         <div class="calendar-container">
             <!-- Academic Year Dropdown replacing H1 -->
@@ -778,6 +799,10 @@
                 </div>
             </div>
         </div>
+        </div>
+</main>
+
+
 
         <script>
             document.querySelectorAll('.term-nav button').forEach(btn => {
