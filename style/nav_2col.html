@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Dropdown Menu</title>
+    <!-- Merriweather Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@200;300;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Merriweather Sans', sans-serif;
+        }
+
+        @font-face {
+            font-family: "Oswald";
+            src: url('../fonts/Oswald-VariableFont_wght.ttf');
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+<nav class="bg-white shadow">
+    <ul class="flex space-x-6 p-4">
+        <!-- Other top-level items could go here -->
+        <li class="relative group h-full">
+            <a href="#" class="block px-4 py-2 text-[24px] font-medium font-[oswald] group-hover:text-[#BA0C2F]">REGISTRATION</a>
+            <!-- Dropdown -->
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity  duration-150 absolute
+            left-0 top-full bg-white shadow-md p-4 w-400 z-10 border-t-4 border-[#BA0C2F]">
+                <ul class="list-none p-0 m-0" style="column-count: 2; column-gap: 1rem; column-rule: 1px solid #D1D5DB;">
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">62+ Program</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Academic Common Market</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Athena</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Campus Carry Information</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2025</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2026</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Holds</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Registration</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Repeating a Course</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Residency Classification &amp; Waivers</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule Adjustments</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule of Classes</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Tuition Assistance Program (TAP)</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Veterans</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Withdrawals</a></li>
+                </ul>
+            </div>
+        </li>
+        <!-- Other top-level items could go here -->
+    </ul>
+</nav>
+</body>
+</html>

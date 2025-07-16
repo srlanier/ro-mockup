@@ -18,7 +18,9 @@
             --dark-blue: #0A2342; /* A dark blue for contrast */
             --dark-grey-text: #333333;
             --dark-grey: #3e3e3e;
-            --tan: #d6d2c4
+            --tan: #e3dfd3;
+            --gray-200: #e2e8f0;
+            --uga-link: #00A3AD;
 
         }
 
@@ -30,6 +32,10 @@
         @font-face {
             font-family: "Merriweather Sans";
             src: url('../fonts/MerriweatherSans-VariableFont_wght.ttf');
+        }
+        @font-face {
+            font-family: "Merriweather";
+            src: url('../fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
         }
 
         /* Custom font utility for Merriweather Sans */
@@ -43,8 +49,17 @@
             /*font-family: 'Merriweather-sans', sans-serif;*/
             margin: 0;
             background-color: #888888;
-            color: var(--dark-grey-text);
+            color: var(--uga-grey);
             overflow-x: hidden; /* Ensure no horizontal scrollbar */
+        }
+
+
+        a {
+            color: var(--uga-link);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
 
 
@@ -195,23 +210,35 @@
 
         /* Content Page Specific Styles */
 
-        main {
-            display: flex;
-            font-family: "Merriweather Sans", sans-serif;
-            max-width: 1158px;
+        /*main {*/
+        /*    display: flex;*/
+        /*    font-family: "Merriweather Sans", sans-serif;*/
+        /*    max-width: 1158px;*/
+        /*    margin: 0px auto;*/
+        /*    background: var(--white);*/
+        /*    border-radius: 0 0 8px 8px;*/
+        /*    overflow: hidden;*/
+        /*    box-shadow: 0px 2px 5px rgba(0,0,0,0.35);*/
+        /*}*/
+
+        main { display: flex;
+            max-width: 1200px;
+            font-family: "Merriweather", serif;
             margin: 0px auto;
-            background: var(--white);
-            border-radius: 0 0 8px 8px;
-            overflow: hidden;
+            gap: 0px;
             box-shadow: 0px 2px 5px rgba(0,0,0,0.35);
+
         }
+
         .content {
             flex: 4;
             padding: 0px;
+            background: var(--white);
+            border-radius: 0 0 8px 8px;
         }
         .content h2 {
             margin-top: 0;
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Merriweather Sans', sans-serif;
         }
         .sidebar {
             flex: 1;
@@ -219,23 +246,97 @@
             padding: 24px;
             border-left: 1px solid #e0e0e0;
             position: sticky;
-            /*top: 96px;*/
-            height: calc(100vh - 96px - 32px);
+            top: 74px;
+            height: calc(100vh - 74px);
             overflow-y: auto;
+            font-size: 16px;
         }
-        .sidebar h3 {
+        .sidebar h2 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 24px;
+            /*font-weight: 400;*/
+            margin-top: 0;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 6px;
+        }
+        .content h3 {
             margin-top: 0;
             font-family: 'Oswald', sans-serif;
-            font-size: 1.25rem;
+            text-transform: uppercase;
+            font-size: 20px;
+
+        }
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar nav li {
+            margin-bottom: 8px;
         }
         .sidebar nav a {
-            display: block;
-            margin-bottom: 12px;
             text-decoration: none;
-            font-size: 0.9rem;
             color: var(--uga-grey);
+            padding: 6px 8px;
+            display: block;
+            border-left: 5px solid transparent;
+            border-radius: 4px;
+            /*font-family: 'Oswald', sans-serif;*/
+
         }
         .sidebar nav a:hover {
+            background: rgba(214, 210, 196, 0.2);
+        }
+        .sidebar nav a.active {
+            color: var(--uga-red);
+            border-left: 5px solid var(--uga-red);
+            font-weight: 600;
+            background: rgba(214, 210, 196, 0.2);
+        }
+        .sidebar nav ul ul {
+            padding-left: 16px;
+            margin-top: 4px;
+        }
+        .sidebar nav ul ul li a {
+            font-size: 16px;
+            padding: 4px 8px;
+            border-left-width: 2px;
+        }
+        .sidebar nav ul ul li a:hover {
+            color: var(--uga-red);
+        }
+        .sidebar nav ul ul li a.active {
+            color: var(--uga-red);
+            border-left-color: var(--uga-red);
+            font-weight: normal;
+        }
+
+
+        .sidebar-contact {
+            text-align: center;
+            margin-top: 24px;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 10px;
+
+        }
+        .sidebar-contact h4 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 4px;
+        }
+        .sidebar-contact p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .sidebar-contact i {
+            font-size: 14px;
+            margin-right: 6px;
             color: var(--uga-red);
         }
 
@@ -243,7 +344,7 @@
 
          .page-title-box {
              width: calc(100% + 0px); /* 50px offset + 50px right spacing */
-             max-width: 1160px; /* 1160px - 100px (50px offset) */
+             max-width: 1200px; /* 1160px - 100px (50px offset) */
              margin: 75px auto 0 auto; /* top: 75px, centered */
              /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
              padding: 16px 0px;
@@ -252,7 +353,7 @@
              /*margin-left: 50px;*/
              background: linear-gradient(-65deg, #9e0a28 30%, #ba0c2f 30%);
              /*border-bottom: 2px solid #8a8a8a;*/
-             border-bottom: 2px solid #2b2b2b;
+             border-bottom: 1px solid #2b2b2b;
              /*border-left: 4px solid #2b2b2b;*/
              /*border-radius: 0px 0px 0px 8px;*/
              box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
@@ -268,43 +369,47 @@
 
 
         }
-        /* Replace info-box tint style with simple bordered sections */
+        /* Info-box style with border, centered icon overlap, and constrained width */
         .info-box {
-            padding: 24px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            padding: 24px 24px 24px 48px;
+            margin: 24px auto;
+            max-width: 700px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: var(--white);
         }
-        .info-box:last-child { margin-bottom: 0; border-bottom: none; }
-        .info-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .info-box h2 {
-            font-family: 'Merriweather Sans', sans-serif;
-            font-size: 30px;
-            font-weight: 600;
-            margin-top: 0;
-        }
-        .info-box i {
-            font-size: 30px;
-        }
-        .info-box p{
-            /*margin-left: 65px !important;*/
-        }
-
         .icon-circle {
-            width: 50px;
-            height: 50px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 66px;
+            height: 66px;
             background: var(--uga-red);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            margin-right: 12px;
-            font-size: 1rem;
+            font-size: 36px;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--white);
         }
+        .info-box h2 {
+            font-family: 'Merriweather Sans', sans-serif;
+            font-size: 24px;
+            font-color: #212121;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .info-box ol {
+            list-style-type: decimal;
+            list-style-position: outside;    /* or “outside” if you prefer */
+            margin: 1em 0;
+            padding-left: 1.25rem;
+        }
+        /* Grid Layout for details */
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) { .grid-2 { grid-template-columns: repeat(2,1fr); }}
 
@@ -364,6 +469,48 @@
 <main>
     <div class="content">
 
+        <!-- Summer 2025 Availability -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
+                <h2>Summer 2025 Availability</h2>
+            </div>
+                 <div class="grid-2">
+                    <div>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grades Posted:</h3>
+                    <ul>
+                        <li><strong>Grades Posted:</strong> on Athena <strong>August 5</strong></li>
+                        <li>Verify before ordering.</li>
+                    </ul>
+                    </div>
+                     <div>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Degree Awarded:</h3>
+                    <ul>
+                        <li><strong>Degree Awarded:</strong> between <strong>August 5–18</strong></li>
+                        <li>Confirm graduation date on Athena.</li>
+                    </ul>
+                </div>
+                     </div>
+        </div>
+        <!-- UnOfficial Transcript Ordering -->
+        <div class="info-box">
+            <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
+            <h2>Unofficial Transcripts</h2>
+            <div class="grid-2">
+                <div>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students:</h3>
+                    <ul>
+                        <li>view via the Athena student portal.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students:</h3>
+                    <ul>
+                        <li>reactivate your student account by contacting the EITS Help Desk at <a href="tel:706-542-3106">706‑542‑3106</a>.</li>
+                    </ul>
+                </div>
+                </div>
+        </div>
         <!-- Official Transcript Ordering -->
         <div class="info-box">
             <div class="info-header">
@@ -373,17 +520,7 @@
             <p style="margin:0 0 8px;">Order your UGA transcripts securely via Parchment.</p>
         </div>
 
-        <!-- Summer 2025 Availability -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
-                <h2>Summer 2025 Availability</h2>
-            </div>
-            <ul style="margin:0; padding-left:1.25rem;">
-                <li><strong>Grades Posting:</strong> Posted on Athena <strong>August 5</strong>. Verify before ordering.</li>
-                <li><strong>Degree Award:</strong> Awarded between <strong>August 5–18</strong>. Confirm graduation date on Athena.</li>
-            </ul>
-        </div>
+
 
         <!-- Fees & Processing -->
         <div class="info-box">
@@ -419,7 +556,7 @@
             </div>
             <div class="grid-2">
                 <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students</h3>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students:</h3>
                     <ol style="margin:0; padding-left:1.25rem;">
                         <li>Log in at <a href="http://my.uga.edu">my.uga.edu</a></li>
                         <li>Click <strong>Order Transcripts</strong> under Instant Access</li>
@@ -428,7 +565,7 @@
                     </ol>
                 </div>
                 <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students</h3>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students:</h3>
                     <ol style="margin:0; padding-left:1.25rem;">
                         <li>Go to <a href="https://www.parchment.com">Parchment</a></li>
                         <li>Enter email in <strong>Start Here</strong></li>
@@ -481,20 +618,52 @@
             </ul>
             <p style="margin-top:16px;">Questions? Email <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a> or call 706‑542‑3106.</p>
         </div>
+        <!-- Helpful Tutorials -->
+        <div class="info-box">
+            <span class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></span>
+            <h2>Helpful Tutorials</h2>
+            <ul style="margin:0; padding-left:1.25rem; list-style-type: disc;">
+                <li><a href="#">How to Create a Parchment Account</a></li>
+                <li><a href="#">How to Add or Edit an Email Address in Your Parchment Account</a></li>
+                <li><a href="#">How to Order a Transcript</a></li>
+                <li><a href="#">How to Place an Order with Expedited (FedEx) Shipping</a></li>
+                <li><a href="#">How to Place an Order for Pick Up</a></li>
+                <li><a href="#">How to Access Online Support</a></li>
+            </ul>
+            <p style="margin-top:16px;">Additional questions about transcripts may be sent to <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a>.</p>
+        </div>
+
     </div>
 
 
-        <aside class="sidebar">
-        <h3>Registration</h3>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Student Records</h2>
+        </div>
         <nav>
-            <a href="#overview">Overview</a>
-            <a href="#getting-started">Getting Started</a>
-            <a href="#design-tokens">Design Tokens</a>
-            <a href="#components">Components</a>
-            <a href="#layout">Layout</a>
-            <a href="#typography">Typography</a>
-            <a href="#accessibility">Accessibility</a>
+            <ul>
+                <a href="#">Academic Standing</a>
+                <a href="#">Credit From Testing</a>
+                <a href="#">Diplomas</a>
+                <a href="#">Enrollment Verifications</a>
+                <a href="#">FERPA</a>
+                <a href="#">Forms and Policies</a>
+                <a href="#">Grades</a>
+                <a href="#">Graduation</a>
+                <li>
+                    <a href="#" class="active">Transcripts</a></li>
+                <ul>
+                    <li><a href="#i">Apostille/Great Seal</a></li>
+                    <li><a href="#">Unofficial Transcript</a></li>
+                </ul>
+                <a href="#">Third-Party Report Requests</a>
+            </ul>
         </nav>
+        <div class="sidebar-contact">
+            <h4>Contact Info</h4>
+            <p><i class="fas fa-envelope"></i><a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a></p>
+            <p><i class="fas fa-phone"></i>706-542-3106</p>
+        </div>
     </aside>
 </main>
 
