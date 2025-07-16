@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcripts</title>
+    <title>Calendars</title>
     <link rel="stylesheet" href="css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -234,12 +234,17 @@
         .content {
             flex: 4;
             padding: 0px;
-            background: var(--white);
+            /*background: var(--white);*/
+            /*background: white;*/
+            background: linear-gradient(-66deg, #9e0a28 30%, #ba0c2f 30%);
             border-radius: 0 0 8px 8px;
         }
         .content h2 {
             margin-top: 0;
             font-family: 'Merriweather Sans', sans-serif;
+        }
+        .content h1 {
+            font-family: 'Oswald', sans-serif;
         }
         .sidebar {
             display: none;
@@ -349,7 +354,7 @@
              max-width: 1200px; /* 1160px - 100px (50px offset) */
              margin: 75px auto 0 auto; /* top: 75px, centered */
              /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
-             padding: 10px 0px;
+             padding: 5px 0px;
              /*margin-top: 75px;*/
              /*margin-bottom: 0px;*/
              /*margin-left: 50px;*/
@@ -478,36 +483,67 @@
         <div class="bar"></div>
     </div>
 </nav>
-<div class="page-title-box">
-    <h1 class="page-title-box-title">CALENDARS</h1>
-</div>
 <main>
     <div class="content">
 
-        <!-- Summer 2025 Availability -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
-                <h2>Summer 2025 Availability</h2>
-            </div>
-                 <div class="grid-2">
-                    <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grades Posted:</h3>
-                    <ul>
-                        <li>on Athena <strong>August 5</strong></li>
-                        <li>Verify before ordering.</li>
-                    </ul>
-                    </div>
-                     <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Degree Awarded:</h3>
-                    <ul>
-                        <li>between <strong>August 5–18</strong></li>
-                        <li>Confirm graduation date on Athena.</li>
-                    </ul>
-                </div>
-                     </div>
-        </div>
+        <body class=" mt-[74px]">
+        <!-- Hero (full width, no padding) -->
+        <img
+                src="../images/HH.jpg"
+                alt="Hero image"
+                class="w-full h-[350px] object-cover mb-0"
+        />
 
+            <h1 class="page-title-box-title">CALENDARS</h1>
+
+        <div class="mx-auto max-w-[1200px] px-4 py-8">
+
+            <!-- Cards grid with equal-height rows -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr gap-6">
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-calendar-alt fa-2x mb-4"></i>
+                    <span class="font-medium">Academic Calendars</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-chalkboard-teacher fa-2x mb-4"></i>
+                    <span class="font-medium">Centralized Classroom Scheduling</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-file-alt fa-2x mb-4"></i>
+                    <span class="font-medium">Final Exam Schedule</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-clipboard-list fa-2x mb-4"></i>
+                    <span class="font-medium">Important Dates for Faculty/Staff</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-key fa-2x mb-4"></i>
+                    <span class="font-medium">Key Dates for Semester</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-layer-group fa-2x mb-4"></i>
+                    <span class="font-medium">Parts of Term</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-dollar-sign fa-2x mb-4"></i>
+                    <span class="font-medium">Payment Dates</span>
+                </a>
+
+                <a href="#" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 text-center h-full flex flex-col items-center justify-center">
+                    <i class="fas fa-user-edit fa-2x mb-4"></i>
+                    <span class="font-medium">Registration Dates</span>
+                </a>
+
+            </div>
+        </div>
+        </body>
 
     </div>
 
