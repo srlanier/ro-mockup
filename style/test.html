@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RO Style Guide</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <style>
+        :root {
+            --uga-red: #BA0C2F; /* Official UGA Red */
+            --uga-grey: #4A4A4A;
+            --white: #ffffff;
+            --light-grey: #f0f0f0;
+            --dark-blue: #0A2342; /* A dark blue for contrast */
+            --dark-grey-text: #333333;
+            --dark-grey: #3e3e3e;
+            --tan: #d6d2c4
+
+        }
+
+        @font-face {
+            font-family: "Oswald";
+            src: url('../fonts/Oswald-VariableFont_wght.ttf');
+        }
+
+        @font-face {
+            font-family: "Merriweather Sans";
+            src: url('../fonts/MerriweatherSans-VariableFont_wght.ttf');
+        }
+
+        /* Custom font utility for Merriweather Sans */
+        .font-merriweather-sans {
+            font-family: 'Merriweather Sans', sans-serif;
+        }
+
+
+        body {
+            font-family: 'Oswald', sans-serif;
+            /*font-family: 'Merriweather-sans', sans-serif;*/
+            margin: 0;
+            background-color: #888888;
+            color: var(--dark-grey-text);
+            overflow-x: hidden; /* Ensure no horizontal scrollbar */
+        }
+
+
+        /* Navbar Styles (Copied from main page) */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            padding: 12px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            position: fixed; /* Changed to fixed so it stays at the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            gap: 40px; /* Space between logo, nav links, and search icon */
+            z-index: 1000;
+            box-sizing: border-box; /* Include padding in width calculation */
+            font-family: 'Oswald';
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .navbar-left .uga-logo {
+            height: 70px;
+            width: auto;
+            margin-top: -10px;
+            margin-bottom: -10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            position: relative;
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--uga-grey);
+            font-weight: 400;
+            font-size: 1.1em;
+            padding: 10px 0;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--uga-red);
+        }
+
+        /* Dropdown Menu (Desktop specific positioning) */
+        .dropdown-menu {
+            position: fixed;
+            background-color: var(--white);
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-top: 3px solid var(--uga-red);
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .dropdown-menu.active-desktop {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-menu a {
+            color: var(--uga-grey);
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            white-space: nowrap;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--uga-red);
+            color: var(--white);
+        }
+
+        /* Search Icon and Bar */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            font-size: 1.3em;
+            color: var(--uga-grey);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: var(--uga-red);
+        }
+
+        .search-bar {
+            position: fixed;
+            background-color: var(--white);
+            padding: 8px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 999;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-bar.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 5px 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1em;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--uga-red);
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+
+        /* Content Page Specific Styles */
+
+        main {
+            display: flex;
+            font-family: "Merriweather Sans", sans-serif;
+            max-width: 1158px;
+            margin: 0px auto;
+            background: var(--white);
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.35);
+        }
+        .content {
+            flex: 4;
+            padding: 0px;
+        }
+        .content h2 {
+            margin-top: 0;
+            font-family: 'Oswald', sans-serif;
+        }
+        .sidebar {
+            flex: 1;
+            background: var(--white);
+            padding: 24px;
+            border-left: 1px solid #e0e0e0;
+            position: sticky;
+            /*top: 96px;*/
+            height: calc(100vh - 96px - 32px);
+            overflow-y: auto;
+        }
+        .sidebar h3 {
+            margin-top: 0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.25rem;
+        }
+        .sidebar nav a {
+            display: block;
+            margin-bottom: 12px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            color: var(--uga-grey);
+        }
+        .sidebar nav a:hover {
+            color: var(--uga-red);
+        }
+
+
+
+         .page-title-box {
+             width: calc(100% + 0px); /* 50px offset + 50px right spacing */
+             max-width: 1160px; /* 1160px - 100px (50px offset) */
+             margin: 75px auto 0 auto; /* top: 75px, centered */
+             /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
+             padding: 16px 0px;
+             /*margin-top: 75px;*/
+             /*margin-bottom: 0px;*/
+             /*margin-left: 50px;*/
+             background: linear-gradient(-65deg, #9e0a28 30%, #ba0c2f 30%);
+             /*border-bottom: 2px solid #8a8a8a;*/
+             border-bottom: 2px solid #2b2b2b;
+             /*border-left: 4px solid #2b2b2b;*/
+             /*border-radius: 0px 0px 0px 8px;*/
+             box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
+
+         }
+        .page-title-box-title {
+            font-size: 2.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.4px;
+            text-shadow: 0 0 3px #000000cc;
+            margin: 5px 5px 5px 40px;
+
+
+        }
+        /* Replace info-box tint style with simple bordered sections */
+        .info-box {
+            padding: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .info-box:last-child { margin-bottom: 0; border-bottom: none; }
+        .info-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .info-box h2 {
+            font-family: 'Merriweather Sans', sans-serif;
+            font-size: 30px;
+            font-weight: 600;
+            margin-top: 0;
+        }
+        .info-box i {
+            font-size: 30px;
+        }
+        .info-box p{
+            /*margin-left: 65px !important;*/
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--uga-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 12px;
+            font-size: 1rem;
+        }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        @media (min-width: 600px) { .grid-2 { grid-template-columns: repeat(2,1fr); }}
+
+    </style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+    <div class="navbar-left">
+        <a href="index14.html" class="logo-link"> <!-- Link back to home -->
+            <!-- Placeholder for UGA Logo -->
+            <img src="https://reg.uga.edu/_resources/images/logos/Screen-REGISTRAR-H-FC.png" alt="UGA Logo" class="uga-logo">
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <li class="dropdown">
+            <a href="#">STUDENTS</a>
+            <div class="dropdown-menu">
+                <a href="#">Admissions</a>
+                <a href="#">Academics</a>
+                <a href="#">Student Life</a>
+                <a href="p/student-forms-policies">Student Forms & Policies</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#">FACULTY & STAFF</a>
+            <div class="dropdown-menu">
+                <a href="#">Human Resources</a>
+                <a href="#">Research</a>
+                <a href="#">Resources</a>
+            </div>
+        </li>
+        <li><a href="#">CALENDARS</a></li>
+        <li><a href="#">GENERAL INFORMATION</a></li>
+        <li><a href="#">FACULTY GOVERNANCE</a></li>
+    </ul>
+
+    <div class="navbar-right">
+        <div class="search-icon" id="searchIcon">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="search-bar" id="searchBar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button type="submit"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</nav>
+<div class="page-title-box">
+    <h1 class="page-title-box-title">TRANSCRIPTS</h1>
+</div>
+<main>
+    <div class="content">
+
+        <!-- Official Transcript Ordering -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
+                <h2>Official Transcript Ordering</h2>
+            </div>
+            <p style="margin:0 0 8px;">Order your UGA transcripts securely via Parchment.</p>
+        </div>
+
+        <!-- Summer 2025 Availability -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
+                <h2>Summer 2025 Availability</h2>
+            </div>
+            <ul style="margin:0; padding-left:1.25rem;">
+                <li><strong>Grades Posting:</strong> Posted on Athena <strong>August 5</strong>. Verify before ordering.</li>
+                <li><strong>Degree Award:</strong> Awarded between <strong>August 5–18</strong>. Confirm graduation date on Athena.</li>
+            </ul>
+        </div>
+
+        <!-- Fees & Processing -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-dollar-sign"></i></span>
+                <h2>Fees &amp; Processing</h2>
+            </div>
+            <div class="grid-2">
+                <div><strong>Fee:</strong> $8.00 per copy</div>
+                <div><strong>Processing:</strong> 5 business days</div>
+                <div><strong>Delivery:</strong> 6–13 business days (USPS)</div>
+                <div><strong>Sales Tax:</strong> Effective Jan 6, 2025 (shown at checkout)</div>
+            </div>
+        </div>
+
+        <!-- Shipping Options -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-box"></i></span>
+                <h2>Shipping Options</h2>
+            </div>
+            <ul style="margin:0; padding-left:1.25rem;">
+                <li><strong>Standard (USPS):</strong> Included ($8.00), 6–13 business days</li>
+                <li><strong>Expedited (FedEx):</strong> +$12 (US) / +$50 (Intl)</li>
+            </ul>
+        </div>
+
+        <!-- Online Ordering -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-desktop"></i></span>
+                <h2>Online Ordering</h2>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students</h3>
+                    <ol style="margin:0; padding-left:1.25rem;">
+                        <li>Log in at <a href="http://my.uga.edu">my.uga.edu</a></li>
+                        <li>Click <strong>Order Transcripts</strong> under Instant Access</li>
+                        <li>Submit credit/debit payment</li>
+                        <li>Processing in 1–5 business days</li>
+                    </ol>
+                </div>
+                <div>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students</h3>
+                    <ol style="margin:0; padding-left:1.25rem;">
+                        <li>Go to <a href="https://www.parchment.com">Parchment</a></li>
+                        <li>Enter email in <strong>Start Here</strong></li>
+                        <li>Log in or create an account</li>
+                        <li>Submit payment &amp; wait 1–5 business days</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mail-In Requests -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-envelope"></i></span>
+                <h2>Mail‑In Requests</h2>
+            </div>
+            <p style="margin:0 0 8px;">Complete the UGA Student Transcript Request Form and mail with payment:</p>
+            <address style="background: var(--gray-200); padding:16px; border-radius:4px; margin:0 0 8px;">
+                Office of the Registrar<br>
+                Holmes‑Hunter Academic Building<br>
+                University of Georgia<br>
+                Athens, GA 30602‑6113
+            </address>
+            <p style="font-size:0.875rem; color: var(--uga-grey); margin:0;">*Use money orders or corporate checks only; no personal checks or cash.*</p>
+        </div>
+
+        <!-- Third-Party Requests -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-handshake"></i></span>
+                <h2>Third‑Party Requests</h2>
+            </div>
+            <ul style="margin:0; padding-left:1.25rem;">
+                <li>Third Party Transcript Request Form</li>
+                <li>Signed Permission to Release Educational Info</li>
+                <li>Money order or corporate check</li>
+            </ul>
+        </div>
+
+        <!-- Enclosures & Support -->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-paperclip"></i></span>
+                <h2>Enclosures &amp; Support</h2>
+            </div>
+            <ul style="margin:0; padding-left:1.25rem;">
+                <li>Upload electronic attachments online—they’ll be sent with your transcript.</li>
+                <li>Mail originals for notarized or non-copy enclosures.</li>
+                <li>Download notarization request for Apostille/Great Seal <a href="#">here</a>.</li>
+            </ul>
+            <p style="margin-top:16px;">Questions? Email <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a> or call 706‑542‑3106.</p>
+        </div>
+    </div>
+
+
+        <aside class="sidebar">
+        <h3>Registration</h3>
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#getting-started">Getting Started</a>
+            <a href="#design-tokens">Design Tokens</a>
+            <a href="#components">Components</a>
+            <a href="#layout">Layout</a>
+            <a href="#typography">Typography</a>
+            <a href="#accessibility">Accessibility</a>
+        </nav>
+    </aside>
+</main>
+
+
+
+
+</body>
+</html>
