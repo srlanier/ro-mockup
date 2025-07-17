@@ -456,7 +456,7 @@
             color: #ffffff;
             letter-spacing: 1.1px;
             text-shadow: 0 0 3px #000000cc;
-            margin: 5px 5px 5px -700px;
+            margin: 5px 5px 5px -570px;
         }
         /* Info-box style with border, centered icon overlap, and constrained width */
         .info-box {
@@ -657,20 +657,27 @@
     </div>
 </nav>
 <div class="page-title-box">
-    <h1 class="page-title-box-title">RO STYLE GUIDE</h1>
+    <h1 class="page-title-box-title">REGISTRAR OFFICE STYLE GUIDE</h1>
 </div>
 <main>
     <div class="content">
 <!--      content area max width-->
+
+
+        <!-- Blue box showing the content area width -->
+        <div id="contentBox" class="flex flex-col items-center" >
+                 <div class="border-4 border-blue-500 bg-blue-100 h-20 flex min-w-[920px] items-center justify-center">
+                    <span class="text-blue-700 font-semibold"><-- Content Area Width (920 pixels) --></span>
+                </div>
+                <div class="border-4 border-red-500 bg-red-100 h-20 flex min-w-[820px] items-center justify-center">
+                        <span class="text-red-700 font-semibold"> --> Default free text margins (50 pixels) <-- </span>
+                        </div>
+
+        </div>
         <!-- Toggle Text with Chevron -->
         <div id="toggleText" class="flex items-center cursor-pointer text-blue-700 font-semibold mb-2">
             <span>Content Area (max-width)</span>
             <i id="chevronIcon" class="fas fa-chevron-up ml-2 transform transition-transform"></i>
-        </div>
-
-        <!-- Blue box showing the content area width -->
-        <div id="contentBox" class="border-4 border-blue-500 bg-blue-100 h-32 flex items-center justify-center">
-            <span class="text-blue-700 font-semibold"><-- Content Area Width (920 pixels) --></span>
         </div>
         <!--    toggle max width box script-->
         <script>
@@ -686,177 +693,30 @@
             }
         });
     </script>
-
-
-        <div class="relative text-left my-12">
+        <div class="relative text-left my-10">
             <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
-                Alert Boxes
+                Color Swatch
             </h2>
             <!-- Divider -->
             <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
         </div>
-        <!--        800 Width elements-->
-        <div class="max-w-[800px] mx-auto space-y-6">
-            <!-- Alert Box (Red)-->
-            <div class="flex items-start bg-red-100 border-l-4 border-[#BA0C2F] p-4 rounded">
-                <div class="ml-3 text-red-700">
-                    <p class="font-semibold">Alert Example</p>
-                    <p class="mt-1 text-sm">This is an important alert message to inform the user of something critical.</p>
-                </div>
+        <div class="flex flex-wrap gap-0 p-0 min-h-auto">
+            <!-- UGA Red -->
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#BA0C2F] text-white ">
+                #BA0C2F
             </div>
-            <!-- Note Box (Yellow) -->
-            <div class="flex items-start bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-                <div class="ml-3 text-yellow-700">
-                    <p class="font-semibold">Note Example</p>
-                    <p class="mt-1 text-sm">This is a note box to provide additional information or tips.</p>
-                </div>
+            <!-- Black -->
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#000000] text-white ">
+                #000000
             </div>
-            <!-- Resource Box (Blue) -->
-            <div class="flex items-start bg-[#ebfeff] border-l-4 border-[#00A8B3] p-4 rounded">
-                <div class="ml-3 text-[#00A8B3]">
-                    <p class="font-semibold">Resource Note Example</p>
-                    <p class="mt-1 text-sm">This is a note box useful for providing several links or other resources.</p>
-                </div>
+            <!-- White -->
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#FFFFFF] text-black  border">
+                #FFFFFF
             </div>
-        </div>
-
-
-        <!-- Heading with Offset Icon Backdrop -->
-        <div class="relative text-left my-12">
-            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
-                Floating Boxes
-            </h2>
-            <!-- Divider -->
-            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
-        </div>
-
-<!--        &lt;!&ndash;Info Box&ndash;&gt;-->
-<!--        <div class="info-box">-->
-<!--            <div class="info-header">-->
-<!--                <h2>Info Box</h2>-->
-<!--            </div>-->
-<!--                <div>-->
-<!--                    <p><strong>Sample paragraph text</strong>: The Graduation Application is now available in Athena for students expecting to graduate Summer 2025 and Fall 2025.</p>-->
-<!--                    <p style="margin-top: 10px;"> As a reminder, students must apply to graduate for the semester in which they will take their last course(s) toward their graduation requirements.</p>-->
-<!--                </div>-->
-<!--        </div>-->
-<!--        &lt;!&ndash;Info Box w/ Icon&ndash;&gt;-->
-<!--        <div class="info-box">-->
-<!--            <div class="info-header">-->
-<!--                <span class="icon-circle"><i class="fas fa-envelope"></i></span>-->
-<!--                <h2>Info Box with Icon</h2>-->
-<!--            </div>-->
-<!--                 <div class="grid-2">-->
-<!--                    <div>-->
-<!--                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grid-2: Heading 3</h3>-->
-<!--                    <ul>-->
-<!--                        <li>Line 1</li>-->
-<!--                        <li>Line 2</li>-->
-<!--                    </ul>-->
-<!--                    </div>-->
-<!--                     <div>-->
-<!--                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">2 column layout</h3>-->
-<!--                    <ul>-->
-<!--                        <li>Filler text</li>-->
-<!--                        <li>Example text</li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--                     </div>-->
-<!--        </div>-->
-
-        <!--        Floating card box-->
-<!--        <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 320px; margin: 40px auto;">-->
-<!--            <h2 style="margin: 0 auto 0;">Academic Calendars</h2>-->
-
-<!--        </div>-->
-
-        <!-- flex wrapper -->
-        <div style="
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 40px 0;
-  ">
-<!--            card 1-->
-        <div
-                style="
-    background: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
-    border-radius: 10px;
-    padding: 30px;
-    align-content: center;
-    max-width: 320px;
-    margin: 40px 0;
-  "
-        >
-            <div
-                    style="
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: transform 0.2s ease;
-      transform: scale(1);
-      cursor: pointer;
-    "
-                    onmouseover="this.style.transform='scale(1.05)'"
-                    onmouseout="this.style.transform='scale(1)'"
-            >
-                <h2 style="margin-right: 20px; line-height: 1.2; align-self:center;">
-                   Academic Calendars
-                </h2>
-                <i class="fas fa-calendar" style="color: var(--uga-red); font-size: 3.75rem;"></i>
+            <!-- Dark Gray -->
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#554F47] text-white ">
+                #554F47
             </div>
-        </div>
-
-<!--            card 2-->
-        <div
-                style="
-    background: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
-    border-radius: 10px;
-    padding: 30px;
-    max-width: 320px;
-    margin: 40px 0;
-  "
-        >
-            <div
-                    style="
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: transform 0.2s ease;
-      transform: scale(1);
-      cursor: pointer;
-    "
-                    onmouseover="this.style.transform='scale(1.05)'"
-                    onmouseout="this.style.transform='scale(1)'"
-            >
-                <h2 style="margin-right: 20px; line-height: 1.2;align-self:center;">
-                    Final Exam Schedule
-                </h2>
-                <i class="fas fa-pencil" style="color: var(--uga-red); font-size: 3.75rem;"></i>
-            </div>
-        </div>
-        </div>
-
-        <div class="text-margin" style="margin-left: 350px; margin-top: -50px; margin-bottom: 70px;">
-            <p>Replaces "cards" on <a href="https://reg.uga.edu/general-information/calendars/">Calendars page</a>.</p>
-        </div>
-        <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 800px; margin: 40px auto;">
-            <h2 style="margin-top: 0;">Floating Box</h2>
-            <div style="height:3px; background-color:rgba(128,128,128,0.2); position:flex; margin-bottom: 10px; left:0; width:100%;"></div>
-            <p style="margin-bottom: 16px;">This is sample text for a white floating box.</p>
-            <p style="margin-bottom: 16px;"><strong>Current Usage: </strong>A container to <a href="https://reg.uga.edu/general-information/degreeworks/tutorials/">separate text</a>, a container for <a href="https://reg.uga.edu/general-information/daily-class-schedule-2026/#training">tables</a>, a container with <a href="https://reg.uga.edu/general-information/daily-class-schedule-2026/">tabs</a></p>
-            <p style="margin-bottom: 16px;"><strong>Example: </strong>The new daily class schedule is effective for spring 2026 courses and is based on a
-                class length of 55 minutes for Monday-Wednesday-Friday classes and 80 minutes for Monday-Wednesday, Tuesday-Thursday,
-                and Wednesday-Friday classes, with 20 minutes between classes.  Courses that meet one day a week are scheduled in
-                160-minute blocks and cannot meet between 11:35 am and 2:15 pm except on Fridays. Please see the tables below
-                for more information.
-
-            <p style="margin-bottom: 16px;">If a department wishes to schedule a course outside of the new daily class schedule periods, a request must be submitted following the procedure on the Scheduling Off the Daily Class Schedule page.</p>
-
-            <p style="margin-bottom: 5px;">Questions regarding the new daily class schedule should be directed to regsched@uga.edu.</p>
         </div>
 
 
@@ -866,7 +726,7 @@
             </h2>
             <!-- Divider -->
             <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
-                </div>
+        </div>
                     <div class="text-margin" style="line-height: 1.6;">
                     <h2>Heading 2</h2>
                     <h3>Heading 3</h3>
@@ -904,6 +764,143 @@
                         </div>
                 </div>
 
+        <!-- Heading with Offset Icon Backdrop -->
+        <div class="relative text-left my-12">
+            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
+                Floating Boxes
+            </h2>
+            <!-- Divider -->
+            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
+        </div>
+
+        <!--        &lt;!&ndash;Info Box&ndash;&gt;-->
+        <!--        <div class="info-box">-->
+        <!--            <div class="info-header">-->
+        <!--                <h2>Info Box</h2>-->
+        <!--            </div>-->
+        <!--                <div>-->
+        <!--                    <p><strong>Sample paragraph text</strong>: The Graduation Application is now available in Athena for students expecting to graduate Summer 2025 and Fall 2025.</p>-->
+        <!--                    <p style="margin-top: 10px;"> As a reminder, students must apply to graduate for the semester in which they will take their last course(s) toward their graduation requirements.</p>-->
+        <!--                </div>-->
+        <!--        </div>-->
+        <!--        &lt;!&ndash;Info Box w/ Icon&ndash;&gt;-->
+        <!--        <div class="info-box">-->
+        <!--            <div class="info-header">-->
+        <!--                <span class="icon-circle"><i class="fas fa-envelope"></i></span>-->
+        <!--                <h2>Info Box with Icon</h2>-->
+        <!--            </div>-->
+        <!--                 <div class="grid-2">-->
+        <!--                    <div>-->
+        <!--                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grid-2: Heading 3</h3>-->
+        <!--                    <ul>-->
+        <!--                        <li>Line 1</li>-->
+        <!--                        <li>Line 2</li>-->
+        <!--                    </ul>-->
+        <!--                    </div>-->
+        <!--                     <div>-->
+        <!--                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">2 column layout</h3>-->
+        <!--                    <ul>-->
+        <!--                        <li>Filler text</li>-->
+        <!--                        <li>Example text</li>-->
+        <!--                    </ul>-->
+        <!--                </div>-->
+        <!--                     </div>-->
+        <!--        </div>-->
+
+        <!--        Floating card box-->
+        <!--        <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 320px; margin: 40px auto;">-->
+        <!--            <h2 style="margin: 0 auto 0;">Academic Calendars</h2>-->
+
+        <!--        </div>-->
+
+        <!-- flex wrapper -->
+        <div style="
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 40px 0;
+  ">
+            <!--            card 1-->
+            <div
+                    style="
+    background: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
+    border-radius: 10px;
+    padding: 30px;
+    align-content: center;
+    max-width: 320px;
+    margin: 40px 0;
+  "
+            >
+                <div
+                        style="
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+      transform: scale(1);
+      cursor: pointer;
+    "
+                        onmouseover="this.style.transform='scale(1.05)'"
+                        onmouseout="this.style.transform='scale(1)'"
+                >
+                    <h2 style="margin-right: 20px; line-height: 1.2; align-self:center;">
+                        Academic Calendars
+                    </h2>
+                    <i class="fas fa-calendar" style="color: var(--uga-red); font-size: 3.75rem;"></i>
+                </div>
+            </div>
+
+            <!--            card 2-->
+            <div
+                    style="
+    background: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 320px;
+    margin: 40px 0;
+  "
+            >
+                <div
+                        style="
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+      transform: scale(1);
+      cursor: pointer;
+    "
+                        onmouseover="this.style.transform='scale(1.05)'"
+                        onmouseout="this.style.transform='scale(1)'"
+                >
+                    <h2 style="margin-right: 20px; line-height: 1.2;align-self:center;">
+                        Final Exam Schedule
+                    </h2>
+                    <i class="fas fa-pencil" style="color: var(--uga-red); font-size: 3.75rem;"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-margin" style="margin-left: 350px; margin-top: -50px; margin-bottom: 70px;">
+            <p>Replaces "cards" on <a href="https://reg.uga.edu/general-information/calendars/">Calendars page</a>.</p>
+        </div>
+        <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 800px; margin: 40px auto;">
+            <h2 style="margin-top: 0;">Floating Text Box</h2>
+            <div style="height:3px; background-color:rgba(128,128,128,0.2); position:flex; margin-bottom: 10px; left:0; width:100%;"></div>
+            <p style="margin-bottom: 16px;">This is sample text for a white floating box.</p>
+            <p style="margin-bottom: 16px;"><strong>Current Usage: </strong>A container to <a href="https://reg.uga.edu/general-information/degreeworks/tutorials/">separate text</a>, a container for <a href="https://reg.uga.edu/general-information/daily-class-schedule-2026/#training">tables</a>, a container with <a href="https://reg.uga.edu/general-information/daily-class-schedule-2026/">tabs</a></p>
+            <p style="margin-bottom: 16px;"><strong>Example: </strong>The new daily class schedule is effective for spring 2026 courses and is based on a
+                class length of 55 minutes for Monday-Wednesday-Friday classes and 80 minutes for Monday-Wednesday, Tuesday-Thursday,
+                and Wednesday-Friday classes, with 20 minutes between classes.  Courses that meet one day a week are scheduled in
+                160-minute blocks and cannot meet between 11:35 am and 2:15 pm except on Fridays. Please see the tables below
+                for more information.
+
+            <p style="margin-bottom: 16px;">If a department wishes to schedule a course outside of the new daily class schedule periods, a request must be submitted following the procedure on the Scheduling Off the Daily Class Schedule page.</p>
+
+            <p style="margin-bottom: 5px;">Questions regarding the new daily class schedule should be directed to regsched@uga.edu.</p>
+        </div>
 
         <div class="relative text-left my-12">
             <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
@@ -1256,7 +1253,37 @@
             </table>
         </div>
 
-
+        <div class="relative text-left my-12">
+            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
+                Alert Boxes
+            </h2>
+            <!-- Divider -->
+            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
+        </div>
+        <!--        800 Width elements-->
+        <div class="max-w-[800px] mx-auto space-y-6">
+            <!-- Alert Box (Red)-->
+            <div class="flex items-start bg-red-100 border-l-4 border-[#BA0C2F] p-4 rounded">
+                <div class="ml-3 text-red-700">
+                    <p class="font-semibold">Alert Example</p>
+                    <p class="mt-1 text-sm">This is an important alert message to inform the user of something critical.</p>
+                </div>
+            </div>
+            <!-- Note Box (Yellow) -->
+            <div class="flex items-start bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                <div class="ml-3 text-yellow-700">
+                    <p class="font-semibold">Note Example</p>
+                    <p class="mt-1 text-sm">This is a note box to provide additional information or tips.</p>
+                </div>
+            </div>
+            <!-- Resource Box (Blue) -->
+            <div class="flex items-start bg-[#ebfeff] border-l-4 border-[#00A8B3] p-4 rounded">
+                <div class="ml-3 text-[#00A8B3]">
+                    <p class="font-semibold">Resource Note Example</p>
+                    <p class="mt-1 text-sm">This is a note box useful for providing several links or other resources.</p>
+                </div>
+            </div>
+        </div>
 
 
     </div>
