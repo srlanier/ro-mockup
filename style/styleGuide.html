@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcripts</title>
+    <title>Style Guide</title>
     <link rel="stylesheet" href="css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
             --dark-grey: #3e3e3e;
             --tan: #e3dfd3;
             --gray-200: #e2e8f0;
-            --uga-link: #00A3AD;
+            --uga-link: #00A8B3;
 
         }
 
@@ -229,6 +229,7 @@
             margin: 0px auto;
             gap: 0px;
 
+
             /*box-shadow: 0px 2px 5px rgba(0,0,0,0.35);*/
 
         }
@@ -238,10 +239,16 @@
             padding: 0px;
             /*background: var(--white);*/
             border-radius: 0 0 8px 8px;
+            padding-bottom: 100px;
         }
         .content h2 {
             margin-top: 0;
             font-family: 'Merriweather Sans', sans-serif;
+            font-size: 28px;
+            /*font-color: #212121;*/
+            /*color: #1a1a1a;*/
+            color: #333333;
+            font-weight: 900;
         }
         .sidebar {
             flex: 1;
@@ -256,7 +263,7 @@
             font-size: 16px;
 
         }
-        .sidebar h2 {
+        .sidebar-header {
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
             font-size: 24px;
@@ -357,7 +364,7 @@
              /*margin-top: 75px;*/
              /*margin-bottom: 0px;*/
              /*margin-left: 50px;*/
-             background: linear-gradient(-66deg, #9e0a28 30%, #ba0c2f 30%);
+             background: linear-gradient(-66deg, #9e0a28 35%, #ba0c2f 35%);
              /*border-bottom: 2px solid #8a8a8a;*/
              border-bottom: 1px solid #2b2b2b;
              /*border-left: 4px solid #2b2b2b;*/
@@ -385,25 +392,22 @@
         }
         .icon-circle {
             position: absolute;
-            top: 50%;
+            top: 22%;
             left: 0;
-            width: 66px;
-            height: 66px;
+            width: 40px;
+            height: 40px;
             background: var(--uga-red);
-            border-radius: 50%;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 36px;
+            font-size: 26px;
             transform: translate(-50%, -50%);
-            border: 2px solid var(--white);
+            /*border: 2px solid var(--white);*/
+            box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
         }
         .info-box h2 {
-            font-family: 'Merriweather Sans', sans-serif;
-            font-size: 24px;
-            font-color: #212121;
-            font-weight: 600;
             margin-top: 0;
             margin-bottom: 16px;
         }
@@ -484,178 +488,203 @@
     </div>
 </nav>
 <div class="page-title-box">
-    <h1 class="page-title-box-title">TRANSCRIPTS</h1>
+    <h1 class="page-title-box-title">RO STYLE GUIDE</h1>
 </div>
 <main>
     <div class="content">
+<!--      content area max width-->
+        <!-- Toggle Text with Chevron -->
+        <div id="toggleText" class="flex items-center cursor-pointer text-blue-700 font-semibold mb-2">
+            <span>Content Area (max-width)</span>
+            <i id="chevronIcon" class="fas fa-chevron-up ml-2 transform transition-transform"></i>
+        </div>
 
-        <!-- Summer 2025 Availability -->
+        <!-- Blue box showing the content area width -->
+        <div id="contentBox" class="border-4 border-blue-500 bg-blue-100 h-32 flex items-center justify-center">
+            <span class="text-blue-700 font-semibold"><-- Content Area Width (920 pixels) --></span>
+        </div>
+        <!--    toggle max width box script-->
+        <script>
+        const toggleText = document.getElementById('toggleText');
+        const contentBox = document.getElementById('contentBox');
+        const chevronIcon = document.getElementById('chevronIcon');
+        toggleText.addEventListener('click', () => {
+            const isHidden = contentBox.classList.toggle('hidden');
+            if (isHidden) {
+                chevronIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            } else {
+                chevronIcon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            }
+        });
+    </script>
+
+
+        <div class="relative text-left my-12">
+            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
+                Alert Boxes
+            </h2>
+            <!-- Divider -->
+            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
+        </div>
+        <!--        800 Width elements-->
+        <div class="max-w-[800px] mx-auto space-y-6">
+            <!-- Alert Box (Red)-->
+            <div class="flex items-start bg-red-100 border-l-4 border-[#BA0C2F] p-4 rounded">
+                <div class="ml-3 text-red-700">
+                    <p class="font-semibold">Alert Example</p>
+                    <p class="mt-1 text-sm">This is an important alert message to inform the user of something critical.</p>
+                </div>
+            </div>
+            <!-- Note Box (Yellow) -->
+            <div class="flex items-start bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                <div class="ml-3 text-yellow-700">
+                    <p class="font-semibold">Note Example</p>
+                    <p class="mt-1 text-sm">This is a note box to provide additional information or tips.</p>
+                </div>
+            </div>
+            <!-- Resource Box (Blue) -->
+            <div class="flex items-start bg-[#ebfeff] border-l-4 border-[#00A8B3] p-4 rounded">
+                <div class="ml-3 text-[#00A8B3]">
+                    <p class="font-semibold">Resource Note Example</p>
+                    <p class="mt-1 text-sm">This is a note box useful for providing several links or other resources.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Heading with Offset Icon Backdrop -->
+        <div class="relative text-left my-12">
+            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
+                Text Boxes
+            </h2>
+            <!-- Divider -->
+            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
+        </div>
+
+        <!--Info Box-->
         <div class="info-box">
             <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
-                <h2>Summer 2025 Availability</h2>
+                <h2>Info Box</h2>
+            </div>
+                <div>
+                    <p><strong>Sample paragraph text</strong>: The Graduation Application is now available in Athena for students expecting to graduate Summer 2025 and Fall 2025.</p>
+                    <p style="margin-top: 10px;"> As a reminder, students must apply to graduate for the semester in which they will take their last course(s) toward their graduation requirements.</p>
+                </div>
+        </div>
+        <!--Info Box w/ Icon-->
+        <div class="info-box">
+            <div class="info-header">
+                <span class="icon-circle"><i class="fas fa-envelope"></i></span>
+                <h2>Info Box with Icon</h2>
             </div>
                  <div class="grid-2">
                     <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grades Posted:</h3>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grid-2 Heading 1</h3>
                     <ul>
-                        <li>on Athena <strong>August 5</strong></li>
-                        <li>Verify before ordering.</li>
+                        <li>Line 1</li>
+                        <li>Line 2</li>
                     </ul>
                     </div>
                      <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Degree Awarded:</h3>
+                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grid-2 Heading 2</h3>
                     <ul>
-                        <li>between <strong>August 5–18</strong></li>
-                        <li>Confirm graduation date on Athena.</li>
+                        <li>Filler text</li>
+                        <li>Example text</li>
                     </ul>
                 </div>
                      </div>
         </div>
-        <!-- UnOfficial Transcript Ordering -->
-        <div class="info-box">
-            <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
-            <h2>Unofficial Transcripts</h2>
-            <div class="grid-2">
-                <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students:</h3>
-                    <ul>
-                        <li>view via the Athena student portal.</li>
+
+        <!--        Floating card box-->
+        <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 320px; margin: 40px auto;">
+            <h2 style="margin-top: 0;">Floating Card</h2>
+            <p>This is sample text for a white floating card.</p>
+        </div>
+
+        <div class="relative text-left my-12">
+            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
+                Text Format
+            </h2>
+            <!-- Divider -->
+            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
+        </div>
+        <p>All text stuff here (color, font, serif, san serif, weight (include bold), multiple floating card examples in text box, tabs for container, buttons, links, color swatch, tables, </p>
+<p>Decor: lines, icons, marks, micro animations, color blocks</p>
+        <!-- Divider -->
+        <div style="width: 920px; height:5px; background: #f2f2f2; margin-bottom: 40px;"></div>
+
+        <div class="relative text-left my-12">
+            <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
+                Containers
+            </h2>
+            <!-- Divider -->
+            <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
+        </div>
+<!--        Accordion-->
+        <div class="max-w-[800px] mx-auto space-y-1">
+        <details style="border:1px solid rgba(211,211,211,0.7); border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.08); padding:10px; margin-bottom:0px;">
+            <summary style="list-style:none; cursor:pointer; position:relative; display:flex; align-items:center; justify-content:space-between; padding:0; margin:0;">
+                <h2 style="margin-left: 10px;">Accordion Example</h2>
+                <div style="font-size:20px; transition:transform 0.3s;">▶</div>
+
+            </summary>
+            <div style="height:3px; background-color:rgba(128,128,128,0.2); position:relative; bottom: -9px; left:0; width:100%;"></div>
+            <div style="margin-top:20px;">
+                <ul style="margin:10px; padding:0 0 0 20px; list-style-type:disc;">
+                    <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Audit/1_lsgh0ho2">Undergraduate Student Audit</a></li>
+                    <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Plans/1_mzdhl07t">Undergraduate Student Plans</a></li>
+                    <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_What-If/1_t6hl7mjr">Undergraduate Student What-If</a></li>
+                    <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_GEEC/1_9eqbvtuz">Undergraduate General Electives & Excess Credits</a></li>
+                    <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Certificate_Audit/1_0ermphiv">Undergraduate Student Certificate Audit</a></li>
+                    <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Highlights/1_dt1evlte">Undergraduate Student New Updates Highlights</a></li>
+                </ul>
+            </div>
+        </details>
+            <details style="border:1px solid rgba(211,211,211,0.7); border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.08); padding:10px; margin-bottom:0px;">
+                <summary style="list-style:none; cursor:pointer; position:relative; display:flex; align-items:center; justify-content:space-between; padding:0; margin:0;">
+                    <h2 style="margin-left: 10px;">Accordion</h2>
+                    <div style="font-size:20px; transition:transform 0.3s;">▶</div>
+
+                </summary>
+                <div style="height:3px; background-color:rgba(128,128,128,0.2); position:relative; bottom: -9px; left:0; width:100%;"></div>
+                <div style="margin-top:20px;">
+                    <ul style="margin:10px; padding:0 0 0 20px; list-style-type:disc;">
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Audit/1_lsgh0ho2">Undergraduate Student Audit</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Plans/1_mzdhl07t">Undergraduate Student Plans</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_What-If/1_t6hl7mjr">Undergraduate Student What-If</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_GEEC/1_9eqbvtuz">Undergraduate General Electives & Excess Credits</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Certificate_Audit/1_0ermphiv">Undergraduate Student Certificate Audit</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Highlights/1_dt1evlte">Undergraduate Student New Updates Highlights</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students:</h3>
-                    <ul>
-                        <li>reactivate your student account by contacting the EITS Help Desk at <a href="tel:706-542-3106">706‑542‑3106</a>.</li>
+            </details>
+            <details style="border:1px solid rgba(211,211,211,0.7); border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.08); padding:10px; margin-bottom:0px;">
+                <summary style="list-style:none; cursor:pointer; position:relative; display:flex; align-items:center; justify-content:space-between; padding:0; margin:0;">
+                    <h2 style="margin-left: 10px;">Accordion</h2>
+                    <div style="font-size:20px; transition:transform 0.3s;">▶</div>
+
+                </summary>
+                <div style="height:3px; background-color:rgba(128,128,128,0.2); position:relative; bottom: -9px; left:0; width:100%;"></div>
+                <div style="margin-top:20px;">
+                    <ul style="margin:10px; padding:0 0 0 20px; list-style-type:disc;">
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Audit/1_lsgh0ho2">Undergraduate Student Audit</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Plans/1_mzdhl07t">Undergraduate Student Plans</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_What-If/1_t6hl7mjr">Undergraduate Student What-If</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_GEEC/1_9eqbvtuz">Undergraduate General Electives & Excess Credits</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Certificate_Audit/1_0ermphiv">Undergraduate Student Certificate Audit</a></li>
+                        <li><a href="https://kaltura.uga.edu/media/DGW_RDB_UG_Student_Highlights/1_dt1evlte">Undergraduate Student New Updates Highlights</a></li>
                     </ul>
                 </div>
-                </div>
+            </details>
         </div>
-        <!-- Official Transcript Ordering -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
-                <h2>Official Transcript Ordering</h2>
-            </div>
-            <p style="margin:0 0 8px;">Order your UGA transcripts securely via Parchment.</p>
-        </div>
-        <!-- Online Ordering -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-desktop"></i></span>
-                <h2>Online Ordering</h2>
-            </div>
-            <div class="grid-2">
-                <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students:</h3>
-                    <ol style="margin:0; padding-left:1.25rem;">
-                        <li>Log in at <a href="http://my.uga.edu">my.uga.edu</a></li>
-                        <li>Click <strong>Order Transcripts</strong> under Instant Access</li>
-                        <li>Submit credit/debit payment</li>
-                        <li>Processing in 1–5 business days</li>
-                    </ol>
-                </div>
-                <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students:</h3>
-                    <ol style="margin:0; padding-left:1.25rem;">
-                        <li>Go to <a href="https://www.parchment.com">Parchment</a></li>
-                        <li>Enter email in <strong>Start Here</strong></li>
-                        <li>Log in or create an account</li>
-                        <li>Submit credit/debit payment</li>
-                        <li>Wait 1–5 business days</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <!-- Fees & Processing -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-dollar-sign"></i></span>
-                <h2>Fees &amp; Processing</h2>
-            </div>
-            <div class="grid-2">
-                <div><strong>Fee:</strong> $8.00 per copy</div>
-                <div><strong>Processing:</strong> 5 business days</div>
-                <div><strong>Delivery:</strong> 6–13 business days (USPS)</div>
-                <div><strong>Sales Tax:</strong> Effective Jan 6, 2025 (shown at checkout)</div>
-            </div>
-        </div>
-
-        <!-- Shipping Options -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-box"></i></span>
-                <h2>Shipping Options</h2>
-            </div>
-            <ul style="margin:0; padding-left:1.25rem;">
-                <li><strong>Standard (USPS):</strong> Included ($8.00), 6–13 business days</li>
-                <li><strong>Expedited (FedEx):</strong> +$12 (US) / +$50 (Intl)</li>
-            </ul>
-        </div>
-
-        <!-- Mail-In Requests -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-envelope"></i></span>
-                <h2>Mail‑In Requests</h2>
-            </div>
-            <p style="margin:0 0 8px;">Complete the UGA Student Transcript Request Form and mail with payment:</p>
-            <address style="background: var(--gray-200); padding:16px; border-radius:4px; margin:0 0 8px;">
-                Office of the Registrar<br>
-                Holmes‑Hunter Academic Building<br>
-                University of Georgia<br>
-                Athens, GA 30602‑6113
-            </address>
-            <p style="font-size:0.875rem; color: var(--uga-grey); margin:0;">*Use money orders or corporate checks only; no personal checks or cash.*</p>
-        </div>
-
-        <!-- Third-Party Requests -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-handshake"></i></span>
-                <h2>Third‑Party Requests</h2>
-            </div>
-            <p style="margin:0 0 8px;">Third parties requesting a transcript on behalf of current or former UGA students will need all of the following:</p>
-            <ul style="margin:0; padding-left:1.25rem; list-style-type: disc;">
-                <li><a href="#">Third Party Transcript Request Form</a></li>
-                <li><a href="#">Signed Permission to Release Educational Info</a></li>
-                <li>Money order or corporate check payable to the University of Georgia ($8 per transcript)</li>
-            </ul>
-        </div>
-
-        <!-- Enclosures & Support -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-paperclip"></i></span>
-                <h2>Notarized Transcripts</h2>
-            </div>
-            <ul style="margin:0; padding-left:1.25rem;">
-                <li>Notary is required for Apostille/Great Seal requests (e.g., transcripts or diplomas for students moving or working abroad). </li>
-                <li>Download the form and review requirements <a href="#">here</a>.</li>
-            </ul>
-        </div>
-        <!-- Helpful Tutorials -->
-        <div class="info-box">
-            <span class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></span>
-            <h2>Helpful Tutorials</h2>
-            <ul style="margin:0; padding-left:1.25rem; list-style-type: disc;">
-                <li><a href="#">How to Create a Parchment Account</a></li>
-                <li><a href="#">How to Add or Edit an Email Address in Your Parchment Account</a></li>
-                <li><a href="#">How to Order a Transcript</a></li>
-                <li><a href="#">How to Place an Order with Expedited (FedEx) Shipping</a></li>
-                <li><a href="#">How to Place an Order for Pick Up</a></li>
-                <li><a href="#">How to Access Online Support</a></li>
-            </ul>
-            <p style="margin-top:16px;">Additional questions about transcripts may be sent to <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a>.</p>
-        </div>
-
     </div>
+
+
 
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h2>Student Records</h2>
+            Side Navigation
         </div>
         <nav>
             <ul>
@@ -668,18 +697,18 @@
                 <a href="#">Grades</a>
                 <a href="#">Graduation</a>
                 <li>
-                    <a href="#" class="active">Transcripts</a></li>
+                    <a href="#" class="active">Current Page</a></li>
                 <ul>
-                    <li><a href="#i">Apostille/Great Seal</a></li>
-                    <li><a href="#">Unofficial Transcript</a></li>
+                    <li><a href="#">Subpage 1</a></li>
+                    <li><a href="#">Subpage 2</a></li>
                 </ul>
                 <a href="#">Third-Party Report Requests</a>
             </ul>
         </nav>
         <div class="sidebar-contact">
-            <h4>Questions? Contact</h4>
+            <h4>Questions? Contact Us</h4>
             <p><i class="fas fa-envelope"></i><a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a></p>
-            <p><i class="fas fa-phone"></i>706-542-3106</p>
+<!--            <p><i class="fas fa-phone"></i>706-542-3106</p>-->
         </div>
     </aside>
 </main>
