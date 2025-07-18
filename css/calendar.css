@@ -1,0 +1,99 @@
+
+    /* Tab input hacks */
+    /* Tab & Year container */
+    /* Tab & Year container */
+    /* Hide the radio inputs */
+    .calendar-tabs input { display: none; }
+
+    /* Main container */
+    .calendar-tabs {
+        width: 900px;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Header row: year dropdown + tabs, with shared border */
+    .tabs-header {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 4px solid #F0F0F0; /* gray-300 */
+        padding-bottom: 0.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Year label + dropdown inline */
+    .year-select {
+        display: flex;
+        align-items: center;
+        margin-right: 2rem;
+        font-family: 'Merriweather Sans', sans-serif;
+        font-size: 24px;
+    }
+    .year-select label {
+        margin-right: 0.5rem;
+        color: #4A4A4A;
+        font-weight: 500;
+    }
+    .year-select select {
+        background: white;
+        /*border: 1px solid #D1D5DB;*/
+        border-radius: 0.375rem;
+        padding: 0.25rem 0.5rem;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        outline: none;
+        box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 2px -1px;
+    }
+    .year-select select:focus {
+        border-color: #BA0C2F;
+        box-shadow: 0 0 0 2px rgba(10,35,66,0.2);
+    }
+
+    /* Tab labels */
+    .tabs-labels {
+        display: flex;
+    }
+    .tabs-labels label {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        color: #6B7280; /* gray-500 */
+        transition: color 0.2s;
+    }
+    .tabs-labels label:hover {
+        color: #4A4A4A;
+    }
+
+    /* Active-tab underline */
+    #tab-fall:checked ~ .tabs-header .tabs-labels label[for="tab-fall"],
+    #tab-spring:checked ~ .tabs-header .tabs-labels label[for="tab-spring"],
+    #tab-summer:checked ~ .tabs-header .tabs-labels label[for="tab-summer"] {
+        color: #4A4A4A;
+        border-bottom: 4px solid #BA0C2F;
+        font-weight: 500;
+        position: relative;
+        margin-bottom: -8px;  /* overlap the gray border */
+        z-index: 10;
+    }
+
+    /* Hide all content sections by default */
+    .tabs-content section { display: none; }
+    /* Make the first column in each table row UGA‑red and bold */
+    .tabs-content table tr > td:nth-child(2) {
+        /*color: #BA0C2F;    !* UGA red *!*/
+        /*font-size: 18px;*/
+        font-weight: 600;  /* bold */
+        text-transform: uppercase;
+    }
+
+    /* Show only the checked tab’s section */
+    #tab-fall:checked ~ .tabs-content #fall,
+    #tab-spring:checked ~ .tabs-content #spring,
+    #tab-summer:checked ~ .tabs-content #summer {
+        display: block;
+    }
+
+    /* Table row dividers */
+    .tabs-content table tbody tr + tr {
+        border-top: 1px solid #D1D5DB; /* gray-300 */
+    }

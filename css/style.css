@@ -1,0 +1,67 @@
+/*Alert Boxes*/
+.alert-box,
+.note-box,
+.resource-box {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    border-left: 4px solid;
+    margin-bottom: 1rem;
+    height: auto;
+}
+
+.alert-box {
+    background-color: #fee2e2;
+    border-left-color: #BA0C2F;
+}
+.alert-box .alert-content {
+    margin-left: 0.75rem;
+    color: #b91c1c;
+}
+
+.note-box {
+    background-color: #fffbeb;
+    border-left-color: #eab308;
+}
+.note-box .note-content {
+    margin-left: 0.75rem;
+    color: #b45309;
+}
+
+.resource-box {
+    background-color: #ebfeff;
+    border-left-color: #00A8B3;
+}
+.resource-box .resource-content {
+    margin-left: 0.75rem;
+    color: #00A8B3;
+}
+
+.alert-content .title,
+.note-content .title,
+.resource-content .title {
+    font-weight: 600;
+    margin: 0;
+}
+.alert-content .text,
+.note-content .text,
+.resource-content .text {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+/*Page Breaks*/
+.break-wide {
+    width: 920px;
+    height: 5px;
+    background-color: #f2f2f2;
+}
+.break-small {
+    display: block;
+    width: 5.5rem;
+    height: 4px;
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(128, 128, 128, 0.2);
+}
