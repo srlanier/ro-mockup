@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Style Guide</title>
+    <title>Configuration Guide</title>
     <link rel="stylesheet" href="../css/all.min.css">
 
     <link href="../css/tailwind.min.css" rel="stylesheet">
@@ -293,7 +293,7 @@
             border: 1px  solid #e0e0e0;
             border-top: none;
             position: sticky;
-            top: 75px;
+            top: 74px;
             height: calc(100vh - 74px);
             overflow-y: auto;
             font-size: 16px;
@@ -332,6 +332,7 @@
         }
 
         .sidebar nav a:hover {
+            color: var(--uga-red);
             background: rgba(214, 210, 196, 0.2);
         }
 
@@ -453,15 +454,16 @@
             box-sizing: border-box;
             width: 100%;
             margin: 75px auto 0;
-            padding: 1px 0;
+            padding: 40px 0 0 5px;
             text-align: left;
             position: relative;
+            z-index: 2;
 
             /* Solid top half, single gradient on bottom half */
             background-color: #ba0c2f; /* top 50% fill */
             background-image: linear-gradient(-45deg, #9e0a28 40%, #ba0c2f 40%);
             background-repeat: no-repeat;
-            background-size: 100% 65%; /* only covers bottom half */
+            background-size: 100% 70%; /* only covers bottom half */
             background-position: bottom;
 
             /* shadow */
@@ -475,24 +477,25 @@
             letter-spacing:  1.0px;
             /*text-shadow: 0 0 3px #000000cc;*/
             text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
-            margin: 0px 0px 0px 400px;
+            margin: 0px 0px 0px 390px;
         }
         /* Breadcrumb divider */
         .breadcrumb-divider {
-            position: relative;
-            background-color: #4A4A4A;
+            position: sticky;
+            top: 74px;
             background-color: transparent;
-            background-image: linear-gradient(-45deg, transparent 50%, #4A4A4A 50%);
+            background-image: linear-gradient(-45deg, transparent 50%, #5e5c5c 50%);
             background-size: 100% 100%;
             background-position: bottom;
             background-repeat: no-repeat;
             color: #fff;
             font-weight: 200;
-            font-family: "Merriweather", serif;
+            font-family: "Merriweather sans", sans-serif;
+            text-transform: uppercase;
             display: flex;
             align-items: center;
-            padding: 8px 0px;
-            font-size: 0.9rem;
+            padding: 10px 0px;
+            font-size: 15px;
             z-index: 1;
             max-height: 22px;
 
@@ -717,15 +720,16 @@
     </div>
 </nav>
 <div class="page-title-box">
-    <h1 class="page-title-box-title">CONFIGURATION SPECIFICS</h1>
+    <h1 class="page-title-box-title">CONFIGURATION GUIDE</h1>
 </div>
 <!-- Breadcrumb bar with angled bottom edge -->
-<nav class="breadcrumb-divider">
-    <ul>
-        <li><a href="#">Programs</a></li>
-        <li>62+ Program</li>
-    </ul>
-</nav>
+<!--<nav class="breadcrumb-divider">-->
+<!--    <ul>-->
+<!--        <li><a href="#">Faculty & Staff</a></li>-->
+<!--        <li><a href="#">Style</a></li>-->
+<!--        <li>Configuration</li>-->
+<!--    </ul>-->
+<!--</nav>-->
 <main>
     <div class="content">
 
@@ -733,30 +737,55 @@
         <div style="width: 920px; height:5px; background: #f2f2f2; top:0%;"></div>
         <div class="text-margin" style="line-height: 1.6;">
 
-            <h2>Content Files</h2>
+            <h2>Structure</h2>
             <div style="display: block; width: 5.5rem; background-color: rgba(128, 128, 128, 0.2); height: 4px; margin-top: 0.5rem;" role="presentation">&nbsp;</div>
+
+            <h5>Remapping</h5>
+            <p>Website Map file</p>
+            <h5>Document Storage</h5>
             <p style="margin-top: 5px; margin-bottom: 10px;">We want our files stored in directories for each page.</p>
             <p>Example:</p>
-                         <h4>Trend Data</h4>
-                         <p>Trend data and graduation data is typically provided by the Office of Institutional Research. Users with a UGA MyID may be able to obtain information on the Facts Reporting System at:</p>
-                            <a href="https://oir.uga.edu">https://oir.uga.edu</a>
-                            <h4 style="margin-top: 10px;">Georgia Open Records Act</h4>
-                            <p>Requests under the Georgia Open Records Act are processed by the Division of Marketing and Communications.
-                            Information and a request form are available at:</p>
-                            <a href="https://news.uga.edu/open-records/">https://news.uga.edu/open-records/</a>
+                         <a>../documents/student-records/forms-and-policies/address-change-form.pdf</a>
+                            <h5 style="margin-top: 10px;">ACCESS</h5>
+                            <p>Document replacement permissions</p>
+
+
+
+            <h2>Template, CSS, & Snippets/Blocks</h2>
+                <h5>Components</h5>
+                 <p>You will notice different versions and colors of our snippets on the current website. They may have
+                 differing code structures depending on when they were added.</p>
+                  <p>We want a uniform structure/design for especially:</p>
+                   <ul>
+                       <li>Accordions</li>
+                       <li>Tables</li>
+                       <li>Tabs</li>
+                       <li>Alerts</li>
+                       <li>Dropdowns</li>
+                   </ul>
+
+                 <h5>Scripts</h5>
+
+            <h5>Hover Behaviors</h5>
+            <h5>Open All Links New Window</h5>
+            <h5>URL #Anchors To Content Sections</h5>
+            <h2>404 Redirects</h2>
+            <h2>Search Function</h2>
+            <h2>Analytic Tags</h2>
+            <h2>Plugins: navigation populate</h2>
+
+
+
+
+
+
+
+
+
+
         </div>
-        <h2>User Access Permissions</h2>
-        <h2>Scripts</h2>
-        <h5>Hover Behaviors</h5>
-        <h5>Open All Links New Window</h5>
-        <h5>#Anchors To Content</h5>
-        <h2>Assets</h2>
-        <h2>Site Map</h2>
-        <h2>Assets</h2>
-        <h2>404 Redirects</h2>
-        <h2>Search Function</h2>
-        <h2>Analytic Tags</h2>
-        <h2>Plugins: navigation populate</h2>
+
+
 
 
 
@@ -771,14 +800,14 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#" class="active">Style Guide</a>
+                    <a href="../style/styleGuide.html">Style Guide</a>
                     <ul>
                         <li><a href="#">Subpage Example 1</a></li>
                         <li><a href="#">Subpage Example 2</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Technical Guide</a>
+                    <a href="#" class="active">Configuration Guide</a>
                 </li>
                 <!-- Add more top-level items here -->
             </ul>
