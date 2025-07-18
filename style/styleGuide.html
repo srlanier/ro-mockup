@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Style Guide</title>
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="../css/all.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="../css/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -22,7 +21,6 @@
             --tan: #e3dfd3;
             --gray-200: #e2e8f0;
             --uga-link: #00A8B3;
-
         }
 
         @font-face {
@@ -49,7 +47,6 @@
             font-family: 'Oswald', sans-serif;
             /*font-family: 'Merriweather-sans', sans-serif;*/
             margin: 0;
-            /*background-color: #888888;*/
             background-color: white;
             color: var(--uga-grey);
             overflow-x: hidden; /* Ensure no horizontal scrollbar */
@@ -64,8 +61,6 @@
             color: #004E60;
             text-decoration: underline;
         }
-
-
 
         /* Navbar Styles (Copied from main page) */
         .navbar {
@@ -120,39 +115,43 @@
             color: var(--uga-red);
         }
 
-        /*!* Dropdown Menu (Desktop specific positioning) *!*/
-        /*.dropdown-menu {*/
-        /*    position: fixed;*/
-        /*    background-color: var(--white);*/
-        /*    min-width: 180px;*/
-        /*    box-shadow: 0 8px 16px rgba(0,0,0,0.2);*/
-        /*    z-index: 1;*/
-        /*    border-top: 3px solid var(--uga-red);*/
-        /*    padding: 10px 0;*/
-        /*    opacity: 0;*/
-        /*    visibility: hidden;*/
-        /*    transition: opacity 0.3s ease, visibility 0.3s ease;*/
-        /*}*/
-
-        /*.dropdown-menu.active-desktop {*/
-        /*    opacity: 1;*/
-        /*    visibility: visible;*/
-        /*}*/
-
-        /*.dropdown-menu a {*/
-        /*    color: var(--uga-grey);*/
-        /*    padding: 10px 20px;*/
-        /*    text-decoration: none;*/
-        /*    display: block;*/
-        /*    white-space: nowrap;*/
-        /*    font-size: 1em;*/
-        /*    transition: background-color 0.3s ease, color 0.3s ease;*/
-        /*}*/
-
-        /*.dropdown-menu a:hover {*/
-        /*    background-color: var(--uga-red);*/
-        /*    color: var(--white);*/
-        /*}*/
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0;
+            align-items: stretch; /* ensure cards stretch to same height */
+        }
+        /* Each card: two per row, rectangular with max-height */
+        .card-grid .card {
+            flex: 1 1 calc(50% - 16px);
+            min-height: 200px;
+            max-height: 400px;           /* cap height */
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            /* background image for each card */
+            background-image: url('../images/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        /* Card content centers inside a rectangular box */
+        .card-grid .card-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            font-size: 1rem;
+            color: #333;
+            padding: 16px;
+        }
 
         /* Search Icon and Bar */
         .navbar-right {
@@ -211,29 +210,13 @@
             margin-left: 5px;
         }
 
-
-        /* Content Page Specific Styles */
-
-        /*main {*/
-        /*    display: flex;*/
-        /*    font-family: "Merriweather Sans", sans-serif;*/
-        /*    max-width: 1158px;*/
-        /*    margin: 0px auto;*/
-        /*    background: var(--white);*/
-        /*    border-radius: 0 0 8px 8px;*/
-        /*    overflow: hidden;*/
-        /*    box-shadow: 0px 2px 5px rgba(0,0,0,0.35);*/
-        /*}*/
-
         main { display: flex;
             max-width: 1200px;
             font-family: "Merriweather", serif;
             margin: 0px auto;
             gap: 0px;
 
-
             /*box-shadow: 0px 2px 5px rgba(0,0,0,0.35);*/
-
         }
 
         .content {
@@ -319,7 +302,6 @@
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
             font-size: 24px;
-            /*font-weight: 400;*/
             margin-top: 0;
             margin-bottom: 10px;
             letter-spacing: 1px;
@@ -333,40 +315,74 @@
             padding: 0;
             margin: 0;
         }
+
         .sidebar nav li {
             margin-bottom: 8px;
         }
+
         .sidebar nav a {
             text-decoration: none;
             color: var(--uga-grey);
             padding: 6px 8px;
             display: block;
             border-left: 5px solid transparent;
-            border-radius: 4px;
-            /*font-family: 'Oswald', sans-serif;*/
-
+            border-radius: 0px;
+            font-weight: 400;
         }
+
         .sidebar nav a:hover {
             background: rgba(214, 210, 196, 0.2);
         }
+
         .sidebar nav a.active {
             color: var(--uga-red);
-            border-left: 5px solid var(--uga-red);
+            /*border-left: 3px solid var(--uga-red);*/
             font-weight: 600;
             background: rgba(214, 210, 196, 0.2);
         }
-        .sidebar nav ul ul {
+
+        /*
+          Nested subpage list: remove default border and indent text
+        */
+        .sidebar nav ul > li > ul {
+            position: relative;
+            margin: 0;
             padding-left: 16px;
-            margin-top: 4px;
         }
+
+        /* Indented stripe via pseudo-element */
+        .sidebar nav ul > li > ul::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 16px;
+            width: 3px;
+        }
+
+        /*
+          Optional: background-image stripe instead of pseudo-element.
+          Add .bg-indented to your nested <ul> to use this.
+        */
+        .sidebar nav ul > li > ul.bg-indented {
+            padding-left: 26px; /* 16px indent + 10px stripe */
+            background-image: linear-gradient(#F0F0F0, #F0F0F0);
+            background-repeat: no-repeat;
+            background-position: 16px 0;
+            background-size: 10px 100%;
+        }
+
+        /* Nested link styles */
         .sidebar nav ul ul li a {
             font-size: 16px;
             padding: 4px 8px;
-            border-left-width: 2px;
+            border-left: 5px solid transparent;
         }
+
         .sidebar nav ul ul li a:hover {
             color: var(--uga-red);
         }
+
         .sidebar nav ul ul li a.active {
             color: var(--uga-red);
             border-left-color: var(--uga-red);
@@ -399,7 +415,7 @@
         }
         /* 1) Animate the chevron */
         .chevron {
-            display: inline‑block;
+            display: inline-block;
             transition: transform 0.3s ease;
         }
         details[open] .chevron {
@@ -432,32 +448,37 @@
             background-color: #f9f9f9;
         }
 
-         .page-title-box {
-             width: calc(100% + 0px); /* 50px offset + 50px right spacing */
-             /*height: 60px;*/
-             /*max-width: 1200px; !* 1160px - 100px (50px offset) *!*/
-             margin: 75px auto 0 auto; /* top: 75px, centered */
-             /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
-             padding: 5px 0px;
-             /*margin-top: 75px;*/
-             /*margin-bottom: 0px;*/
-             /*margin-left: 50px;*/
-             background: linear-gradient(-66deg, #9e0a28 35%, #ba0c2f 35%);
-             /*border-bottom: 2px solid #8a8a8a;*/
-             border-bottom: 1px solid #2b2b2b;
-             /*border-left: 4px solid #2b2b2b;*/
-             /*border-radius: 0px 0px 0px 8px;*/
-             box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
-             text-align:center;
-         }
-        .page-title-box-title {
-            font-size: 2.75rem;
-            font-weight: 600;
-            color: #ffffff;
-            letter-spacing: 1.1px;
-            text-shadow: 0 0 3px #000000cc;
-            margin: 5px 5px 5px -570px;
+        .page-title-box {
+            box-sizing: border-box;
+            width: 100%;
+            margin: 75px auto 0;
+            padding: 1px 0;
+            text-align: left;
+            position: relative;
+
+            /* Solid top half, single gradient on bottom half */
+            background-color: #ba0c2f; /* top 50% fill */
+            background-image: linear-gradient(-45deg, #9e0a28 40%, #ba0c2f 40%);
+            background-repeat: no-repeat;
+            background-size: 100% 65%; /* only covers bottom half */
+            background-position: bottom;
+
+            /* shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+            0 1px 2px rgba(0, 0, 0, 0.15);
         }
+        .page-title-box-title {
+            font-size: 50px;
+            font-weight: 400;
+            color: #ffffff;
+            letter-spacing:  1.0px;
+            /*text-shadow: 0 0 3px #000000cc;*/
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+            margin: 0px 0px 0px 350px;
+        }
+
+
+
         /* Info-box style with border, centered icon overlap, and constrained width */
         .info-box {
             position: relative;
@@ -512,11 +533,10 @@
             text-align: center;
             text-decoration: none;
             border-radius: 8px;
-            /*box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);*/
-            box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 3px -1px
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
 
             /*!* Smooth transitions *!*/
-            /*transition: background-color 0.3s, box-shadow 0.3s;*/
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
 
         .button:hover {
@@ -665,7 +685,7 @@
 
 
         <!-- Blue box showing the content area width -->
-        <div id="contentBox" class="flex flex-col items-center" >
+        <div id="contentBox" class="hidden flex flex-col items-center" >
                  <div class="border-4 border-blue-500 bg-blue-100 h-20 flex min-w-[920px] items-center justify-center">
                     <span class="text-blue-700 font-semibold"><-- Content Area Width (920 pixels) --></span>
                 </div>
@@ -675,9 +695,9 @@
 
         </div>
         <!-- Toggle Text with Chevron -->
-        <div id="toggleText" class="flex items-center cursor-pointer text-blue-700 font-semibold mb-2">
-            <span>Content Area (max-width)</span>
-            <i id="chevronIcon" class="fas fa-chevron-up ml-2 transform transition-transform"></i>
+        <div id="toggleText" class="flex items-center cursor-pointer text-white font-semibold mb-2">
+            <span style="padding-left: 4px; background: #4A4A4A">Content Area (max-width)
+            <i id="chevronIcon" class="fas fa-chevron-down ml-2 transform transition-transform"></i></span>
         </div>
         <!--    toggle max width box script-->
         <script>
@@ -695,33 +715,34 @@
     </script>
         <div class="relative text-left my-10">
             <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
-                Color Swatch
+                Color Palette
             </h2>
             <!-- Divider -->
             <div class="absolute left-1/2" style="width: 920px; height:5px; background: #f2f2f2; top:0%; transform:translate(-50%, 3rem); z-index:0;"></div>
         </div>
+<!--        Big Swatches-->
         <div class="flex flex-wrap gap-0 p-0 min-h-auto">
-            <!-- UGA Red -->
-            <div class="flex-1 aspect-square flex items-center justify-center bg-[#BA0C2F] text-white ">
-                #BA0C2F
-            </div>
-            <!-- Black -->
-            <div class="flex-1 aspect-square flex items-center justify-center bg-[#000000] text-white ">
-                #000000
-            </div>
-            <!-- White -->
-            <div class="flex-1 aspect-square flex items-center justify-center bg-[#FFFFFF] text-black  border">
-                #FFFFFF
-            </div>
-            <!-- Dark Gray -->
-            <div class="flex-1 aspect-square flex items-center justify-center bg-[#554F47] text-white ">
-                #554F47
-            </div>
-            <div class="flex-1 aspect-square flex items-center justify-center bg-[#f0f0f0] text-black ">
-                #F0F0F0
-            </div>
-        </div>
 
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#BA0C2F] text-white ">#BA0C2F</div>
+
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#4A4A4A] text-white ">#4A4A4A</div>
+
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#FFFFFF] text-black  border-t">#FFFFFF</div>
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#f0f0f0] text-black ">#F0F0F0</div>
+
+
+
+        </div>
+<!--        Smaller Swatches-->
+        <!-- Second Row: Smaller Swatches -->
+        <div class="flex flex-wrap gap-0 p-0 min-h-auto">
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#000000] text-white ">#000000</div>
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#9e0a28] text-white">#9e0a28</div>
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#00A8B3;] text-white">#00A8B3</div>
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#006E75] text-white">#006E75</div>
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#D6D2C4] text-black">#FFFFFF</div>
+            <div class="flex-1 aspect-square flex items-center justify-center bg-[#554F47] text-white">#554F47</div>
+        </div>
 
         <div class="relative text-left my-10">
             <h2 class="relative inline-block px-4 py-2 text-2xl font-semibold z-10">
@@ -763,7 +784,7 @@
                             <h4 style="margin-top: 10px;">Georgia Open Records Act</h4>
                             <p>Requests under the Georgia Open Records Act are processed by the Division of Marketing and Communications.
                             Information and a request form are available at:</p>
-                            <a href="http://news.uga.edu/open-records/">http://news.uga.edu/open-records/</a>
+                            <a href="https://news.uga.edu/open-records/">https://news.uga.edu/open-records/</a>
                         </div>
                 </div>
 
@@ -816,13 +837,30 @@
 
         <!--        </div>-->
 
+<!--        <div class="card-grid">-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">Card 1</div>-->
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">Card 2</div>-->
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">Card 3</div>-->
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">Card 4</div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
         <!-- flex wrapper -->
         <div style="
     display: flex;
-    gap: 20px;
+    gap: 25px;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 40px 0;
+    margin: 20px 0;
   ">
             <!--            card 1-->
             <div
@@ -830,7 +868,7 @@
     background: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
     border-radius: 10px;
-    padding: 30px;
+    padding: 50px;
     align-content: center;
     max-width: 320px;
     margin: 40px 0;
@@ -840,7 +878,8 @@
                         style="
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      /*justify-content: space-between;*/
+      /*content-position: center;*/
       transition: transform 0.2s ease;
       transform: scale(1);
       cursor: pointer;
@@ -848,9 +887,9 @@
                         onmouseover="this.style.transform='scale(1.05)'"
                         onmouseout="this.style.transform='scale(1)'"
                 >
-                    <h2 style="margin-right: 20px; line-height: 1.2; align-self:center;">
+                    <h4 style="line-height: 1.2;">
                         Academic Calendars
-                    </h2>
+                    </h4>
                     <i class="fas fa-calendar" style="color: var(--uga-red); font-size: 3.75rem;"></i>
                 </div>
             </div>
@@ -861,13 +900,13 @@
     background: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
     border-radius: 10px;
-    padding: 30px;
+    padding: 50px;
     max-width: 320px;
     margin: 40px 0;
   "
             >
-                <div
-                        style="
+
+                <div style="
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -878,20 +917,22 @@
                         onmouseover="this.style.transform='scale(1.05)'"
                         onmouseout="this.style.transform='scale(1)'"
                 >
-                    <h2 style="margin-right: 20px; line-height: 1.2;align-self:center;">
+                    <h4 style="margin-right: 10px; line-height: 1.2;align-self:center;">
                         Final Exam Schedule
-                    </h2>
+                    </h4>
                     <i class="fas fa-pencil" style="color: var(--uga-red); font-size: 3.75rem;"></i>
                 </div>
             </div>
         </div>
+
+
 
         <div class="text-margin" style="margin-left: 350px; margin-top: -50px; margin-bottom: 70px;">
             <p>Replaces "cards" on <a href="https://reg.uga.edu/general-information/calendars/">Calendars page</a>.</p>
         </div>
         <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 800px; margin: 40px auto;">
             <h2 style="margin-top: 0;">Floating Text Box</h2>
-            <div style="height:3px; background-color:rgba(128,128,128,0.2); position:flex; margin-bottom: 10px; left:0; width:100%;"></div>
+            <div style="height:3px; background-color:rgba(128,128,128,0.2); margin-bottom: 10px; left:0; width:100%;"></div>
             <p style="margin-bottom: 16px;">This is sample text for a white floating box.</p>
             <p style="margin-bottom: 16px;"><strong>Current Usage: </strong>A container to <a href="https://reg.uga.edu/general-information/degreeworks/tutorials/">separate text</a>, a container for <a href="https://reg.uga.edu/general-information/daily-class-schedule-2026/#training">tables</a>, a container with <a href="https://reg.uga.edu/general-information/daily-class-schedule-2026/">tabs</a></p>
             <p style="margin-bottom: 16px;"><strong>Example: </strong>The new daily class schedule is effective for spring 2026 courses and is based on a
@@ -1207,7 +1248,7 @@
 
         <div style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px; border-radius: 10px; padding: 20px; max-width: 700px; margin: 40px auto;">
            <h2>Table Inside Floating Box</h2>
-            <div style="height:3px; background-color:rgba(128,128,128,0.2); position:flex; margin-bottom: 10px; left:0; width:100%;"></div>
+            <div style="height:3px; background-color:rgba(128,128,128,0.2); margin-bottom: 10px; left:0; width:100%;"></div>
             <p>Training sessions for the new Daily Class Schedule will be available in-person and on Zoom. Seats for in-person training will be limited; however, all training sessions will be accessible on Zoom.</p>
             <table style="width:100%; border-collapse: collapse; font-family: 'Segoe UI', sans-serif;">
                 <thead>
@@ -1298,21 +1339,17 @@
         </div>
         <nav>
             <ul>
-                <a href="#">Academic Standing</a>
-                <a href="#">Credit From Testing</a>
-                <a href="#">Diplomas</a>
-                <a href="#">Enrollment Verifications</a>
-                <a href="#">FERPA</a>
-                <a href="#">Forms and Policies</a>
-                <a href="#">Grades</a>
-                <a href="#">Graduation</a>
                 <li>
-                    <a href="#" class="active">Current Page</a></li>
-                <ul>
-                    <li><a href="#">Subpage 1</a></li>
-                    <li><a href="#">Subpage 2</a></li>
-                </ul>
-                <a href="#">Third-Party Report Requests</a>
+                    <a href="#" class="active">Style Guide</a>
+                    <ul>
+                        <li><a href="#">Subpage Example 1</a></li>
+                        <li><a href="#">Subpage Example 2</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Technical Guide</a>
+                </li>
+                <!-- Add more top-level items here -->
             </ul>
         </nav>
         <div class="sidebar-contact">
