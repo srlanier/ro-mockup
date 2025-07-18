@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuration Guide</title>
     <link rel="stylesheet" href="../css/all.min.css">
-
+    <link rel="stylesheet" href="../css/style.css">
     <link href="../css/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -734,14 +734,19 @@
     <div class="content">
 
         <p style="margin: 40px 50px 10px 50px;">This will be an outline of functionality/features or structural requirements we have for the website.</p>
-        <div style="width: 920px; height:5px; background: #f2f2f2; top:0%;"></div>
+
+        <div class="break-wide"></div>
         <div class="text-margin" style="line-height: 1.6;">
 
             <h2>Structure</h2>
-            <div style="display: block; width: 5.5rem; background-color: rgba(128, 128, 128, 0.2); height: 4px; margin-top: 0.5rem;" role="presentation">&nbsp;</div>
+            <div class="break-small" role="presentation"></div>
 
             <h5>Remapping</h5>
             <p>Website Map file</p>
+            <h6>Redirects: 301 and 302</h6>
+            <h6>404 Page; Smart Suggest</h6>
+
+
             <h5>Document Storage</h5>
             <p style="margin-top: 5px; margin-bottom: 10px;">We want our files stored in directories for each page.</p>
             <p>Example:</p>
@@ -753,9 +758,7 @@
 
             <h2>Template, CSS, & Snippets/Blocks</h2>
                 <h5>Components</h5>
-                 <p>You will notice different versions and colors of our snippets on the current website. They may have
-                 differing code structures depending on when they were added.</p>
-                  <p>We want a uniform structure/design for especially:</p>
+            <p>We want a uniform structure/design for our pages, especially:</p>
                    <ul>
                        <li>Accordions</li>
                        <li>Tables</li>
@@ -763,13 +766,19 @@
                        <li>Alerts</li>
                        <li>Dropdowns</li>
                    </ul>
+            <div class="note-box">
+                <div class="note-content">
+                    <p class="title">Note:</p>
+                    <p class="text">You will notice different versions and colors of our snippets on the current website. They may have
+                        differing code structures depending on when they were added.  Ideally everything can be reformatted to the new design.</p>
+                </div>
+            </div>
+                <h5>Scripts</h5>
 
-                 <h5>Scripts</h5>
+                <h6>Hover Behaviors</h6>
+                <h6>Open All Links New Window</h6>
+                <h6>URL #Anchors To Content Sections</h6>
 
-            <h5>Hover Behaviors</h5>
-            <h5>Open All Links New Window</h5>
-            <h5>URL #Anchors To Content Sections</h5>
-            <h2>404 Redirects</h2>
             <h2>Search Function</h2>
             <h2>Analytic Tags</h2>
             <h2>Plugins: navigation populate</h2>
