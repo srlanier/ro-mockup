@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link href="css/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<style>
+.table {
+display: flex;
+width: 100%;           /* make sure it spans its parent */
+}
+
+.span_half {
+/* option A: let it grow/shrink equally */
+flex: 1;               /* shorthand for flex: 1 1 0%; each child gets equal share */
+
+/* option B: force exactly 50% each */
+/* flex: 0 0 50%;  */
+/* max-width: 50%;  */
+}
+
+/* just good practice for your background images: */
+.cover {
+background-size: cover;
+background-position: center;
+    height: 470px;
+}
+
+.overlay {
+display: flex;
+justify-content: center;
+align-items: center;
+    height: 470px;
+}
+
+</style>
+<div class="table">
+    <div class="span_half cover" style="background-image: url(https://rx.uga.edu/wp-content/uploads/2022/10/cta_left.jpg);">
+        <div class="overlay" style="background-color: rgba(186,12,47,0.85);"><div class="left_content content">
+            <h2>Quick Links</h2><p><a class="btn" href="https://rx.uga.edu/apply-now/">Apply Today</a>
+            <a class="btn btn_border" href="https://rx.uga.edu/about/">Get More Info</a>
+        </p>
+        </div>
+        </div>
+    </div>
+
+    <div class="span_half cover" style="background-image: url(images/Spring_Undergraduate-32732-442.jpg);">
+        <div class="absolute inset-0 flex items-end p-3">
+            <div class="text-left">
+                <h3 class="text-xl font-semibold text-white">Apply to Graduate &rarr;</h3>
+                <p class="text-sm text-white">Graduation application open for Summer 2025 & Fall 2025.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
