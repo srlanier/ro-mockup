@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style Guide</title>
+<link rel="stylesheet" href="../../css/all.min.css">
+<link rel="stylesheet" href="../../css/bootstrap.css">
+
+<link href="../../css/tailwind.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Tab Sampler</title>
+
+</head>
+<style>
+    body {
+        max-width: 700px;
+        margin: 0 auto;
+        font-family: sans-serif;
+        background: white;
+    }
+    .tabs {
+        /* container background only */
+        background: var(--tabs-bg, #eee);
+        margin-bottom: 0;
+        border-bottom: 3px solid #ba0c2f;
+    }
+    .tabs ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: var(--tab-gap, 5px);
+    }
+    .tabs li {
+        margin: 0;
+    }
+    .tab {
+        flex: 1;
+        padding: var(--tab-padding, 0.5em 1em);
+        background: var(--tab-bg, #fff);
+        color: var(--tab-color, #333);
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        transition: all .2s;
+    }
+    .tab--active {
+        background: var(--tab-active-bg, white);
+        color: var(--tab-active-color, #fff);
+    }
+    /* Base content styles */
+    .content > div {
+        display: none;
+        padding: var(--content-padding, 1.5em);
+        background: var(--content-bg, #fff);
+        color: var(--content-color, #333);
+        border: var(--content-border, 1px solid #ddd);
+    }
+    .content > div:first-child {
+        display: block;
+    }
+    /* Variant: Pill */
+    .tabs--pill { --tabs-bg: #fafafa; --tab-bg: #ccc; --tab-active-bg: #BA0C2F; --tab-active-color: #fff; --tab-padding: 0.5em 1.5em; --tab-gap: 1.25em; }
+    .tabs--pill .tab { border-radius: 6px; }
+    .tabs--pill + .content { --content-bg: #fafafa; --content-padding: 2em; --content-border: none; }
+    /* Variant: Underline */
+    .tabs--underline { --tabs-bg: transparent; --tab-bg: transparent; --tab-active-color: #ba0c2f; }
+    .tabs--underline .tab { border-bottom: 2px solid transparent; }
+    .tabs--underline .tab--active { border-color: var(--tab-active-color); }
+    .tabs--underline + .content { --content-bg: #fff; --content-color: #444; --content-border: 2px solid var(--tab-active-color); }
+    /* Variant: Card */
+    .tabs--card { --tabs-bg: #f5f5f5; --tab-bg: #fff; --tab-active-bg: #fff; --tab-color: #555; --tab-active-color: #BA0C2F; --tab-gap: 1px; --tab-padding: 0.75em 1em; }
+    .tabs--card .tab { box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-top-left-radius: 4px; border-top-right-radius: 4px; }
+    .tabs--card .tab--active { box-shadow: 0 3px 6px rgba(0,0,0,0.15); margin-top: -1px; }
+    .tabs--card + .content { --content-bg: #fff; --content-padding: 2em; --content-border: 0; --content-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .tabs--card + .content > div { box-shadow: var(--content-shadow, none); }
+</style>
+</head>
+<body>
+<h2>Pill‑Style Tabs</h2>
+<div class="tabs tabs--pill">
+    <ul>
+        <li><a href="#" class="tab" data-target="#pill1">Fall</a></li>
+        <li><a href="#" class="tab" data-target="#pill2">Spring</a></li>
+        <li><a href="#" class="tab" data-target="#pill3">Summer</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div id="pill1">Content for Pill Tab 1</div>
+    <div id="pill2">Content for Pill Tab 2</div>
+    <div id="pill3">Content for Pill Tab 3</div>
+</div>
+
+<h2>Underline Tabs</h2>
+<div class="tabs tabs--underline">
+    <ul>
+        <li><a href="#" class="tab" data-target="#under1">Fall</a></li>
+        <li><a href="#" class="tab" data-target="#under2">Spring</a></li>
+        <li><a href="#" class="tab" data-target="#under3">Summer</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div id="under1">Content for Underline Tab 1</div>
+    <div id="under2">Content for Underline Tab 2</div>
+    <div id="under3">Content for Underline Tab 3</div>
+</div>
+
+<h2>Card‑Style Tabs</h2>
+<div class="tabs tabs--card">
+    <ul>
+        <li><a href="#" class="tab" data-target="#card1">Fall</a></li>
+        <li><a href="#" class="tab" data-target="#card2">Spring</a></li>
+        <li><a href="#" class="tab" data-target="#card3">Summer</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div id="card1">Content for Card Tab 1</div>
+    <div id="card2">Content for Card Tab 2</div>
+    <div id="card3">Content for Card Tab 3</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    ;(function($){
+        function activateTab($container, $tab){
+            $container.find('.tab').removeClass('tab--active');
+            $container.next('.content').find('> div').hide();
+            $tab.addClass('tab--active');
+            $($tab.data('target')).fadeIn();
+        }
+        $(function(){
+            $('.tabs').each(function(){
+                var $tabs = $(this).find('.tab');
+                var $first = $tabs.first();
+                activateTab($(this), $first);
+                $tabs.on('click', function(e){
+                    e.preventDefault();
+                    if (!$(this).hasClass('tab--active')) activateTab($(this).closest('.tabs'), $(this));
+                });
+                var hash = window.location.hash;
+                if (hash) {
+                    var $match = $tabs.filter(function(){ return $(this).data('target') === hash; });
+                    if ($match.length) activateTab($(this), $match);
+                }
+            });
+        });
+    })(jQuery);
+</script>
+</body>
+</html>
