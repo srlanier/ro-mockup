@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule of Classes</title>
+    <link rel="stylesheet" href="css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --uga-red: #BA0C2F; /* Official UGA Red */
+            --uga-grey: #4A4A4A;
+            --white: #ffffff;
+            --light-grey: #f0f0f0;
+            --dark-blue: #0A2342; /* A dark blue for contrast */
+            --dark-grey-text: #333333;
+            --dark-grey: #3e3e3e;
+            --tan: #e3dfd3;
+            --gray-200: #e2e8f0;
+            --uga-link: #00A3AD;
+
+        }
+
+        @font-face {
+            font-family: "Oswald";
+            src: url('fonts/Oswald-VariableFont_wght.ttf');
+        }
+
+        @font-face {
+            font-family: "Merriweather Sans";
+            src: url('fonts/MerriweatherSans-VariableFont_wght.ttf');
+        }
+        @font-face {
+            font-family: "Merriweather";
+            src: url('fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
+        }
+
+        /* Custom font utility for Merriweather Sans */
+        .font-merriweather-sans {
+            font-family: 'Merriweather Sans', sans-serif;
+        }
+
+
+        body {
+            font-family: 'Oswald', sans-serif;
+            /*font-family: 'Merriweather-sans', sans-serif;*/
+            margin: 0;
+            /*background-color: #888888;*/
+            background-color: white;
+            color: var(--uga-grey);
+            overflow-x: hidden; /* Ensure no horizontal scrollbar */
+        }
+
+
+        a {
+            color: var(--uga-link);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Navbar Styles (Copied from main page) */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            padding: 12px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            position: fixed; /* Changed to fixed so it stays at the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            gap: 40px; /* Space between logo, nav links, and search icon */
+            z-index: 1000;
+            box-sizing: border-box; /* Include padding in width calculation */
+            font-family: 'Oswald';
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .navbar-left .uga-logo {
+            height: 70px;
+            width: auto;
+            margin-top: -10px;
+            margin-bottom: -10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            position: relative;
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--uga-grey);
+            font-weight: 400;
+            font-size: 1.1em;
+            padding: 10px 0;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--uga-red);
+        }
+
+
+        /* Search Icon and Bar */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            font-size: 1.3em;
+            color: var(--uga-grey);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: var(--uga-red);
+        }
+
+        .search-bar {
+            position: fixed;
+            background-color: var(--white);
+            padding: 8px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 999;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-bar.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 5px 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1em;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--uga-red);
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+
+
+
+        main { display: flex;
+            max-width: 1300px;
+            font-family: "Merriweather", serif;
+            margin: 0px auto;
+            gap: 0px;
+
+            /*box-shadow: 0px 2px 5px rgba(0,0,0,0.35);*/
+
+        }
+
+        .content {
+            max-width: 1300px;
+            padding: 0px;
+            /*background: var(--white);*/
+            border-radius: 0 0 8px 8px;
+        }
+        .content h2 {
+            margin-top: 0;
+            font-family: 'Merriweather Sans', sans-serif;
+        }
+        .sidebar {
+            flex: 1;
+            /*background: var(--white);*/
+            padding: 24px;
+            border: 1px  solid #e0e0e0;
+            border-top: none;
+            position: sticky;
+            top: 75px;
+            height: calc(100vh - 74px);
+            overflow-y: auto;
+            font-size: 16px;
+
+        }
+        .sidebar h2 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 24px;
+            /*font-weight: 400;*/
+            margin-top: 0;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 6px;
+        }
+        .content h3 {
+            margin-top: 0;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 20px;
+
+        }
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar nav li {
+            margin-bottom: 8px;
+        }
+        .sidebar nav a {
+            text-decoration: none;
+            color: var(--uga-grey);
+            padding: 6px 8px;
+            display: block;
+            border-left: 5px solid transparent;
+            border-radius: 4px;
+            /*font-family: 'Oswald', sans-serif;*/
+
+        }
+        .sidebar nav a:hover {
+            background: rgba(214, 210, 196, 0.2);
+        }
+        .sidebar nav a.active {
+            color: var(--uga-red);
+            border-left: 5px solid var(--uga-red);
+            font-weight: 600;
+            background: rgba(214, 210, 196, 0.2);
+        }
+        .sidebar nav ul ul {
+            padding-left: 16px;
+            margin-top: 4px;
+        }
+        .sidebar nav ul ul li a {
+            font-size: 16px;
+            padding: 4px 8px;
+            border-left-width: 2px;
+        }
+        .sidebar nav ul ul li a:hover {
+            color: var(--uga-red);
+        }
+        .sidebar nav ul ul li a.active {
+            color: var(--uga-red);
+            border-left-color: var(--uga-red);
+            font-weight: normal;
+        }
+
+
+        .sidebar-contact {
+            text-align: center;
+            margin-top: 24px;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 40px;
+
+        }
+        .sidebar-contact h4 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 4px;
+        }
+        .sidebar-contact p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .sidebar-contact i {
+            font-size: 14px;
+            margin-right: 6px;
+            color: var(--uga-red);
+        }
+
+
+
+         .page-title-box {
+             width: calc(100% + 0px); /* 50px offset + 50px right spacing */
+             /*height: 60px;*/
+             /*max-width: 1200px; !* 1160px - 100px (50px offset) *!*/
+             margin: 75px auto 0 auto; /* top: 75px, centered */
+             /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
+             padding: 5px 0px;
+             /*margin-top: 75px;*/
+             /*margin-bottom: 0px;*/
+             /*margin-left: 50px;*/
+             background: linear-gradient(-66deg, #9e0a28 30%, #ba0c2f 30%);
+             /*border-bottom: 2px solid #8a8a8a;*/
+             border-bottom: 1px solid #2b2b2b;
+             /*border-left: 4px solid #2b2b2b;*/
+             /*border-radius: 0px 0px 0px 8px;*/
+             box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
+             text-align:center;
+         }
+        .page-title-box-title {
+            font-size: 3.6rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 4px;
+            text-shadow: 0 0 3px #000000cc;
+            margin: 5px 5px 5px 0px;
+        }
+        /* Info-box style with border, centered icon overlap, and constrained width */
+        .info-box {
+            position: relative;
+            padding: 24px 24px 24px 48px;
+            margin: 24px auto;
+            max-width: 700px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: var(--white);
+        }
+        .icon-circle {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 66px;
+            height: 66px;
+            background: var(--uga-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--white);
+        }
+        .info-box h2 {
+            font-family: 'Merriweather Sans', sans-serif;
+            font-size: 24px;
+            font-color: #212121;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        .info-box ol {
+            list-style-type: decimal;
+            list-style-position: outside;    /* or “outside” if you prefer */
+            margin: 1em 0;
+            padding-left: 1.25rem;
+        }
+        /* Grid Layout for details */
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        @media (min-width: 600px) { .grid-2 { grid-template-columns: repeat(2,1fr); }}
+        <style>
+             /* General Body Styles */
+         body {
+             font-family: 'Inter', sans-serif;
+             background-color: #F9FAFB; /* bg-gray-50 */
+             color: #1F2937; /* text-gray-800 */
+         }
+
+        /* Container and Layout */
+        .container {
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem; /* p-4 */
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                max-width: 640px;
+                padding: 1.5rem; /* sm:p-6 */
+            }
+        }
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+                padding: 2rem; /* lg:p-8 */
+            }
+        }
+        @media (min-width: 1280px) {
+            .container {
+                max-width: 1280px;
+            }
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 2rem; /* mb-8 */
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #111827; /* text-gray-900 */
+        }
+
+        .header p {
+            margin-top: 0.5rem; /* mt-2 */
+            color: #4B5563; /* text-gray-600 */
+        }
+
+        @media (min-width: 640px) {
+            .header h1 {
+                font-size: 2.25rem; /* sm:text-4xl */
+            }
+        }
+
+        /* Controls: Search and Filter */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* gap-4 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+
+        @media (min-width: 640px) {
+            .controls {
+                flex-direction: row;
+            }
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-wrapper svg {
+            position: absolute;
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            color: #6B7280; /* text-gray-500 */
+            top: 50%;
+            left: 0.75rem; /* left-3 */
+            transform: translateY(-50%);
+        }
+
+        .filter-wrapper {
+            position: relative;
+        }
+
+        .filter-wrapper svg {
+            position: absolute;
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            color: #6B7280; /* text-gray-500 */
+            top: 50%;
+            right: 0.75rem; /* right-3 */
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        input[type="text"], select {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            padding: 0.75rem; /* p-3 */
+            font-size: 0.875rem; /* text-sm */
+            border: 1px solid #D1D5DB; /* border-gray-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #FFFFFF; /* bg-white */
+        }
+
+        input[type="text"] {
+            padding-left: 2.5rem; /* pl-10 */
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+        }
+
+        @media (min-width: 640px) {
+            select {
+                width: 100px;
+            }
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            --tw-ring-color: rgb(59 130 246);
+            border-color: #3B82F6; /* focus:border-blue-500 */
+        }
+
+        /* Table Styles */
+        .table-container {
+            min-width: 1200px;
+            overflow-x: auto;
+            background-color: #FFFFFF; /* bg-white */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+        }
+
+        .course-table {
+            min-width: 100%;
+            border-collapse: collapse;
+        }
+
+        .course-table thead {
+            background-color: #F3F4F6; /* bg-gray-100 */
+        }
+
+        .course-table th, .course-table td {
+            padding: 1rem 1.1rem; /* px-6 py-4 for td, py-3 for th */
+            white-space: nowrap;
+            border-bottom: 1px solid #E5E7EB; /* divide-y */
+        }
+
+        .course-table th {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            text-align: left;
+            font-size: 0.65rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            color: #6B7280; /* text-gray-500 */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .course-table td {
+            font-size: .8rem;
+        }
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.0rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 2px;
+            background-color: #FFFFFF;
+            color: #374151;
+            font-size: 1.20rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .filter-btn:hover {
+            background-color: #d8d8d8;
+        }
+
+        .filter-btn.active {
+            background-color: var(--uga-red);
+            color: #FFFFFF;
+            border-color: var(--uga-red);
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        #noResults {
+            padding: 2rem; /* p-8 */
+            text-align: center;
+            color: #6B7280; /* text-gray-500 */
+        }
+
+    </style>
+
+</head>
+<body>
+<nav class="navbar" id="navbar">
+    <div class="navbar-left">
+        <a href="index14.html" class="logo-link"> <!-- Link back to home -->
+            <!-- Placeholder for UGA Logo -->
+            <img src="https://reg.uga.edu/_resources/images/logos/Screen-REGISTRAR-H-FC.png" alt="UGA Logo" class="uga-logo">
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <li class="relative group h-full">
+            <a href="#" class="block px-4 py-2 text-[24px] font-medium font-[oswald] group-hover:text-[#BA0C2F]">REGISTRATION</a>
+            <!-- Dropdown -->
+
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity  duration-150 absolute
+            left-0 top-full bg-white shadow-md p-4 w-400 z-10 border-t-4 border-[#BA0C2F]">
+                <ul class="list-none p-0 m-0 text-sm font-light font-[merriweather]" style="column-count: 2; column-gap: 1rem; column-rule: 1px solid #D1D5DB;">
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-5 py-1 whitespace-nowrap">62+ Program</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Academic Common Market</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Athena</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Campus Carry Information</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2025</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2026</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Holds</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Registration</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Repeating a Course</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Residency Classification &amp; Waivers</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule Adjustments</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule of Classes</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Tuition Assistance Program (TAP)</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Veterans</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Withdrawals</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="#">STUDENT RECORDS</a>
+            <div class="dropdown-menu">
+
+            </div>
+        </li>
+        <li><a href="#">CALENDARS</a></li>
+        <li><a href="#">FACULTY & STAFF</a></li>
+        <li><a href="#">ACADEMICS</a></li>
+        <li><a href="#">FACULTY GOVERNANCE</a></li>
+    </ul>
+
+    <div class="navbar-right">
+        <div class="search-icon" id="searchIcon">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="search-bar" id="searchBar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button type="submit"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</nav>
+<div class="page-title-box">
+    <h1 class="page-title-box-title">FALL 2025 SCHEDULE OF CLASSES</h1>
+</div>
+<main>
+    <div class="content">
+        <div class="container">
+            <header class="header">
+<!--                <h1>Course Catalog</h1>-->
+                <p>The table below contains the UGA course list for Fall 2025. You can search and filter the results. </p>
+            </header>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons" id="filterBtnContainer">
+                <button class="filter-btn active" data-filter="all">All Courses</button>
+                <button class="filter-btn" data-filter="tifton">Tifton Campus</button>
+                <button class="filter-btn" data-filter="griffin">Griffin Campus</button>
+                <button class="filter-btn" data-filter="online">Online Courses</button>
+                <button class="filter-btn" data-filter="honors">Honors Courses</button>
+            </div>
+
+            <!-- Search and Filter Controls -->
+            <div class="controls">
+                <div class="search-wrapper">
+                    <input type="text" id="courseSearchInput" onkeyup="filterTable()" placeholder="Search by course name, instructor, etc.">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
+                <div class="filter-wrapper">
+                    <select id="dayFilter" onchange="filterTable()">
+                        <option value="">All Days</option>
+                        <option value="MWF">MWF</option>
+                        <option value="MW">MW</option>
+                        <option value="TR">TR</option>
+                        <option value="M">M</option>
+                        <option value="T">T</option>
+                        <option value="W">W</option>
+                        <option value="R">R</option>
+                        <option value="F">F</option>
+                    </select>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Course Table -->
+            <div class="table-container">
+                <table class="course-table" id="courseTable">
+                    <thead>
+                    <tr>
+                        <th>Course Number</th>
+                        <th>Course Name</th>
+                        <th>CRN</th>
+                        <th>Instructor</th>
+                        <th>Days</th>
+                        <th>Time</th>
+                        <th>Term</th>
+                        <th>Building</th>
+                        <th>Room</th>
+                        <th>Avail Seats</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Sample Data Rows -->
+                    <tr data-category="athens">
+                        <td>CSCI 1301</td>
+                        <td>Introduction to Computing</td>
+                        <td>52341</td>
+                        <td>Dr. Smith</td>
+                        <td>MWF</td>
+                        <td>10:10 AM - 11:00 AM</td>
+                        <td>Fall 2025</td>
+                        <td>Boyd</td>
+                        <td>305</td>
+                        <td>5</td>
+                    </tr>
+                    <tr data-category="honors">
+                        <td>ENGL 1101H</td>
+                        <td>Honors English Comp I</td>
+                        <td>54892</td>
+                        <td>Prof. Jones</td>
+                        <td>TR</td>
+                        <td>2:00 PM - 3:15 PM</td>
+                        <td>Fall 2025</td>
+                        <td>Park Hall</td>
+                        <td>112</td>
+                        <td>12</td>
+                    </tr>
+                    <tr data-category="athens">
+                        <td>MATH 2250</td>
+                        <td>Calculus I</td>
+                        <td>51123</td>
+                        <td>Dr. Chen</td>
+                        <td>MWF</td>
+                        <td>9:05 AM - 9:55 AM</td>
+                        <td>Fall 2025</td>
+                        <td>Boyd</td>
+                        <td>204</td>
+                        <td>0</td>
+                    </tr>
+                    <tr data-category="online">
+                        <td>HIST 2111</td>
+                        <td>American History to 1865</td>
+                        <td>58765</td>
+                        <td>Dr. Williams</td>
+                        <td>TR</td>
+                        <td>11:00 AM - 12:15 PM</td>
+                        <td>Fall 2025</td>
+                        <td>Online</td>
+                        <td>N/A</td>
+                        <td>8</td>
+                    </tr>
+                    <tr data-category="tifton">
+                        <td>AGEC 2100</td>
+                        <td>Agricultural Economics</td>
+                        <td>59981</td>
+                        <td>Dr. Miller</td>
+                        <td>MW</td>
+                        <td>1:00 PM - 2:15 PM</td>
+                        <td>Fall 2025</td>
+                        <td>Tifton Campus Bldg A</td>
+                        <td>101</td>
+                        <td>15</td>
+                    </tr>
+                    <tr data-category="griffin">
+                        <td>HORT 3000</td>
+                        <td>Intro to Horticulture</td>
+                        <td>57723</td>
+                        <td>Prof. Garcia</td>
+                        <td>TR</td>
+                        <td>9:30 AM - 10:45 AM</td>
+                        <td>Fall 2025</td>
+                        <td>Griffin Campus Bldg C</td>
+                        <td>205</td>
+                        <td>11</td>
+                    </tr>
+                    <tr data-category="athens">
+                        <td>BIOL 1107</td>
+                        <td>Principles of Biology I</td>
+                        <td>53321</td>
+                        <td>Dr. Davis</td>
+                        <td>MW</td>
+                        <td>1:25 PM - 2:15 PM</td>
+                        <td>Fall 2025</td>
+                        <td>Miller Plant Sci</td>
+                        <td>2102</td>
+                        <td>3</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="noResults" class="hidden">
+                    No matching courses found.
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+<!--    <aside class="sidebar">-->
+<!--        <div class="sidebar-header">-->
+<!--            <h2>Student Records</h2>-->
+<!--        </div>-->
+<!--        <nav>-->
+<!--            <ul>-->
+<!--                <a href="#">Academic Standing</a>-->
+<!--                <a href="#">Credit From Testing</a>-->
+<!--                <a href="#">Diplomas</a>-->
+<!--                <a href="#">Enrollment Verifications</a>-->
+<!--                <a href="#">FERPA</a>-->
+<!--                <a href="#">Forms and Policies</a>-->
+<!--                <a href="#">Grades</a>-->
+<!--                <a href="#">Graduation</a>-->
+<!--                <li>-->
+<!--                    <a href="#" class="active">Transcripts</a></li>-->
+<!--                <ul>-->
+<!--                    <li><a href="#i">Apostille/Great Seal</a></li>-->
+<!--                    <li><a href="#">Unofficial Transcript</a></li>-->
+<!--                </ul>-->
+<!--                <a href="#">Third-Party Report Requests</a>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--        <div class="sidebar-contact">-->
+<!--            <h4>Questions? Contact</h4>-->
+<!--            <p><i class="fas fa-envelope"></i><a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a></p>-->
+<!--            <p><i class="fas fa-phone"></i>706-542-3106</p>-->
+<!--        </div>-->
+<!--    </aside>-->
+</main>
+<script>
+    let activeCategoryFilter = 'all';
+
+    // This function sets up the click handlers for the filter buttons.
+    function setupFilterButtons() {
+        const btnContainer = document.getElementById('filterBtnContainer');
+        const buttons = btnContainer.getElementsByClassName('filter-btn');
+
+        for (let button of buttons) {
+            button.addEventListener('click', function() {
+                // Update active state on buttons
+                for (let btn of buttons) {
+                    btn.classList.remove('active');
+                }
+                this.classList.add('active');
+
+                // Update the active filter and re-run the table filter
+                activeCategoryFilter = this.getAttribute('data-filter');
+                filterTable();
+            });
+        }
+    }
+
+    // This function filters the table based on all active filters.
+    function filterTable() {
+        // Get user input from all filters
+        const courseSearchInput = document.getElementById('courseSearchInput').value.toUpperCase();
+        const dayFilter = document.getElementById('dayFilter').value.toUpperCase();
+        const table = document.getElementById('courseTable');
+        const tr = table.getElementsByTagName('tr');
+        const noResults = document.getElementById('noResults');
+        let found = false;
+
+        // Loop through all table rows (excluding the header)
+        for (let i = 1; i < tr.length; i++) {
+            const row = tr[i];
+            const cells = row.getElementsByTagName('td');
+            let textMatch = false;
+            let dayMatch = false;
+
+            // 1. Check for category match from buttons
+            const rowCategory = row.getAttribute('data-category');
+            const categoryMatch = (activeCategoryFilter === 'all' || rowCategory === activeCategoryFilter);
+
+            // 2. Check for text match in any cell
+            for (let j = 0; j < cells.length; j++) {
+                const cell = cells[j];
+                if (cell) {
+                    const cellText = cell.textContent || cell.innerText;
+                    if (cellText.toUpperCase().indexOf(courseSearchInput) > -1) {
+                        textMatch = true;
+                        break;
+                    }
+                }
+            }
+
+            // 3. Check for day match (in the 5th column, index 4)
+            const dayCell = cells[4];
+            if (dayCell) {
+                const dayText = dayCell.textContent || dayCell.innerText;
+                if (dayFilter === "" || dayText.toUpperCase().indexOf(dayFilter) > -1) {
+                    dayMatch = true;
+                }
+            }
+
+            // Show or hide the row based on ALL filter matches
+            if (categoryMatch && textMatch && dayMatch) {
+                row.style.display = "";
+                found = true;
+            } else {
+                row.style.display = "none";
+            }
+        }
+
+        // Show or hide the "no results" message
+        if (found) {
+            noResults.classList.add('hidden');
+        } else {
+            noResults.classList.remove('hidden');
+        }
+    }
+
+    // Initialize the button filters when the page loads.
+    window.onload = setupFilterButtons;
+</script>
+
+
+
+
+</body>
+</html>

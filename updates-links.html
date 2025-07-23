@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link href="css/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<style>
+
+    @font-face {
+        font-family: "Oswald";
+        src: url('fonts/Oswald-VariableFont_wght.ttf');
+    }
+
+    @font-face {
+        font-family: "Merriweather Sans";
+        src: url('fonts/MerriweatherSans-VariableFont_wght.ttf');
+    }
+    @font-face {
+        font-family: "Merriweather";
+        src: url('fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
+    }
+
+
+.sub-hero-table {
+display: flex;
+width: 100%;           /* make sure it spans its parent */
+}
+
+.span_half {
+/* option A: let it grow/shrink equally */
+flex: 1;               /* shorthand for flex: 1 1 0%; each child gets equal share */
+
+/* option B: force exactly 50% each */
+/* flex: 0 0 50%;  */
+/* max-width: 50%;  */
+}
+
+/* just good practice for your background images: */
+.cover {
+background-size: cover;
+background-position: center;
+    height: 470px;
+}
+
+.overlay {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 470px;
+}
+    .text-left {
+
+        text-align: left;
+
+    }
+    h3.apply-hover {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0.1em .8em;
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-size: 3.2rem;
+        background: transparent;
+        margin-bottom: 0;
+    }
+
+    /* White radial background behind text */
+    h3.apply-hover::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        clip-path: circle(0 at 89% 55%);
+        transition: clip-path .8s ease;
+    }
+    /* Text wrapper to layer above background */
+    h3.apply-hover .content {
+        position: relative;
+        z-index: 1;
+        color: white;
+        transition: color 0.6s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+    /* Expand background on hover */
+    h3.apply-hover:hover::before {
+        clip-path: circle(130% at 91% 55%);
+    }
+    /* Text color change on hover */
+    h3.apply-hover:hover .content {
+        color: #BA0C2F;
+    }
+    /* Arrow styling */
+    h3.apply-hover .arrow {
+        font-family: 'Merriweather Sans', sans-serif;
+        margin-left: 0.4em;
+        font-size: 1.0em;
+        line-height: 1;
+        position: relative;
+        top: 0.10em;
+    }
+    p.apply-text {
+        padding: 0.0em 1.8em;
+        font-family: 'Merriweather', serif;
+        font-size: 1.5rem;
+        color: white;
+        margin: -0.2em 0 1em 0;
+
+    }
+    .overlay-container {
+        position: relative;
+        padding: 1rem 1rem;
+        color: white;
+        font-family: 'Merriweather', serif;
+    }
+    .overlay-container h2 {
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-size: 3.2rem;
+        margin: 0 0 0.2rem 0;
+        line-height: 1.2;
+    }
+    .qlinks-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+    }
+    .quick-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.60em 1em;
+        background: rgba(200, 200, 200, 0.1);
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        font-size: 1.1rem;
+        transition: background 0.3s ease;
+
+    }
+    .quick-link:hover {
+        /*background: rgba(0, 0, 0, 0.6);*/
+        background: rgba(255, 255, 255, 1);
+        color: #BA0C2F;
+        border-radius: 0px;
+    }
+    .quick-link i {
+        margin-left: 0.5em;
+        font-size: 1rem;
+    }
+    .news-updates {
+        padding: 5rem 0rem 4rem 0rem;
+        /*background: #fff;*/
+        background: linear-gradient(to bottom, #000 0.0rem, #4a4a4a 7.54rem, #ffffff 0%);
+        font-family: 'Merriweather', serif;
+    }
+    .news-updates .divider {
+        position: relative;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+    .news-updates .divider::before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: #000;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+    .news-updates .divider span {
+        position: relative;
+        background: #fff;
+        padding: 0 6rem;
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-size: 3.4rem;
+        color: #BA0C2F;
+        z-index: 1;
+        border:  1px solid #000;
+        /*border-radius: 10px;*/
+        border-image: linear-gradient(to top, rgba(0,0,0,0) 50%,rgba(0,0,0,1) 50%,rgba(0,0,0,1) 100%,rgba(0,0,0,0) 100%);
+        border-image-radius: 10px;
+        border-image-slice: 1;
+
+    }
+    .news-updates .divider span:after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: 15%;
+        width: 70%;
+        border-bottom: 1px solid #000;
+    }
+
+
+    .news-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4rem;
+        margin: 0 auto 0;
+        max-width: 90vw;
+    }
+    .news-card {
+        background: #fff;
+        flex: 0 1 calc(33.333% - 1rem);
+        border-radius: 0px;
+        /*box-shadow: 0 2px 8px rgba(0,0,0,0.1);*/
+        box-shadow: rgba(0, 0, 0, 0.44) 0px 2px 5px -1px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+    .news-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.44) 0px 1px 1px -1px;
+    }
+    .news-card-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .news-card-content h3 {
+        margin: 0 0 0.5rem;
+        font-family: 'Merriweather', serif;
+        font-family: 'Merriweather sans', sans-serif;
+        /*font-style: oblique 14deg;*/
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #554F47;
+        /*color: #BA0C2F;*/
+    }
+    .news-card-content p {
+        margin: 0 0 1rem;
+        flex-grow: 1;
+        font-size: 1rem;
+        color: #555;
+    }
+    .news-card-content a {
+        margin-top: auto;
+        align-self: flex-end;
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.9rem;
+        color: #BA0C2F;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+    .news-card-content a i {
+        margin-left: 0.5em;
+        font-size: .7rem;
+    }
+    .older-news {
+        background: #fff;
+        flex: 0 1 calc(33.333% - 1rem);
+        padding: 2rem;
+        border-radius: 0px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+
+    }
+    .older-news h3 {
+        margin: 0 0 0.75rem;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.4rem;
+        color: #333;
+        text-transform: uppercase;
+    }
+    .older-news ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex-grow: 1;
+
+    }
+    .older-news ul li {
+        padding: 0.9rem 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .older-news ul li:last-child {
+        border-bottom: none;
+    }
+    .older-news ul li a {
+        text-decoration: none;
+        color: #BA0C2F;
+        font-size: 1rem;
+        display: block;
+    }
+    .older-news ul li a:hover {
+        color: #850e25;
+    }
+</style>
+<div class="sub-hero-table">
+    <div
+            class="span_half cover relative"
+            style="
+    background-image: url(images/Spring_Undergraduate-32732-442.jpg);
+    background-size: 105%;       /* zoom in by 5% */
+    background-position: left bottom;  /* focus on the bottom‑left corner */
+    background-repeat: no-repeat;
+      transition: background-size 0.5s ease;
+
+  "
+    >
+        <div class="absolute inset-0 left-0 flex items-end p-0">
+            <div class="text-left">
+
+                <h3 class="apply-hover">
+                <span class="content">
+                    Apply to Graduate
+                    <span class="arrow">&rarr;</span>
+                 </span>
+                </h3>
+
+                <p class="apply-text">The graduation application is open for Summer 2025 & Fall 2025.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="span_half cover" style="background-image: url(https://rx.uga.edu/wp-content/uploads/2022/10/cta_left.jpg);">
+        <div class="overlay" style="background-color: rgba(186,12,47,0.85);">
+            <div class="overlay-container">
+                <h2>Quick Links</h2>
+                <div class="qlinks-grid">
+                    <a href="#" class="quick-link">
+                        Athena <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Bulletin <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Calendars <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        CAPA <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Daily Class Schedule <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Diplomas <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Double Dawgs <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Enrollment Verifications <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        First-Year Odyssey <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Transcripts <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        University Council <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                    <a href="#" class="quick-link">
+                        Veterans <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--News & Updates-->
+<div class="news-updates">
+    <div class="divider"><span>NEWS & UPDATES</span></div>
+    <div class="news-grid">
+        <div class="news-card">
+            <img src="images/bulletin.jpg" alt="News Image One">
+            <div class="news-card-content">
+                <h3>New UGA Bulletin</h3>
+                <p>The 2025-2026 UGA Bulletin is now live and comes with a fresh new look and exciting updates.</p>
+                <a href="#">Learn More <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </div>
+        <div class="news-card">
+            <img src="images/chapel.jpg" alt="News Image Two">
+            <div class="news-card-content">
+                <h3>New Daily Class Schedule</h3>
+                <p>Effective spring 2026, a new Daily Class Schedule will be launched on campus. The Office of the Registrar will be offering trainings to assist schedulers with adhering to the new policy requirements.</p>
+                <a href="#">Learn More <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+        </div>
+        <div class="older-news">
+            <h3>More News</h3>
+            <ul>
+                <li><a href="#">DegreeWorks Update</a></li>
+                <li><a href="#">Older Headline Two</a></li>
+                <li><a href="#">Older Headline Three</a></li>
+                <li><a href="#">Older Headline Four</a></li>
+                <li><a href="#">Older Headline Five</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
