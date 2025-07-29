@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
         :root {
@@ -430,7 +431,7 @@
 
         @media (min-width: 640px) {
             .header h1 {
-                font-size: 2.25rem; /* sm:text-4xl */
+                font-size: 3.25rem; /* sm:text-4xl */
             }
         }
 
@@ -591,6 +592,84 @@
             text-align: center;
             color: #6B7280; /* text-gray-500 */
         }
+        .pagination-wrapper {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .pagination-info {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .pagination-buttons button {
+            margin: 0 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination-buttons button.active-page {
+            background-color: #BA0C2F;
+            color: white;
+            font-weight: bold;
+        }
+        #pagination span {
+            font-weight: bold;
+            color: #777;
+        }
+        .table-container {
+            overflow-x: auto; /* just in case */
+            width: 100%;
+        }
+
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* evenly distribute column width */
+        }
+
+        .course-table th,
+        .course-table td {
+            padding: 0.4rem;
+            font-size: 0.875rem;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        .course-table th:nth-child(1),
+        .course-table td:nth-child(1) {
+            width: 110px; /* COURSE NUMBER */
+        }
+        .course-table th:nth-child(3),
+        .course-table td:nth-child(3) {
+            width: 70px; /* CRN */
+        }
+
+        .course-table th:nth-child(2),
+        .course-table td:nth-child(2) {
+            width: 200px; /* COURSE NAME */
+        }
+
+        .course-table th:nth-child(5),
+        .course-table th:nth-child(9),
+        .course-table th:nth-child(10),
+        .course-table th:nth-child(11),
+        .course-table td:nth-child(5),
+        .course-table td:nth-child(9),
+        .course-table td:nth-child(10),
+        .course-table td:nth-child(11) {
+            width: 70px;
+            max-width: 70px; /* MAX SEATS / AVAIL SEATS / ROOM */
+        }
+
 
     </style>
 
@@ -660,283 +739,244 @@
     </div>
 </nav>
 <div class="page-title-box">
-    <h1 class="page-title-box-title">FALL 2025 SCHEDULE OF CLASSES</h1>
+    <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
 </div>
 <main>
-    <div class="content">
-        <div class="container">
-            <header class="header">
-<!--                <h1>Course Catalog</h1>-->
-                <p>The table below contains the UGA course list for Fall 2025. You can search and filter the results. </p>
-            </header>
+    <div class="container">
+        <header class="header">
+            <h1>Fall 2025 Classes</h1>
+            <p>Search and filter through the available courses.</p>
+            <p>Note: "Other" is a placeholder for internal use, it includes all Study Abroad, Off Site, etc.</p>
+        </header>
 
-            <!-- Filter Buttons -->
-            <div class="filter-buttons" id="filterBtnContainer">
-                <button class="filter-btn active" data-filter="all">All Courses</button>
-                <button class="filter-btn" data-filter="tifton">Tifton Campus</button>
-                <button class="filter-btn" data-filter="griffin">Griffin Campus</button>
-                <button class="filter-btn" data-filter="online">Online Courses</button>
-                <button class="filter-btn" data-filter="honors">Honors Courses</button>
+        <!-- Campus/Type Filter Buttons -->
+        <div class="filter-buttons" id="categoryBtnContainer">
+            <button class="filter-btn active" data-filter="all">All Classes</button>
+            <button class="filter-btn" data-filter="athens">Athens Campus</button>
+            <button class="filter-btn" data-filter="tifton">Tifton Campus</button>
+            <button class="filter-btn" data-filter="griffin">Griffin Campus</button>
+            <button class="filter-btn" data-filter="gwinnett">Gwinnett Campus</button>
+            <button class="filter-btn" data-filter="online">Online Classes</button>
+            <button class="filter-btn" data-filter="honors">Honors Classes</button>
+            <button class="filter-btn" data-filter="other">Other - TBD</button>
+        </div>
+
+        <!-- Search and Filter Controls -->
+        <div class="controls">
+            <div class="search-wrapper">
+                <input type="text" id="courseSearchInput" onkeyup="filterTable()" placeholder="Search by course name, instructor, etc.">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
             </div>
-
-            <!-- Search and Filter Controls -->
-            <div class="controls">
-                <div class="search-wrapper">
-                    <input type="text" id="courseSearchInput" onkeyup="filterTable()" placeholder="Search by course name, instructor, etc.">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                    </svg>
-                </div>
-                <div class="filter-wrapper">
-                    <select id="dayFilter" onchange="filterTable()">
-                        <option value="">All Days</option>
-                        <option value="MWF">MWF</option>
-                        <option value="MW">MW</option>
-                        <option value="TR">TR</option>
-                        <option value="M">M</option>
-                        <option value="T">T</option>
-                        <option value="W">W</option>
-                        <option value="R">R</option>
-                        <option value="F">F</option>
-                    </select>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Course Table -->
-            <div class="table-container">
-                <table class="course-table" id="courseTable">
-                    <thead>
-                    <tr>
-                        <th>Course Number</th>
-                        <th>Course Name</th>
-                        <th>CRN</th>
-                        <th>Instructor</th>
-                        <th>Days</th>
-                        <th>Time</th>
-                        <th>Term</th>
-                        <th>Building</th>
-                        <th>Room</th>
-                        <th>Avail Seats</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Sample Data Rows -->
-                    <tr data-category="athens">
-                        <td>CSCI 1301</td>
-                        <td>Introduction to Computing</td>
-                        <td>52341</td>
-                        <td>Dr. Smith</td>
-                        <td>MWF</td>
-                        <td>10:10 AM - 11:00 AM</td>
-                        <td>Fall 2025</td>
-                        <td>Boyd</td>
-                        <td>305</td>
-                        <td>5</td>
-                    </tr>
-                    <tr data-category="honors">
-                        <td>ENGL 1101H</td>
-                        <td>Honors English Comp I</td>
-                        <td>54892</td>
-                        <td>Prof. Jones</td>
-                        <td>TR</td>
-                        <td>2:00 PM - 3:15 PM</td>
-                        <td>Fall 2025</td>
-                        <td>Park Hall</td>
-                        <td>112</td>
-                        <td>12</td>
-                    </tr>
-                    <tr data-category="athens">
-                        <td>MATH 2250</td>
-                        <td>Calculus I</td>
-                        <td>51123</td>
-                        <td>Dr. Chen</td>
-                        <td>MWF</td>
-                        <td>9:05 AM - 9:55 AM</td>
-                        <td>Fall 2025</td>
-                        <td>Boyd</td>
-                        <td>204</td>
-                        <td>0</td>
-                    </tr>
-                    <tr data-category="online">
-                        <td>HIST 2111</td>
-                        <td>American History to 1865</td>
-                        <td>58765</td>
-                        <td>Dr. Williams</td>
-                        <td>TR</td>
-                        <td>11:00 AM - 12:15 PM</td>
-                        <td>Fall 2025</td>
-                        <td>Online</td>
-                        <td>N/A</td>
-                        <td>8</td>
-                    </tr>
-                    <tr data-category="tifton">
-                        <td>AGEC 2100</td>
-                        <td>Agricultural Economics</td>
-                        <td>59981</td>
-                        <td>Dr. Miller</td>
-                        <td>MW</td>
-                        <td>1:00 PM - 2:15 PM</td>
-                        <td>Fall 2025</td>
-                        <td>Tifton Campus Bldg A</td>
-                        <td>101</td>
-                        <td>15</td>
-                    </tr>
-                    <tr data-category="griffin">
-                        <td>HORT 3000</td>
-                        <td>Intro to Horticulture</td>
-                        <td>57723</td>
-                        <td>Prof. Garcia</td>
-                        <td>TR</td>
-                        <td>9:30 AM - 10:45 AM</td>
-                        <td>Fall 2025</td>
-                        <td>Griffin Campus Bldg C</td>
-                        <td>205</td>
-                        <td>11</td>
-                    </tr>
-                    <tr data-category="athens">
-                        <td>BIOL 1107</td>
-                        <td>Principles of Biology I</td>
-                        <td>53321</td>
-                        <td>Dr. Davis</td>
-                        <td>MW</td>
-                        <td>1:25 PM - 2:15 PM</td>
-                        <td>Fall 2025</td>
-                        <td>Miller Plant Sci</td>
-                        <td>2102</td>
-                        <td>3</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div id="noResults" class="hidden">
-                    No matching courses found.
-                </div>
+            <div class="filter-wrapper">
+                <select id="dayFilter" onchange="filterTable()">
+                    <option value="">All Days</option>
+                    <option value="MWF">MWF</option>
+                    <option value="MW">MW</option>
+                    <option value="TR">TR</option>
+                    <option value="M">M</option>
+                    <option value="T">T</option>
+                    <option value="W">W</option>
+                    <option value="R">R</option>
+                    <option value="F">F</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
             </div>
         </div>
 
-
+        <!-- Course Table -->
+        <div class="table-container">
+            <table class="course-table" id="courseTable">
+                <thead>
+                <tr>
+                    <th>Course Number</th>
+                    <th>Course Name</th>
+                    <th>CRN</th>
+                    <th>Instructor</th>
+                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Part of Term</th>
+                    <th>Building</th>
+                    <th>Room</th>
+                    <th>Max Seats</th>
+                    <th>Avail Seats</th>
+                </tr>
+                </thead>
+                <tbody id="courseTableBody">
+                <!-- Course data will be loaded here from Google Sheets -->
+                </tbody>
+            </table>
+            <div id="message-center">
+<!--                <p id="message-text">Loading course data...</p>-->
+            </div>
+        </div>
+        <div class="pagination-wrapper">
+            <p id="pagination-info" class="pagination-info">Loading...</p>
+            <div id="pagination" class="pagination-buttons"></div>
+        </div>
 
 
     </div>
 
 
-<!--    <aside class="sidebar">-->
-<!--        <div class="sidebar-header">-->
-<!--            <h2>Student Records</h2>-->
-<!--        </div>-->
-<!--        <nav>-->
-<!--            <ul>-->
-<!--                <a href="#">Academic Standing</a>-->
-<!--                <a href="#">Credit From Testing</a>-->
-<!--                <a href="#">Diplomas</a>-->
-<!--                <a href="#">Enrollment Verifications</a>-->
-<!--                <a href="#">FERPA</a>-->
-<!--                <a href="#">Forms and Policies</a>-->
-<!--                <a href="#">Grades</a>-->
-<!--                <a href="#">Graduation</a>-->
-<!--                <li>-->
-<!--                    <a href="#" class="active">Transcripts</a></li>-->
-<!--                <ul>-->
-<!--                    <li><a href="#i">Apostille/Great Seal</a></li>-->
-<!--                    <li><a href="#">Unofficial Transcript</a></li>-->
-<!--                </ul>-->
-<!--                <a href="#">Third-Party Report Requests</a>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--        <div class="sidebar-contact">-->
-<!--            <h4>Questions? Contact</h4>-->
-<!--            <p><i class="fas fa-envelope"></i><a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a></p>-->
-<!--            <p><i class="fas fa-phone"></i>706-542-3106</p>-->
-<!--        </div>-->
-<!--    </aside>-->
 </main>
+
 <script>
-    let activeCategoryFilter = 'all';
+    document.addEventListener('DOMContentLoaded', function () {
+        let courseData = [];
+        let filteredData = [];
+        const rowsPerPage = 50;
+        let currentPage = 1;
 
-    // This function sets up the click handlers for the filter buttons.
-    function setupFilterButtons() {
-        const btnContainer = document.getElementById('filterBtnContainer');
-        const buttons = btnContainer.getElementsByClassName('filter-btn');
+        const courseTableBody = document.getElementById('courseTableBody');
+        const paginationContainer = document.getElementById('pagination');
+        const searchInput = document.getElementById('courseSearchInput');
+        const dayFilter = document.getElementById('dayFilter');
+        const categoryButtons = document.querySelectorAll('#categoryBtnContainer .filter-btn');
 
-        for (let button of buttons) {
-            button.addEventListener('click', function() {
-                // Update active state on buttons
-                for (let btn of buttons) {
-                    btn.classList.remove('active');
-                }
-                this.classList.add('active');
+        let activeCategory = 'all';
 
-                // Update the active filter and re-run the table filter
-                activeCategoryFilter = this.getAttribute('data-filter');
-                filterTable();
-            });
-        }
-    }
+        // Load CSV
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
+            .then(response => response.text())
+            .then(csv => {
+                courseData = Papa.parse(csv, { header: true }).data
+                    .filter(row => row["CRN"] !== "StringFilter")  // ← safer and more descriptive
+                    .map(row => {
+                    const campus = (row["CAMPUS"] || "").toLowerCase();
+                    const courseNum = row["COURSE NUMBER"] || "";
+                    let category = "other";
 
-    // This function filters the table based on all active filters.
-    function filterTable() {
-        // Get user input from all filters
-        const courseSearchInput = document.getElementById('courseSearchInput').value.toUpperCase();
-        const dayFilter = document.getElementById('dayFilter').value.toUpperCase();
-        const table = document.getElementById('courseTable');
-        const tr = table.getElementsByTagName('tr');
-        const noResults = document.getElementById('noResults');
-        let found = false;
-
-        // Loop through all table rows (excluding the header)
-        for (let i = 1; i < tr.length; i++) {
-            const row = tr[i];
-            const cells = row.getElementsByTagName('td');
-            let textMatch = false;
-            let dayMatch = false;
-
-            // 1. Check for category match from buttons
-            const rowCategory = row.getAttribute('data-category');
-            const categoryMatch = (activeCategoryFilter === 'all' || rowCategory === activeCategoryFilter);
-
-            // 2. Check for text match in any cell
-            for (let j = 0; j < cells.length; j++) {
-                const cell = cells[j];
-                if (cell) {
-                    const cellText = cell.textContent || cell.innerText;
-                    if (cellText.toUpperCase().indexOf(courseSearchInput) > -1) {
-                        textMatch = true;
-                        break;
+                    // Campus-based detection
+                    if (campus.includes("online")) {
+                        category = "online";
+                    } else if (campus.includes("tifton")) {
+                        category = "tifton";
+                    } else if (campus.includes("griffin")) {
+                        category = "griffin";
+                    } else if (campus.includes("gwinnett")) {
+                        category = "gwinnett";
+                    } else if (campus.includes("athens")) {
+                        category = "athens";
+                    } else {
+                        category = "other";
                     }
-                }
-            }
 
-            // 3. Check for day match (in the 5th column, index 4)
-            const dayCell = cells[4];
-            if (dayCell) {
-                const dayText = dayCell.textContent || dayCell.innerText;
-                if (dayFilter === "" || dayText.toUpperCase().indexOf(dayFilter) > -1) {
-                    dayMatch = true;
-                }
-            }
+                    // Honors override — based on course number ending in H (e.g., ACCT1101H)
+                    if (/^[A-Z]{2,4}\d{4}H$/i.test(courseNum.replace(/\s+/g, ''))) {
+                        category = "honors";
+                    }
 
-            // Show or hide the row based on ALL filter matches
-            if (categoryMatch && textMatch && dayMatch) {
-                row.style.display = "";
-                found = true;
-            } else {
-                row.style.display = "none";
+                    row.Category = category;
+                    return row;
+                });
+                applyFilters();
+            });
+
+        // Event Listeners
+        searchInput.addEventListener('input', applyFilters);
+        dayFilter.addEventListener('change', applyFilters);
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                categoryButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeCategory = this.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        function applyFilters() {
+            const query = searchInput.value.trim().toLowerCase();
+            const selectedDay = dayFilter.value;
+
+            filteredData = courseData.filter(row => {
+                const matchesCategory = (
+                    activeCategory === 'all' ||
+                    (row.Category && row.Category.toLowerCase() === activeCategory));
+                const matchesSearch = Object.values(row).some(val =>
+                    val && val.toLowerCase().includes(query)
+                );
+                const matchesDay = (selectedDay === "" || row.Days?.toUpperCase().includes(selectedDay));
+                return matchesCategory && matchesSearch && matchesDay;
+            });
+
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        }
+
+        function renderTable() {
+            courseTableBody.innerHTML = '';
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = filteredData.slice(start, end);
+
+            for (const row of pageData) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${row["COURSE NUMBER"] || ''}</td>
+                <td>${row["COURSE NAME"] || ''}</td>
+                <td>${row["CRN"] || ''}</td>
+                <td>${row["INSTRUCTOR"] || ''}</td>
+                <td>${row["DAYS"] || ''}</td>
+                <td>${row["TIME"] || ''}</td>
+                <td>${row["PART OF TERM"] || ''}</td>
+                <td>${row["BUILDING"] || ''}</td>
+                <td>${row["ROOM"] || ''}</td>
+                <td>${row["MAX STUDENTS"] || ''}</td>
+                <td>${row["SEATS AVAILABLE"] || ''}</td>
+            `;
+                courseTableBody.appendChild(tr);
             }
         }
 
-        // Show or hide the "no results" message
-        if (found) {
-            noResults.classList.add('hidden');
-        } else {
-            noResults.classList.remove('hidden');
-        }
-    }
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            const paginationInfo = document.getElementById('pagination-info');
+            const paginationContainer = document.getElementById('pagination');
 
-    // Initialize the button filters when the page loads.
-    window.onload = setupFilterButtons;
+            paginationInfo.textContent = `Showing ${rowsPerPage} results per page · Page ${currentPage} of ${totalPages}`;
+            paginationContainer.innerHTML = '';
+
+            const createPageButton = (page) => {
+                const btn = document.createElement('button');
+                btn.textContent = page;
+                if (page === currentPage) btn.classList.add('active-page');
+                btn.addEventListener('click', () => {
+                    currentPage = page;
+                    renderTable();
+                    renderPagination();
+                });
+                paginationContainer.appendChild(btn);
+            };
+
+            const createEllipsis = () => {
+                const span = document.createElement('span');
+                span.textContent = '…';
+                span.style.margin = '0 6px';
+                paginationContainer.appendChild(span);
+            };
+
+            // Always show first page
+            if (totalPages > 0) createPageButton(1);
+
+            // Show pages around current page
+            if (currentPage > 3) createEllipsis();
+            for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                createPageButton(i);
+            }
+            if (currentPage < totalPages - 2) createEllipsis();
+
+            // Always show last page (unless it's already visible)
+            if (totalPages > 1) createPageButton(totalPages);
+        }
+
+    });
 </script>
+
 
 
 
