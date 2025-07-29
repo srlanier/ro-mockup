@@ -383,10 +383,10 @@
 
         /* Container and Layout */
         .container {
-            width: 1200px;
+            width: 1300px;
             margin-left: auto;
             margin-right: auto;
-            padding: 1rem; /* p-4 */
+            padding: 0rem; /* p-4 */
         }
 
         @media (min-width: 640px) {
@@ -529,7 +529,9 @@
         }
 
         .course-table thead {
-            background-color: #F3F4F6; /* bg-gray-100 */
+            /*background-color: #F3F4F6; !* bg-gray-100 *!*/
+            background-color: #554F47; /* bg-gray-100 */
+            color: #FFFFFF;
         }
 
         .course-table th, .course-table td {
@@ -542,9 +544,10 @@
             padding-top: 0.75rem;
             padding-bottom: 0.75rem;
             text-align: left;
-            font-size: 0.65rem; /* text-xs */
+            font-size: 0.55rem; /* text-xs */
             font-weight: 500; /* font-medium */
-            color: #6B7280; /* text-gray-500 */
+            /*color: #6B7280; !* text-gray-500 *!*/
+            color: #FFFFFF;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -645,8 +648,13 @@
 
 
         .course-table th:nth-child(1),
-        .course-table td:nth-child(1) {
-            width: 110px; /* COURSE NUMBER */
+        .course-table td:nth-child(1),
+        .course-table th:nth-child(6),
+        .course-table td:nth-child(6),
+        .course-table th:nth-child(7),
+        .course-table td:nth-child(7)
+        {
+            width: 100px; /* COURSE NUMBER */
         }
         .course-table th:nth-child(3),
         .course-table td:nth-child(3) {
@@ -669,8 +677,12 @@
             width: 70px;
             max-width: 70px; /* MAX SEATS / AVAIL SEATS / ROOM */
         }
-
-
+        .full-course {
+            /*background-color: #d5d5d5;  !* light grey background *!*/
+            background-color: #F3F4F6;
+                    /* medium grey text */
+            opacity: 0.8;
+        }
     </style>
 
 </head>
@@ -872,7 +884,12 @@
 
                     row.Category = category;
                     return row;
-                });
+                })
+                    .sort((a, b) => {
+                        const aVal = (a["COURSE NUMBER"] || "").toUpperCase().trim();
+                        const bVal = (b["COURSE NUMBER"] || "").toUpperCase().trim();
+                        return aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: 'base' });
+                    });
                 applyFilters();
             });
 
@@ -916,22 +933,31 @@
 
             for (const row of pageData) {
                 const tr = document.createElement('tr');
+
+                // Check if SEATS AVAILABLE is "0" (or "0.0" etc.)
+                const seatsAvailable = parseInt(row["SEATS AVAILABLE"]);
+                if (!isNaN(seatsAvailable) && seatsAvailable === 0) {
+                    tr.classList.add('full-course');
+                }
+
                 tr.innerHTML = `
-                <td>${row["COURSE NUMBER"] || ''}</td>
-                <td>${row["COURSE NAME"] || ''}</td>
-                <td>${row["CRN"] || ''}</td>
-                <td>${row["INSTRUCTOR"] || ''}</td>
-                <td>${row["DAYS"] || ''}</td>
-                <td>${row["TIME"] || ''}</td>
-                <td>${row["PART OF TERM"] || ''}</td>
-                <td>${row["BUILDING"] || ''}</td>
-                <td>${row["ROOM"] || ''}</td>
-                <td>${row["MAX STUDENTS"] || ''}</td>
-                <td>${row["SEATS AVAILABLE"] || ''}</td>
-            `;
+            <td>${row["COURSE NUMBER"] || ''}</td>
+            <td>${row["COURSE NAME"] || ''}</td>
+            <td>${row["CRN"] || ''}</td>
+            <td>${row["INSTRUCTOR"] || ''}</td>
+            <td>${row["DAYS"] || ''}</td>
+            <td>${row["TIME"] || ''}</td>
+            <td>${row["PART OF TERM"] || ''}</td>
+            <td>${row["BUILDING"] || ''}</td>
+            <td>${row["ROOM"] || ''}</td>
+            <td>${row["MAX STUDENTS"] || ''}</td>
+            <td>${row["SEATS AVAILABLE"] || ''}</td>
+        `;
+
                 courseTableBody.appendChild(tr);
             }
         }
+
 
         function renderPagination() {
             const totalPages = Math.ceil(filteredData.length / rowsPerPage);
