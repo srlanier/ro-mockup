@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     padding-left: 15px;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition:  transform 0.5s ease;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,7 +19,7 @@
 
 /* Hides UGA bar when scrolled */
 body.scrolled #uga-header {
-    opacity: 0;
+
     transform: translateY(-100%);
     pointer-events: none;
 }

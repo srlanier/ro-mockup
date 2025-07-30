@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule of Classes</title>
+    <!--    Local CSS-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--    FAS icons-->
     <link rel="stylesheet" href="css/all.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--    Tailwinds-->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!--    Papa Parse for table optimization-->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
@@ -40,11 +43,6 @@
             src: url('fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
         }
 
-        /* Custom font utility for Merriweather Sans */
-        .font-merriweather-sans {
-            font-family: 'Merriweather Sans', sans-serif;
-        }
-
 
         body {
             font-family: 'Oswald', sans-serif;
@@ -56,7 +54,6 @@
             overflow-x: hidden; /* Ensure no horizontal scrollbar */
         }
 
-
         a {
             color: var(--uga-link);
             text-decoration: none;
@@ -64,7 +61,6 @@
         a:hover {
             text-decoration: underline;
         }
-
 
         /* Navbar Styles (Copied from main page) */
         .navbar {
@@ -79,7 +75,7 @@
             left: 0;
             width: 100%;
             gap: 40px; /* Space between logo, nav links, and search icon */
-            z-index: 1000;
+            z-index: 5000;
             box-sizing: border-box; /* Include padding in width calculation */
             font-family: 'Oswald';
             font-size: 16px;
@@ -190,120 +186,6 @@
 
         }
 
-        .content {
-            max-width: 1300px;
-            padding: 0px;
-            /*background: var(--white);*/
-            border-radius: 0 0 8px 8px;
-        }
-        .content h2 {
-            margin-top: 0;
-            font-family: 'Merriweather Sans', sans-serif;
-        }
-        .sidebar {
-            flex: 1;
-            /*background: var(--white);*/
-            padding: 24px;
-            border: 1px  solid #e0e0e0;
-            border-top: none;
-            position: sticky;
-            top: 75px;
-            height: calc(100vh - 74px);
-            overflow-y: auto;
-            font-size: 16px;
-
-        }
-        .sidebar h2 {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            font-size: 24px;
-            /*font-weight: 400;*/
-            margin-top: 0;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-align: center;
-            border-bottom: 1px solid var(--gray-200);
-            padding-bottom: 6px;
-        }
-        .content h3 {
-            margin-top: 0;
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            font-size: 20px;
-
-        }
-        .sidebar nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .sidebar nav li {
-            margin-bottom: 8px;
-        }
-        .sidebar nav a {
-            text-decoration: none;
-            color: var(--uga-grey);
-            padding: 6px 8px;
-            display: block;
-            border-left: 5px solid transparent;
-            border-radius: 4px;
-            /*font-family: 'Oswald', sans-serif;*/
-
-        }
-        .sidebar nav a:hover {
-            background: rgba(214, 210, 196, 0.2);
-        }
-        .sidebar nav a.active {
-            color: var(--uga-red);
-            border-left: 5px solid var(--uga-red);
-            font-weight: 600;
-            background: rgba(214, 210, 196, 0.2);
-        }
-        .sidebar nav ul ul {
-            padding-left: 16px;
-            margin-top: 4px;
-        }
-        .sidebar nav ul ul li a {
-            font-size: 16px;
-            padding: 4px 8px;
-            border-left-width: 2px;
-        }
-        .sidebar nav ul ul li a:hover {
-            color: var(--uga-red);
-        }
-        .sidebar nav ul ul li a.active {
-            color: var(--uga-red);
-            border-left-color: var(--uga-red);
-            font-weight: normal;
-        }
-
-
-        .sidebar-contact {
-            text-align: center;
-            margin-top: 24px;
-            border-top: 1px solid var(--gray-200);
-            padding-top: 40px;
-
-        }
-        .sidebar-contact h4 {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            font-size: 16px;
-            margin-top: 0;
-            margin-bottom: 4px;
-        }
-        .sidebar-contact p {
-            margin: 0;
-            font-size: 14px;
-        }
-        .sidebar-contact i {
-            font-size: 14px;
-            margin-right: 6px;
-            color: var(--uga-red);
-        }
-
-
-
          .page-title-box {
              width: calc(100% + 0px); /* 50px offset + 50px right spacing */
              /*height: 60px;*/
@@ -316,11 +198,12 @@
              /*margin-left: 50px;*/
              background: linear-gradient(-66deg, #9e0a28 30%, #ba0c2f 30%);
              /*border-bottom: 2px solid #8a8a8a;*/
-             border-bottom: 1px solid #2b2b2b;
+             /*border-bottom: 1px solid #2b2b2b;*/
              /*border-left: 4px solid #2b2b2b;*/
              /*border-radius: 0px 0px 0px 8px;*/
              box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
              text-align:center;
+             z-index: 500;
          }
         .page-title-box-title {
             font-size: 3.6rem;
@@ -330,56 +213,7 @@
             text-shadow: 0 0 3px #000000cc;
             margin: 5px 5px 5px 0px;
         }
-        /* Info-box style with border, centered icon overlap, and constrained width */
-        .info-box {
-            position: relative;
-            padding: 24px 24px 24px 48px;
-            margin: 24px auto;
-            max-width: 700px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: var(--white);
-        }
-        .icon-circle {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 66px;
-            height: 66px;
-            background: var(--uga-red);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 36px;
-            transform: translate(-50%, -50%);
-            border: 2px solid var(--white);
-        }
-        .info-box h2 {
-            font-family: 'Merriweather Sans', sans-serif;
-            font-size: 24px;
-            font-color: #212121;
-            font-weight: 600;
-            margin-top: 0;
-            margin-bottom: 16px;
-        }
-        .info-box ol {
-            list-style-type: decimal;
-            list-style-position: outside;    /* or “outside” if you prefer */
-            margin: 1em 0;
-            padding-left: 1.25rem;
-        }
-        /* Grid Layout for details */
-        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
-        @media (min-width: 600px) { .grid-2 { grid-template-columns: repeat(2,1fr); }}
-        <style>
-             /* General Body Styles */
-         body {
-             font-family: 'Inter', sans-serif;
-             background-color: #F9FAFB; /* bg-gray-50 */
-             color: #1F2937; /* text-gray-800 */
-         }
+
 
         /* Container and Layout */
         .container {
@@ -498,7 +332,6 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-
         }
 
         @media (min-width: 640px) {
@@ -689,7 +522,7 @@
 <body>
 <nav class="navbar" id="navbar">
     <div class="navbar-left">
-        <a href="index14.html" class="logo-link"> <!-- Link back to home -->
+        <a href="index.html" class="logo-link"> <!-- Link back to home -->
             <!-- Placeholder for UGA Logo -->
             <img src="https://reg.uga.edu/_resources/images/logos/Screen-REGISTRAR-H-FC.png" alt="UGA Logo" class="uga-logo">
         </a>
@@ -754,12 +587,23 @@
     <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
 </div>
 <main>
-    <div class="container">
-        <header class="header">
-            <h1>Fall 2025 Classes</h1>
-            <p>Search and filter through the available courses.</p>
-            <p>Note: "Other" is a placeholder for internal use, it includes all Study Abroad, Off Site, etc.</p>
+    <div class="container" style="margin-top: 0; padding-top: 0;">
+        <header class="header" style="border: 0px solid #d8d8d8; border-top: none;">
+            <div style="position: relative; width: 100%; height: 200px; overflow: hidden;">
+                <i class="fa-solid fa-book-open" style="font-size: 10vw; position: absolute; top: 0%; left:75%; opacity: 0.25; color: #d8d8d8;"></i>
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 5vw; position: absolute; top: 50%; left: 88%; opacity: 0.29; color: #17171f;"></i>
+                <div style="position: relative; text-align: left; z-index: 1; padding: 2rem; max-width: 800px; color: #1e3a8a;">
+                    <h1 style="background-color: rgb("255, 0, 0,10)>Fall 2025 Classes</h1>
+                    <p>A searchable table of courses for Fall 2025.</p>
+                    <p>Note: The table below refreshes once daily and does not fully reflect course or seat availability. For the most current and official course registration details, please consult <a href="https://athena.uga.edu">Athena</a>.</p>
+
+                </div>
+            </div>
+            <div class="break-wide"></div>
+
+
         </header>
+
 
         <!-- Campus/Type Filter Buttons -->
         <div class="filter-buttons" id="categoryBtnContainer">
