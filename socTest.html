@@ -186,35 +186,34 @@
 
         }
 
-         .page-title-box {
-             width: calc(100% + 0px); /* 50px offset + 50px right spacing */
-             /*height: 60px;*/
-             /*max-width: 1200px; !* 1160px - 100px (50px offset) *!*/
-             margin: 75px auto 0 auto; /* top: 75px, centered */
-             /*transform: translateX(-4px); !* visually shifts it 50px to the right *!*/
-             padding: 5px 0px;
-             /*margin-top: 75px;*/
-             /*margin-bottom: 0px;*/
-             /*margin-left: 50px;*/
-             background: linear-gradient(-66deg, #9e0a28 30%, #ba0c2f 30%);
-             /*border-bottom: 2px solid #8a8a8a;*/
-             /*border-bottom: 1px solid #2b2b2b;*/
-             /*border-left: 4px solid #2b2b2b;*/
-             /*border-radius: 0px 0px 0px 8px;*/
-             box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35);
-             text-align: center;
-             z-index: 500;
-         }
-        .page-title-box-title {
-            max-width: 1200px;
-            margin: 0 auto;
+        .page-title-box {
+            box-sizing: border-box;
+            width: 100%;
+            margin: 75px auto 0;
+            padding: 40px 0 0 5px;
             text-align: left;
-            font-size: 3.6rem;
-            font-weight: 600;
+            position: relative;
+            z-index: 2;
+
+            /* Solid top half, single gradient on bottom half */
+            background-color: #ba0c2f; /* top 50% fill */
+            background-image: linear-gradient(-45deg, #9e0a28 40%, #ba0c2f 40%);
+            background-repeat: no-repeat;
+            background-size: 100% 70%; /* only covers bottom half */
+            background-position: bottom;
+
+            /* shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+            0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+        .page-title-box-title {
+            font-size: 50px;
+            font-weight: 400;
             color: #ffffff;
-            letter-spacing: 4px;
-            text-shadow: 0 0 3px #000000cc;
-            /*margin: 5px 5px 5px 0px;*/
+            letter-spacing:  1.0px;
+            /*text-shadow: 0 0 3px #000000cc;*/
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+            margin: 0px 0px 0px 390px;
         }
 
 
@@ -395,22 +394,29 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.0rem;
+            gap: 0rem;
             margin-bottom: 1.5rem;
         }
 
         .filter-btn {
-            padding: 0.5rem .5rem;
+            flex: 1; /* equal width */
+            padding: 0.75rem 0.5rem;
             border: 1px solid #D1D5DB;
-            border-radius: 2px;
+            border-right: none; /* remove inner borders */
+            border-radius: 0;
             background-color: #FFFFFF;
             color: #374151;
-            font-size: 1.0rem;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            text-align: center;
+            box-sizing: border-box;
         }
-
+        /* Last button gets the right border back */
+        .filter-btn:last-child {
+            border-right: 1px solid #D1D5DB;
+        }
         .filter-btn:hover {
             background-color: #d8d8d8;
         }
@@ -589,26 +595,24 @@
 <div class="page-title-box">
     <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
 </div>
+<div style="height: 300px; background-color: #F3F4F6; position: relative; z-index: -1;"></div>
 <main>
-    <div class="container" style="margin-top: 0px; padding-top: 0;">
-<!--        <img src="images/testgrid5.png" alt="Descriptive alt text" style="width: 1300px; height: auto; display: block; margin: 0 auto; border-radius: 6px;">-->
+    <header class="header" style="position: absolute;  min-height: 300px; width: 100%; margin-top: -300px;">
+        <div style="position: relative; width: 100%; height: 300px; overflow: hidden;
+                        background: linear-gradient(-80deg, #F3F4F6 50%, white 50%); z-index: -1;
+                        border-left: 50px solid #f3f4f6; ">
 
-        <header class="header" style="border-bottom: 10px solid #F3F4F6;">
-            <div style="position: relative; width: 100%; height: 240px; overflow: hidden;
-            background: linear-gradient(-75deg, #F3F4F6 30%, transparent 30%); z-index: -2;">
+            <div style="position: absolute; text-align: left; z-index: 2; padding: 2rem; max-width: 800px; color: #1e3a8a;">
+                <h1>Fall 2025 Classes</h1>
+                <p>The table below is a searchable schedule of classes for Fall 2025.</p>
+                <p>Note: The table refreshes once daily and does not fully reflect course or seat availability.
+                    <br />For the most current and official course registration details, please consult
+                    <a href="https://athena.uga.edu">Athena</a>.</p>
 
-                <div style="position: relative; text-align: left; z-index: 2; padding: 2rem; max-width: 800px; color: #1e3a8a;">
-                    <h1 style="background-color: rgb("255, 0, 0,10)>Fall 2025 Classes</h1>
-                    <p>The table below is a searchable schedule of classes for Fall 2025.</p>
-                    <p>Note: The table refreshes once daily and does not fully reflect course or seat availability.
-                        <br />For the most current and official course registration details, please consult
-                        <a href="https://athena.uga.edu">Athena</a>.</p>
-
-                </div>
             </div>
-        </header>
-
-
+        </div>
+    </header>
+    <div class="container" style="margin-top: -37px; padding-top: 0px;">
 
         <!-- Campus/Type Filter Buttons -->
         <div class="filter-buttons" id="categoryBtnContainer">
@@ -762,9 +766,21 @@
                 const matchesCategory = (
                     activeCategory === 'all' ||
                     (row.Category && row.Category.toLowerCase() === activeCategory));
-                const matchesSearch = Object.values(row).some(val =>
-                    val && val.toLowerCase().includes(query)
-                );
+
+
+                // const matchesSearch = Object.values(row).some(val =>
+                //     val && val.toLowerCase().includes(query)
+                // );
+
+                const courseNum = (row["COURSE NUMBER"] || "").toLowerCase();
+                const allFields = Object.values(row).join(' ').toLowerCase();
+
+                const matchesSearch =
+                    courseNum.includes(query) ||
+                    (query.length > 4 && allFields.includes(query));
+
+
+
                 const matchesDay = (selectedDay === "" || row.Days?.toUpperCase().includes(selectedDay));
                 return matchesCategory && matchesSearch && matchesDay;
             });
