@@ -13,7 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!--    Papa Parse for table optimization-->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
+<!--color choice #f7f7f7 or #F3F4F6-->
     <style>
         :root {
             --uga-red: #BA0C2F; /* Official UGA Red */
@@ -26,7 +26,11 @@
             --tan: #e3dfd3;
             --gray-200: #e2e8f0;
             --uga-link: #00A3AD;
-
+            --ssb-accent: #ba0c2f;
+            --ssb-accent-dark: #9e0a28;
+            --ssb-divider: #e5e7eb;
+            --ssb-shadow: 0px 4px 4px rgba(0,0,0,.22) , 0 -2px 8px rgba(0,0,0,0.10);
+            --ssb-shadow-focus: 2 4px 4px rgba(0,0,0,.12);
         }
 
         @font-face {
@@ -395,7 +399,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 0rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0rem;
         }
 
         .filter-btn {
@@ -525,6 +529,60 @@
                     /* medium grey text */
             opacity: 0.8;
         }
+
+        .ssb-bar, .ssb-bar * { box-sizing: border-box; }
+        .ssb-wrapper { width:100%; margin:0 auto; padding:2rem 0 2rem 0; background:#f7f7f7; display:flex; justify-content:center; }
+        .ssb-bar { display:flex; align-items:center; gap:0.75rem; width:100%; background:#fff; border-radius:10px; box-shadow:var(--ssb-shadow); transition:box-shadow .2s ease,transform .2s ease; overflow:visible; }
+        /*.ssb-bar:focus-within { box-shadow:var(--ssb-shadow-focus); }*/
+        .ssb-input-group { flex:1 1 auto; display:flex; align-items:center; gap:0.5rem; min-width:0; min-height: 70px;}
+        .ssb-search-btn { border:none; background:transparent; display:flex; align-items:center; justify-content:center; color:var(--ssb-accent); padding-left:1rem; cursor:pointer; flex:0 0 auto; transition:transform .15s ease,color .15s ease; }
+        .ssb-search-btn:hover, .ssb-search-btn:focus { transform:translateY(-1px); color:var(--ssb-accent-dark); outline:none; }
+        .ssb-search-btn svg { width:18px; height:18px; }
+        .ssb-input-group input {
+            flex:1 1 auto;
+            min-width:0;
+            border:none;
+            background:transparent;
+            padding:.7rem 0;
+            font-size: 2rem;
+            color:#333;
+            outline:none;
+        }
+        /* Hide default clear button in IE/Edge */
+        .ssb-input-group input[type="search"]::-ms-clear {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+        /* Style WebKit search cancel button */
+        .ssb-input-group input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23ba0c2f" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 11.708.708L8.707 8l2.647 2.646a.5.5 0 11-.708.708L8 8.707l-2.646 2.647a.5.5 0 11-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z"/></svg>') no-repeat center center;
+            cursor: pointer;
+        }
+        .ssb-divider { flex:0 0 auto; color:var(--ssb-divider); font-size:1.2rem; line-height:1; user-select:none; }
+        .ssb-dropdown {
+            position: relative;
+            flex: 0 0 auto;
+            min-width: max-content;
+            display: inline-flex;
+            overflow: visible;
+        }
+        .ssb-dropdown-toggle { all:unset; display:inline-flex; align-items:center; justify-content:space-between; width:180px; padding:.7rem 1rem; font-size:.95rem; color:#333; cursor:pointer; overflow:visible; }
+        .ssb-dropdown-toggle .ssb-label { flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left; }
+        .ssb-dropdown-toggle svg { flex:0 0 auto; width:12px; height:8px; transition:transform .2s ease; }
+        .ssb-dropdown.open .ssb-dropdown-toggle svg { transform:rotate(180deg); }
+        .ssb-dropdown-menu { position:absolute; top:calc(100% + .4rem); left:0; width:100%; background:#fff; border-radius:10px; list-style:none; margin:0; padding:.4rem 0; box-shadow:var(--ssb-shadow); max-height:0; overflow:hidden; opacity:0; visibility:hidden; transform:translateY(-4px); transition:max-height .2s ease,opacity .15s ease,transform .15s ease; z-index:100; }
+        .ssb-dropdown.open .ssb-dropdown-menu { max-height:220px; opacity:1; visibility:visible; transform:translateY(0); box-shadow:var(--ssb-shadow-focus); }
+        .ssb-dropdown-item { padding:.6rem 1rem; font-size:.9rem; cursor:pointer; white-space:nowrap; transition:background .1s ease; }
+        .ssb-dropdown-item:hover, .ssb-dropdown-item:focus { background:#f2f2f2; outline:none; }
+        .ssb-dropdown-item.selected { font-weight:600; color:var(--ssb-accent); }
+        @media(max-width:420px) { .ssb-bar { flex-wrap:wrap; gap:.6rem; } .ssb-dropdown { flex:1 1 100%; } .ssb-divider { display:none; } .ssb-input-group { flex:1 1 100%; } }
+    </style>
+
     </style>
 
 </head>
@@ -595,14 +653,14 @@
 <div class="page-title-box">
     <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
 </div>
-<div style="height: 300px; background-color: #F3F4F6; position: relative; z-index: -1;"></div>
+<div style="height: 468px; background-color: #f7f7f7; position: relative; z-index: -1;"></div>
 <main>
-    <header class="header" style="position: absolute;  min-height: 300px; width: 100%; margin-top: -300px;">
+    <header class="header" style="position: absolute;  min-height: 300px; width: 100%; margin-top: -468px;">
         <div style="position: relative; width: 100%; height: 300px; overflow: hidden;
-                        background: linear-gradient(-80deg, #F3F4F6 50%, white 50%); z-index: -1;
-                        border-left: 50px solid #f3f4f6; ">
+                        background: linear-gradient(-80deg, #f7f7f7 50%, white 50%); z-index: -1;
+                        border-left: 50px solid #f7f7f7; ">
 
-            <div style="position: absolute; text-align: left; z-index: 2; padding: 2rem; max-width: 800px; color: #1e3a8a;">
+            <div style="position: absolute; text-align: left; z-index: 2; padding: 2rem; max-width: 800px; color: #000;">
                 <h1>Fall 2025 Classes</h1>
                 <p>The table below is a searchable schedule of classes for Fall 2025.</p>
                 <p>Note: The table refreshes once daily and does not fully reflect course or seat availability.
@@ -612,7 +670,7 @@
             </div>
         </div>
     </header>
-    <div class="container" style="margin-top: -37px; padding-top: 0px;">
+    <div class="container" style="margin-top: -205px; padding-top: 0px;">
 
         <!-- Campus/Type Filter Buttons -->
         <div class="filter-buttons" id="categoryBtnContainer">
@@ -626,31 +684,132 @@
             <button class="filter-btn" data-filter="other">Other - TBD</button>
         </div>
 
-        <!-- Search and Filter Controls -->
-        <div class="controls">
-            <div class="search-wrapper">
-                <input type="text" id="courseSearchInput" onkeyup="filterTable()" placeholder="Search by course name, instructor, etc.">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                </svg>
-            </div>
-            <div class="filter-wrapper">
-                <select id="dayFilter" onchange="filterTable()">
-                    <option value="">All Days</option>
-                    <option value="MWF">MWF</option>
-                    <option value="MW">MW</option>
-                    <option value="TR">TR</option>
-                    <option value="M">M</option>
-                    <option value="T">T</option>
-                    <option value="W">W</option>
-                    <option value="R">R</option>
-                    <option value="F">F</option>
-                </select>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-            </div>
+<!--        New Search-->
+        <body>
+        <div class="ssb-wrapper">
+            <form class="ssb-bar" role="search">
+                <div class="ssb-input-group">
+                    <button type="submit" class="ssb-search-btn" aria-label="Search">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2a9 9 0 106.32 15.32l4.09 4.09a1 1 0 001.41-1.41l-4.09-4.09A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z"/></svg>
+                    </button>
+                    <input type="search" id="ssbSearchInput" name="ssb_query" placeholder="Search schedule…" />
+                </div>
+                <span class="ssb-divider">|</span>
+                <div class="ssb-dropdown" id="ssbDropdown">
+                    <button type="button" class="ssb-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="ssb-label">SEARCH ALL</span>
+                        <svg viewBox="0 0 12 8" fill="currentColor"><path d="M6 8L0 0h12L6 8z"/></svg>
+                    </button>
+                    <ul class="ssb-dropdown-menu" role="listbox">
+                        <li class="ssb-dropdown-item selected" data-value="all">SEARCH ALL</li>
+                        <li class="ssb-dropdown-item" data-value="course-number">COURSE PREFIX</li>
+                        <li class="ssb-dropdown-item" data-value="crn">CRN</li>
+                        <li class="ssb-dropdown-item" data-value="course-name">COURSE NAME</li>
+                        <li class="ssb-dropdown-item" data-value="instructor">INSTRUCTOR</li>
+                    </ul>
+                    <input type="hidden" name="ssb_column" value="all" />
+                </div>
+            </form>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+        <script>
+            // Dropdown behavior
+            const ssbDropdown = document.getElementById('ssbDropdown');
+            const ssbToggle   = ssbDropdown.querySelector('.ssb-dropdown-toggle');
+            const ssbMenu     = ssbDropdown.querySelector('.ssb-dropdown-menu');
+            const ssbHidden   = ssbDropdown.querySelector('input[name="ssb_column"]');
+            ssbToggle.addEventListener('click', e => { e.stopPropagation(); ssbDropdown.classList.toggle('open'); ssbToggle.setAttribute('aria-expanded', ssbDropdown.classList.contains('open')); });
+            ssbMenu.addEventListener('click', e => { const item = e.target.closest('.ssb-dropdown-item'); if(!item) return; ssbMenu.querySelectorAll('.ssb-dropdown-item').forEach(i=>i.classList.remove('selected')); item.classList.add('selected'); ssbToggle.querySelector('.ssb-label').textContent = item.textContent; ssbHidden.value = item.dataset.value; ssbDropdown.classList.remove('open'); ssbToggle.setAttribute('aria-expanded','false'); });
+            document.addEventListener('click', e => { if(!ssbDropdown.contains(e.target)){ ssbDropdown.classList.remove('open'); ssbToggle.setAttribute('aria-expanded','false'); } });
+
+            // Data loading and filtering
+            document.addEventListener('DOMContentLoaded', () => {
+                let courseData = [], filteredData = [];
+                const rowsPerPage = 50;
+                let currentPage = 1;
+
+                const courseTableBody = document.getElementById('courseTableBody');
+                const paginationContainer = document.getElementById('pagination');
+                const paginationInfo = document.getElementById('pagination-info');
+                const searchInput = document.getElementById('ssbSearchInput');
+                const categoryButtons = document.querySelectorAll('#categoryBtnContainer .filter-btn');
+                let activeCategory = 'all';
+
+                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
+                    .then(r=>r.text())
+                    .then(csv=>{
+                        courseData = Papa.parse(csv,{header:true}).data.filter(r=>r['CRN']!=='StringFilter').map(r=>{
+                            const campus = (r['CAMPUS']||'').toLowerCase();
+                            let category='other';
+                            if(campus.includes('online')) category='online';
+                            else if(campus.includes('tifton')) category='tifton';
+                            else if(campus.includes('griffin')) category='griffin';
+                            else if(campus.includes('gwinnett')) category='gwinnett';
+                            else if(campus.includes('athens')) category='athens';
+                            if(/^[A-Z]{2,4}\d{4}H$/i.test((r['COURSE NUMBER']||'').replace(/\s+/g,''))) category='honors';
+                            r.Category = category;
+                            return r;
+                        }).sort((a,b)=>((a['COURSE NUMBER']||'').toUpperCase().trim()).localeCompare((b['COURSE NUMBER']||'').toUpperCase().trim(),undefined,{numeric:true, sensitivity:'base'}));
+                        applyFilters();
+                    });
+
+                searchInput.addEventListener('input', applyFilters);
+                // Prevent Enter key from submitting the form and reloading the page
+                const ssbForm = document.querySelector('.ssb-bar');
+                ssbForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    applyFilters();
+                });
+                categoryButtons.forEach(b=>b.addEventListener('click',function(){ categoryButtons.forEach(x=>x.classList.remove('active')); this.classList.add('active'); activeCategory=this.dataset.filter; applyFilters(); }));
+
+                categoryButtons.forEach(b=>b.addEventListener('click',function(){ categoryButtons.forEach(x=>x.classList.remove('active')); this.classList.add('active'); activeCategory=this.dataset.filter; applyFilters(); }));
+
+                function applyFilters(){
+                    const q = searchInput.value.trim().toLowerCase();
+                    filteredData = courseData.filter(r=>{
+                        const matchCat = activeCategory==='all'||((r.Category||'').toLowerCase()===activeCategory);
+                        const courseNum = (r['COURSE NUMBER']||'').toLowerCase();
+                        const allF = Object.values(r).join(' ').toLowerCase();
+
+                        const normalizedCourseNum = courseNum.replace(/\s+/g, '');
+                        const matchSearch = courseNum.includes(q)||(q.length>4&&allF.includes(q));
+                        return matchCat&&matchSearch;
+                    });
+                    currentPage=1; renderTable(); renderPagination();
+                }
+                function renderTable(){ courseTableBody.innerHTML=''; const start=(currentPage-1)*rowsPerPage; const pageData=filteredData.slice(start,start+rowsPerPage); pageData.forEach(r=>{ const tr=document.createElement('tr'); const seats=parseInt(r['SEATS AVAILABLE']); if(!isNaN(seats)&&seats===0) tr.classList.add('full-course'); tr.innerHTML=`<td>${r['COURSE NUMBER']||''}</td><td>${r['COURSE NAME']||''}</td><td>${r['CRN']||''}</td><td>${r['INSTRUCTOR']||''}</td><td>${r['DAYS']||''}</td><td>${r['TIME']||''}</td><td>${r['PART OF TERM']||''}</td><td>${r['BUILDING']||''}</td><td>${r['ROOM']||''}</td><td>${r['MAX STUDENTS']||''}</td><td>${r['SEATS AVAILABLE']||''}</td>`; courseTableBody.appendChild(tr); }); }
+                function renderPagination(){ const total=Math.ceil(filteredData.length/rowsPerPage); paginationInfo.textContent=`Showing ${rowsPerPage} per page · Page ${currentPage} of ${total}`; paginationContainer.innerHTML=''; const btn=(p)=>{ const b=document.createElement('button'); b.textContent=p; if(p===currentPage) b.classList.add('active-page'); b.addEventListener('click',()=>{ currentPage=p; renderTable(); renderPagination(); }); paginationContainer.appendChild(b); }; const ell=()=>{ const s=document.createElement('span'); s.textContent='…'; s.style.margin='0 6px'; paginationContainer.appendChild(s); }; if(total>0) btn(1); if(currentPage>3) ell(); for(let i=Math.max(2,currentPage-1);i<=Math.min(total-1,currentPage+1);i++) btn(i); if(currentPage<total-2) ell(); if(total>1) btn(total); }
+            });
+        </script>
+        <!-- Search and Filter Controls -->
+<!--        <div class="controls">-->
+<!--            <div class="search-wrapper">-->
+<!--                <input type="text" id="courseSearchInput" onkeyup="filterTable()" placeholder="Search by course name, instructor, etc.">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />-->
+<!--                </svg>-->
+<!--            </div>-->
+<!--            <div class="filter-wrapper">-->
+<!--                <select id="dayFilter" onchange="filterTable()">-->
+<!--                    <option value="">All Days</option>-->
+<!--                    <option value="MWF">MWF</option>-->
+<!--                    <option value="MW">MW</option>-->
+<!--                    <option value="TR">TR</option>-->
+<!--                    <option value="M">M</option>-->
+<!--                    <option value="T">T</option>-->
+<!--                    <option value="W">W</option>-->
+<!--                    <option value="R">R</option>-->
+<!--                    <option value="F">F</option>-->
+<!--                </select>-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">-->
+<!--                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />-->
+<!--                </svg>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
 
         <!-- Course Table -->
         <div class="table-container">
@@ -689,184 +848,184 @@
 
 </main>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let courseData = [];
-        let filteredData = [];
-        const rowsPerPage = 50;
-        let currentPage = 1;
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function () {-->
+<!--        let courseData = [];-->
+<!--        let filteredData = [];-->
+<!--        const rowsPerPage = 50;-->
+<!--        let currentPage = 1;-->
 
-        const courseTableBody = document.getElementById('courseTableBody');
-        const paginationContainer = document.getElementById('pagination');
-        const searchInput = document.getElementById('courseSearchInput');
-        const dayFilter = document.getElementById('dayFilter');
-        const categoryButtons = document.querySelectorAll('#categoryBtnContainer .filter-btn');
+<!--        const courseTableBody = document.getElementById('courseTableBody');-->
+<!--        const paginationContainer = document.getElementById('pagination');-->
+<!--        const searchInput = document.getElementById('courseSearchInput');-->
+<!--        const dayFilter = document.getElementById('dayFilter');-->
+<!--        const categoryButtons = document.querySelectorAll('#categoryBtnContainer .filter-btn');-->
 
-        let activeCategory = 'all';
+<!--        let activeCategory = 'all';-->
 
-        // Load CSV
-        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
-            .then(response => response.text())
-            .then(csv => {
-                courseData = Papa.parse(csv, { header: true }).data
-                    .filter(row => row["CRN"] !== "StringFilter")  // ← safer and more descriptive
-                    .map(row => {
-                    const campus = (row["CAMPUS"] || "").toLowerCase();
-                    const courseNum = row["COURSE NUMBER"] || "";
-                    let category = "other";
+<!--        // Load CSV-->
+<!--        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')-->
+<!--            .then(response => response.text())-->
+<!--            .then(csv => {-->
+<!--                courseData = Papa.parse(csv, { header: true }).data-->
+<!--                    .filter(row => row["CRN"] !== "StringFilter")  // ← safer and more descriptive-->
+<!--                    .map(row => {-->
+<!--                    const campus = (row["CAMPUS"] || "").toLowerCase();-->
+<!--                    const courseNum = row["COURSE NUMBER"] || "";-->
+<!--                    let category = "other";-->
 
-                    // Campus-based detection
-                    if (campus.includes("online")) {
-                        category = "online";
-                    } else if (campus.includes("tifton")) {
-                        category = "tifton";
-                    } else if (campus.includes("griffin")) {
-                        category = "griffin";
-                    } else if (campus.includes("gwinnett")) {
-                        category = "gwinnett";
-                    } else if (campus.includes("athens")) {
-                        category = "athens";
-                    } else {
-                        category = "other";
-                    }
+<!--                    // Campus-based detection-->
+<!--                    if (campus.includes("online")) {-->
+<!--                        category = "online";-->
+<!--                    } else if (campus.includes("tifton")) {-->
+<!--                        category = "tifton";-->
+<!--                    } else if (campus.includes("griffin")) {-->
+<!--                        category = "griffin";-->
+<!--                    } else if (campus.includes("gwinnett")) {-->
+<!--                        category = "gwinnett";-->
+<!--                    } else if (campus.includes("athens")) {-->
+<!--                        category = "athens";-->
+<!--                    } else {-->
+<!--                        category = "other";-->
+<!--                    }-->
 
-                    // Honors override — based on course number ending in H (e.g., ACCT1101H)
-                    if (/^[A-Z]{2,4}\d{4}H$/i.test(courseNum.replace(/\s+/g, ''))) {
-                        category = "honors";
-                    }
+<!--                    // Honors override — based on course number ending in H (e.g., ACCT1101H)-->
+<!--                    if (/^[A-Z]{2,4}\d{4}H$/i.test(courseNum.replace(/\s+/g, ''))) {-->
+<!--                        category = "honors";-->
+<!--                    }-->
 
-                    row.Category = category;
-                    return row;
-                })
-                    .sort((a, b) => {
-                        const aVal = (a["COURSE NUMBER"] || "").toUpperCase().trim();
-                        const bVal = (b["COURSE NUMBER"] || "").toUpperCase().trim();
-                        return aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: 'base' });
-                    });
-                applyFilters();
-            });
+<!--                    row.Category = category;-->
+<!--                    return row;-->
+<!--                })-->
+<!--                    .sort((a, b) => {-->
+<!--                        const aVal = (a["COURSE NUMBER"] || "").toUpperCase().trim();-->
+<!--                        const bVal = (b["COURSE NUMBER"] || "").toUpperCase().trim();-->
+<!--                        return aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: 'base' });-->
+<!--                    });-->
+<!--                applyFilters();-->
+<!--            });-->
 
-        // Event Listeners
-        searchInput.addEventListener('input', applyFilters);
-        dayFilter.addEventListener('change', applyFilters);
-        categoryButtons.forEach(btn => {
-            btn.addEventListener('click', function () {
-                categoryButtons.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                activeCategory = this.dataset.filter;
-                applyFilters();
-            });
-        });
+<!--        // Event Listeners-->
+<!--        searchInput.addEventListener('input', applyFilters);-->
+<!--        dayFilter.addEventListener('change', applyFilters);-->
+<!--        categoryButtons.forEach(btn => {-->
+<!--            btn.addEventListener('click', function () {-->
+<!--                categoryButtons.forEach(b => b.classList.remove('active'));-->
+<!--                this.classList.add('active');-->
+<!--                activeCategory = this.dataset.filter;-->
+<!--                applyFilters();-->
+<!--            });-->
+<!--        });-->
 
-        function applyFilters() {
-            const query = searchInput.value.trim().toLowerCase();
-            const selectedDay = dayFilter.value;
+<!--        function applyFilters() {-->
+<!--            const query = searchInput.value.trim().toLowerCase();-->
+<!--            const selectedDay = dayFilter.value;-->
 
-            filteredData = courseData.filter(row => {
-                const matchesCategory = (
-                    activeCategory === 'all' ||
-                    (row.Category && row.Category.toLowerCase() === activeCategory));
-
-
-                // const matchesSearch = Object.values(row).some(val =>
-                //     val && val.toLowerCase().includes(query)
-                // );
-
-                const courseNum = (row["COURSE NUMBER"] || "").toLowerCase();
-                const allFields = Object.values(row).join(' ').toLowerCase();
-
-                const matchesSearch =
-                    courseNum.includes(query) ||
-                    (query.length > 4 && allFields.includes(query));
+<!--            filteredData = courseData.filter(row => {-->
+<!--                const matchesCategory = (-->
+<!--                    activeCategory === 'all' ||-->
+<!--                    (row.Category && row.Category.toLowerCase() === activeCategory));-->
 
 
+<!--                // const matchesSearch = Object.values(row).some(val =>-->
+<!--                //     val && val.toLowerCase().includes(query)-->
+<!--                // );-->
 
-                const matchesDay = (selectedDay === "" || row.Days?.toUpperCase().includes(selectedDay));
-                return matchesCategory && matchesSearch && matchesDay;
-            });
+<!--                const courseNum = (row["COURSE NUMBER"] || "").toLowerCase();-->
+<!--                const allFields = Object.values(row).join(' ').toLowerCase();-->
 
-            currentPage = 1;
-            renderTable();
-            renderPagination();
-        }
-
-        function renderTable() {
-            courseTableBody.innerHTML = '';
-            const start = (currentPage - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const pageData = filteredData.slice(start, end);
-
-            for (const row of pageData) {
-                const tr = document.createElement('tr');
-
-                // Check if SEATS AVAILABLE is "0" (or "0.0" etc.)
-                const seatsAvailable = parseInt(row["SEATS AVAILABLE"]);
-                if (!isNaN(seatsAvailable) && seatsAvailable === 0) {
-                    tr.classList.add('full-course');
-                }
-
-                tr.innerHTML = `
-            <td>${row["COURSE NUMBER"] || ''}</td>
-            <td>${row["COURSE NAME"] || ''}</td>
-            <td>${row["CRN"] || ''}</td>
-            <td>${row["INSTRUCTOR"] || ''}</td>
-            <td>${row["DAYS"] || ''}</td>
-            <td>${row["TIME"] || ''}</td>
-            <td>${row["PART OF TERM"] || ''}</td>
-            <td>${row["BUILDING"] || ''}</td>
-            <td>${row["ROOM"] || ''}</td>
-            <td>${row["MAX STUDENTS"] || ''}</td>
-            <td>${row["SEATS AVAILABLE"] || ''}</td>
-        `;
-
-                courseTableBody.appendChild(tr);
-            }
-        }
+<!--                const matchesSearch =-->
+<!--                    courseNum.includes(query) ||-->
+<!--                    (query.length > 4 && allFields.includes(query));-->
 
 
-        function renderPagination() {
-            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-            const paginationInfo = document.getElementById('pagination-info');
-            const paginationContainer = document.getElementById('pagination');
 
-            paginationInfo.textContent = `Showing ${rowsPerPage} results per page · Page ${currentPage} of ${totalPages}`;
-            paginationContainer.innerHTML = '';
+<!--                const matchesDay = (selectedDay === "" || row.Days?.toUpperCase().includes(selectedDay));-->
+<!--                return matchesCategory && matchesSearch && matchesDay;-->
+<!--            });-->
 
-            const createPageButton = (page) => {
-                const btn = document.createElement('button');
-                btn.textContent = page;
-                if (page === currentPage) btn.classList.add('active-page');
-                btn.addEventListener('click', () => {
-                    currentPage = page;
-                    renderTable();
-                    renderPagination();
-                });
-                paginationContainer.appendChild(btn);
-            };
+<!--            currentPage = 1;-->
+<!--            renderTable();-->
+<!--            renderPagination();-->
+<!--        }-->
 
-            const createEllipsis = () => {
-                const span = document.createElement('span');
-                span.textContent = '…';
-                span.style.margin = '0 6px';
-                paginationContainer.appendChild(span);
-            };
+<!--        function renderTable() {-->
+<!--            courseTableBody.innerHTML = '';-->
+<!--            const start = (currentPage - 1) * rowsPerPage;-->
+<!--            const end = start + rowsPerPage;-->
+<!--            const pageData = filteredData.slice(start, end);-->
 
-            // Always show first page
-            if (totalPages > 0) createPageButton(1);
+<!--            for (const row of pageData) {-->
+<!--                const tr = document.createElement('tr');-->
 
-            // Show pages around current page
-            if (currentPage > 3) createEllipsis();
-            for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-                createPageButton(i);
-            }
-            if (currentPage < totalPages - 2) createEllipsis();
+<!--                // Check if SEATS AVAILABLE is "0" (or "0.0" etc.)-->
+<!--                const seatsAvailable = parseInt(row["SEATS AVAILABLE"]);-->
+<!--                if (!isNaN(seatsAvailable) && seatsAvailable === 0) {-->
+<!--                    tr.classList.add('full-course');-->
+<!--                }-->
 
-            // Always show last page (unless it's already visible)
-            if (totalPages > 1) createPageButton(totalPages);
-        }
+<!--                tr.innerHTML = `-->
+<!--            <td>${row["COURSE NUMBER"] || ''}</td>-->
+<!--            <td>${row["COURSE NAME"] || ''}</td>-->
+<!--            <td>${row["CRN"] || ''}</td>-->
+<!--            <td>${row["INSTRUCTOR"] || ''}</td>-->
+<!--            <td>${row["DAYS"] || ''}</td>-->
+<!--            <td>${row["TIME"] || ''}</td>-->
+<!--            <td>${row["PART OF TERM"] || ''}</td>-->
+<!--            <td>${row["BUILDING"] || ''}</td>-->
+<!--            <td>${row["ROOM"] || ''}</td>-->
+<!--            <td>${row["MAX STUDENTS"] || ''}</td>-->
+<!--            <td>${row["SEATS AVAILABLE"] || ''}</td>-->
+<!--        `;-->
 
-    });
-</script>
+<!--                courseTableBody.appendChild(tr);-->
+<!--            }-->
+<!--        }-->
+
+
+<!--        function renderPagination() {-->
+<!--            const totalPages = Math.ceil(filteredData.length / rowsPerPage);-->
+<!--            const paginationInfo = document.getElementById('pagination-info');-->
+<!--            const paginationContainer = document.getElementById('pagination');-->
+
+<!--            paginationInfo.textContent = `Showing ${rowsPerPage} results per page · Page ${currentPage} of ${totalPages}`;-->
+<!--            paginationContainer.innerHTML = '';-->
+
+<!--            const createPageButton = (page) => {-->
+<!--                const btn = document.createElement('button');-->
+<!--                btn.textContent = page;-->
+<!--                if (page === currentPage) btn.classList.add('active-page');-->
+<!--                btn.addEventListener('click', () => {-->
+<!--                    currentPage = page;-->
+<!--                    renderTable();-->
+<!--                    renderPagination();-->
+<!--                });-->
+<!--                paginationContainer.appendChild(btn);-->
+<!--            };-->
+
+<!--            const createEllipsis = () => {-->
+<!--                const span = document.createElement('span');-->
+<!--                span.textContent = '…';-->
+<!--                span.style.margin = '0 6px';-->
+<!--                paginationContainer.appendChild(span);-->
+<!--            };-->
+
+<!--            // Always show first page-->
+<!--            if (totalPages > 0) createPageButton(1);-->
+
+<!--            // Show pages around current page-->
+<!--            if (currentPage > 3) createEllipsis();-->
+<!--            for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {-->
+<!--                createPageButton(i);-->
+<!--            }-->
+<!--            if (currentPage < totalPages - 2) createEllipsis();-->
+
+<!--            // Always show last page (unless it's already visible)-->
+<!--            if (totalPages > 1) createPageButton(totalPages);-->
+<!--        }-->
+
+<!--    });-->
+<!--</script>-->
 
 
 
