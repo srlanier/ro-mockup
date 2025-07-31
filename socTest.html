@@ -10,10 +10,16 @@
     <link rel="stylesheet" href="css/all.min.css">
     <!--    Tailwinds-->
     <link rel="stylesheet" href="css/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open-Sans:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <!--    Papa Parse for table optimization-->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<!--color choice #f7f7f7 or #F3F4F6-->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!--color choice #f7f7f7 or #F3F4F6-->
     <style>
         :root {
             --uga-red: #BA0C2F; /* Official UGA Red */
@@ -46,6 +52,7 @@
             font-family: "Merriweather";
             src: url('fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
         }
+
 
 
         body {
@@ -358,19 +365,22 @@
             min-width: 1200px;
             overflow-x: auto;
             background-color: #FFFFFF; /* bg-white */
-            border-radius: 0.5rem; /* rounded-lg */
+            border-radius: .8rem; /* rounded-lg */
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
         }
 
         .course-table {
             min-width: 100%;
             border-collapse: collapse;
+            font-family: "Open Sans", sans-serif;
+
         }
 
         .course-table thead {
             /*background-color: #F3F4F6; !* bg-gray-100 *!*/
-            background-color: #554F47; /* bg-gray-100 */
+            background-color: #4a4a4a; /* bg-gray-100 */
             color: #FFFFFF;
+
         }
 
         .course-table th, .course-table td {
@@ -378,6 +388,7 @@
             white-space: nowrap;
             border-bottom: 1px solid #E5E7EB; /* divide-y */
         }
+
 
         .course-table th {
             padding-top: 0.75rem;
@@ -435,6 +446,48 @@
         .hidden {
             display: none;
         }
+        .spinner {
+            margin: 10px auto 0;
+            width: 70px;
+            text-align: center;
+        }
+
+        .spinner > div {
+            width: 18px;
+            height: 18px;
+            background-color: #ba0c2f;
+
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+            animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes sk-bouncedelay {
+            0%, 80%, 100% { -webkit-transform: scale(0) }
+            40% { -webkit-transform: scale(1.0) }
+        }
+
+        @keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            } 40% {
+                  -webkit-transform: scale(1.0);
+                  transform: scale(1.0);
+              }
+        }
+
 
         #noResults {
             padding: 2rem; /* p-8 */
@@ -444,12 +497,15 @@
         .pagination-wrapper {
             margin-top: 1.5rem;
             text-align: center;
+            justify-items: center
         }
 
         .pagination-info {
-            font-size: 0.95rem;
+            font-size: 1.55rem;
             color: #555;
             margin-bottom: 0.5rem;
+            font-family: Oswald, sans-serif;
+            text-transform: uppercase;
         }
 
         .pagination-buttons button {
@@ -492,6 +548,9 @@
             text-overflow: ellipsis;
         }
 
+        table thead th:nth-child(2) {
+            text-align: center;
+        }
 
         .course-table th:nth-child(1),
         .course-table td:nth-child(1),
@@ -513,13 +572,13 @@
         }
 
         .course-table th:nth-child(5),
-        .course-table th:nth-child(9),
         .course-table th:nth-child(10),
         .course-table th:nth-child(11),
+        .course-table th:nth-child(12),
         .course-table td:nth-child(5),
-        .course-table td:nth-child(9),
         .course-table td:nth-child(10),
-        .course-table td:nth-child(11) {
+        .course-table td:nth-child(11),
+        .course-table td:nth-child(12) {
             width: 70px;
             max-width: 70px; /* MAX SEATS / AVAIL SEATS / ROOM */
         }
@@ -536,8 +595,7 @@
         /*.ssb-bar:focus-within { box-shadow:var(--ssb-shadow-focus); }*/
         .ssb-input-group { flex:1 1 auto; display:flex; align-items:center; gap:0.5rem; min-width:0; min-height: 70px;}
         .ssb-search-btn { border:none; background:transparent; display:flex; align-items:center; justify-content:center; color:var(--ssb-accent); padding-left:1rem; cursor:pointer; flex:0 0 auto; transition:transform .15s ease,color .15s ease; }
-        .ssb-search-btn:hover, .ssb-search-btn:focus { transform:translateY(-1px); color:var(--ssb-accent-dark); outline:none; }
-        .ssb-search-btn svg { width:18px; height:18px; }
+        .ssb-search-btn svg { width:25px; height:25px; }
         .ssb-input-group input {
             flex:1 1 auto;
             min-width:0;
@@ -558,44 +616,49 @@
         .ssb-input-group input[type="search"]::-webkit-search-cancel-button {
             -webkit-appearance: none;
             appearance: none;
-            width: 16px;
-            height: 16px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23ba0c2f" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 11.708.708L8.707 8l2.647 2.646a.5.5 0 11-.708.708L8 8.707l-2.646 2.647a.5.5 0 11-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z"/></svg>') no-repeat center center;
+            width: 25px;
+            height: 25px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="%23ba0c2f" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 11.708.708L8.707 8l2.647 2.646a.5.5 0 11-.708.708L8 8.707l-2.646 2.647a.5.5 0 11-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z"/></svg>') no-repeat center center;
             cursor: pointer;
         }
-        .ssb-divider { flex:0 0 auto; color:var(--ssb-divider); font-size:1.2rem; line-height:1; user-select:none; }
+        .ssb-divider { flex:0 0 auto; color:var(--ssb-divider); font-size:2.2rem; line-height:2; user-select:none; }
         .ssb-dropdown {
             position: relative;
             flex: 0 0 auto;
             min-width: max-content;
             display: inline-flex;
             overflow: visible;
+            font-family: oswald, sans-serif;
+            letter-spacing: .5px;
+            font-size: 2.5rem;
         }
 
         .no-results {
             text-align: center;
             color: #666;
             font-size: 1.2rem!important;
+            padding: 3rem!important;
         }
 
         .no-results .nr-by {
             font-weight: bold;
-            color: #ba0c2f;    /* accent for search type */
+            color: #505050FF;    /* accent for search type */
         }
 
         .no-results .nr-query {
             font-style: italic;
+            font-weight: bold;
             color: #000;         /* highlight the user’s term */
             background-color: rgba(253, 228, 150, 0.85)
         }
 
         .no-results .nr-campus {
             font-weight: bold;
-            color: #ba0c2f;     /* different accent for campus */
+            color: #505050;     /* different accent for campus */
         }
 
-        .ssb-dropdown-toggle { all:unset; display:inline-flex; align-items:center; justify-content:space-between; width:180px; padding:.7rem 1rem; font-size:.95rem; color:#333; cursor:pointer; overflow:visible; }
-        .ssb-dropdown-toggle .ssb-label { flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left; }
+        .ssb-dropdown-toggle { all:unset; display:inline-flex; align-items:center; justify-content:space-between; width:180px; padding:.7rem 1rem; font-size:1.5rem; color:#333; cursor:pointer; overflow:visible; }
+        .ssb-dropdown-toggle .ssb-label { flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left; font-weight: 600; color: #ba0c2f;}
         .ssb-dropdown-toggle svg { flex:0 0 auto; width:12px; height:8px; transition:transform .2s ease; }
         .ssb-dropdown.open .ssb-dropdown-toggle svg { transform:rotate(180deg); }
         .ssb-dropdown-menu { position:absolute; top:calc(100% + .4rem); left:0; width:100%; background:#fff; border-radius:10px; list-style:none; margin:0; padding:.4rem 0; box-shadow:var(--ssb-shadow); max-height:0; overflow:hidden; opacity:0; visibility:hidden; transform:translateY(-4px); transition:max-height .2s ease,opacity .15s ease,transform .15s ease; z-index:100; }
@@ -676,11 +739,13 @@
 <div class="page-title-box">
     <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
 </div>
-<div style="height: 468px; background-color: #f7f7f7; position: relative; z-index: -1;"></div>
+<div style="height: 468px; background-color: #f7f7f7; position: relative; z-index: -1;">
+
+</div>
 <main>
     <header class="header" style="position: absolute;  min-height: 300px; width: 100%; margin-top: -468px;">
         <div style="position: relative; width: 100%; height: 300px; overflow: hidden;
-                        background: linear-gradient(-80deg, #f7f7f7 50%, white 50%); z-index: -1;
+                        background: linear-gradient(-80deg, #f7f7f7 40%, white 40%); z-index: -1;
                         border-left: 50px solid #f7f7f7; ">
 
             <div style="position: absolute; text-align: left; z-index: 2; padding: 2rem; max-width: 800px; color: #000;">
@@ -691,7 +756,11 @@
                     <a href="https://athena.uga.edu">Athena</a>.</p>
 
             </div>
+
+
+
         </div>
+
     </header>
     <div class="container" style="margin-top: -205px; padding-top: 0px;">
 
@@ -929,6 +998,15 @@
                             return matchCat && matchSearch;
                         });
                     }
+// Push rows with no Course Number to the bottom
+                    filteredData.sort((a, b) => {
+                        const aEmpty = !a['COURSE NUMBER'];
+                        const bEmpty = !b['COURSE NUMBER'];
+                        if (aEmpty && !bEmpty) return 1;   // a has no course number → go after b
+                        if (!aEmpty && bEmpty) return -1;  // b has no course number → go after a
+                        return 0;                          // otherwise keep relative order
+                    });
+
 
                     currentPage = 1;
                     renderTable();
@@ -951,7 +1029,7 @@
                         td.colSpan = 11;    // span all columns
                         td.innerHTML = `No results match
                         <span class="nr-query">"${currentSearchQuery}"</span>
-                        for active search options: <br/>
+                        for active search filters: <br/>
                         <span class="nr-campus">${camp}</span> & <br/>
                         <span class="nr-by">${by}</span>`;
                         td.classList.add('no-results');
@@ -973,9 +1051,19 @@
                         const tr = document.createElement('tr');
                         const seats = parseInt(r['SEATS AVAILABLE']);
                         if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
-                        tr.innerHTML = `<td>${r['COURSE NUMBER'] || ''}</td><td>${r['COURSE NAME'] || ''}</td><td>${r['CRN'] || ''}</td><td>${r['INSTRUCTOR'] || ''}</td><td>${r['DAYS'] || ''}</td><td>${r['TIME'] || ''}</td><td>${r['PART OF TERM'] || ''}</td><td>${r['BUILDING'] || ''}</td><td>${r['ROOM'] || ''}</td><td>${r['MAX STUDENTS'] || ''}</td><td>${r['SEATS AVAILABLE'] || ''}</td>`;
+                        tr.innerHTML = `<td>${r['COURSE NUMBER'] || ''}</td><td>${r['COURSE NAME'] || ''}</td><td>${r['CRN'] || ''}</td><td>${r['INSTRUCTOR'] || ''}</td><td>${r['DAYS'] || ''}</td><td>${r['TIME'] || ''}</td><td>${r['PART OF TERM'] || ''}</td><td>${r['CAMPUS'] ||''}</td><td>${r['BUILDING'] || ''}</td><td>${r['ROOM'] || ''}</td><td>${r['MAX STUDENTS'] || ''}</td><td>${r['SEATS AVAILABLE'] || ''}</td>`;
                         courseTableBody.appendChild(tr);
                     });
+                    // 2) **Post-render injection** for the first column:
+                    courseTableBody.querySelectorAll('tr td:first-child').forEach(cell => {
+                        const txt = cell.textContent.trim();
+                        if (txt.length > 4) {
+                            // split into two lines at 4 characters
+                            cell.innerHTML = txt.slice(0, 4) + ' ' + txt.slice(4);
+                        }
+                    });
+
+
                 }
 
                 function renderPagination() {
@@ -1015,12 +1103,13 @@
                 <thead>
                 <tr>
                     <th>Course Number</th>
-                    <th>Course Name</th>
+                    <th>Course<br>Name</th>
                     <th>CRN</th>
                     <th>Instructor</th>
                     <th>Days</th>
                     <th>Time</th>
                     <th>Part of Term</th>
+                    <th>Campus</th>
                     <th>Building</th>
                     <th>Room</th>
                     <th>Max Seats</th>
@@ -1032,11 +1121,18 @@
                 </tbody>
             </table>
             <div id="message-center">
-<!--                <p id="message-text">Loading course data...</p>-->
+
             </div>
         </div>
         <div class="pagination-wrapper">
-            <p id="pagination-info" class="pagination-info">Loading...</p>
+            <div id="pagination-info" class="pagination-info">Class Data Loading
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+
             <div id="pagination" class="pagination-buttons"></div>
         </div>
 
