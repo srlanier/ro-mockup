@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule of Classes</title>
+    <!--    Local CSS-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--    FAS icons-->
+    <link rel="stylesheet" href="css/all.min.css">
+    <!--    Tailwinds-->
+<!--    <link rel="stylesheet" href="css/tailwind.min.css">-->
+    <link href="https://fonts.googleapis.com/css2?family=Open-Sans:wght@400;700&display=swap" rel="stylesheet">
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+    <!--    Papa Parse for table optimization-->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!--color choice #f7f7f7 or #F3F4F6-->
+    <style>
+        :root {
+            --uga-red: #BA0C2F; /* Official UGA Red */
+            --uga-grey: #4A4A4A;
+            --white: #ffffff;
+            --light-grey: #f0f0f0;
+            --dark-blue: #0A2342; /* A dark blue for contrast */
+            --dark-grey-text: #333333;
+            --dark-grey: #3e3e3e;
+            --tan: #e3dfd3;
+            --gray-200: #e2e8f0;
+            --uga-link: #00A3AD;
+            --ssb-accent: #ba0c2f;
+            --ssb-accent-dark: #9e0a28;
+            --ssb-divider: #e5e7eb;
+            --ssb-shadow: 0px 4px 4px rgba(0,0,0,.22) , 0 -2px 8px rgba(0,0,0,0.10);
+            --ssb-shadow-focus: 2 4px 4px rgba(0,0,0,.12);
+        }
+
+        @font-face {
+            font-family: "Oswald";
+            src: url('fonts/Oswald-VariableFont_wght.ttf');
+        }
+
+        @font-face {
+            font-family: "Merriweather Sans";
+            src: url('fonts/MerriweatherSans-VariableFont_wght.ttf');
+        }
+        @font-face {
+            font-family: "Merriweather";
+            src: url('fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
+        }
+
+
+        /* Universal box-sizing for predictable widths */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Oswald', sans-serif;
+            /*font-family: 'Merriweather-sans', sans-serif;*/
+            margin: 0;
+            /*background-color: #888888;*/
+            background-color: white;
+            color: var(--uga-grey);
+            overflow-x: hidden; /* Ensure no horizontal scrollbar */
+        }
+
+        a {
+            color: var(--uga-link);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navbar Styles (Copied from main page) */
+        .navbar {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            padding: 12px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            position: fixed; /* Changed to fixed so it stays at the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            gap: 40px; /* Space between logo, nav links, and search icon */
+            z-index: 5000;
+            box-sizing: border-box; /* Include padding in width calculation */
+            font-family: 'Oswald';
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .navbar-left .uga-logo {
+            height: 70px;
+            width: auto;
+            margin-top: -10px;
+            margin-bottom: -10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            position: relative;
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--uga-grey);
+            font-weight: 400;
+            font-size: 1.1em;
+            padding: 10px 0;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--uga-red);
+        }
+
+
+        /* Search Icon and Bar */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            font-size: 1.3em;
+            color: var(--uga-grey);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: var(--uga-red);
+        }
+
+        .search-bar {
+            position: fixed;
+            background-color: var(--white);
+            padding: 8px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 999;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .search-bar.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 5px 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1em;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--uga-red);
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+
+
+
+        main { display: flex;
+            max-width: 1300px;
+            font-family: "Merriweather", serif;
+            margin: 0px auto;
+            gap: 0px;
+
+            /*box-shadow: 0px 2px 5px rgba(0,0,0,0.35);*/
+
+        }
+
+        .page-title-box {
+            box-sizing: border-box;
+            width: 100%;
+            margin: 74px auto 0;
+            padding: 40px 0 0 5px;
+            text-align: left;
+            position: relative;
+            z-index: 10;
+
+            /* Solid top half, single gradient on bottom half */
+            background-color: #ba0c2f; /* top 50% fill */
+            background-image: linear-gradient(-45deg, #9e0a28 40%, #ba0c2f 40%);
+            background-repeat: no-repeat;
+            background-size: 100% 70%; /* only covers bottom half */
+            background-position: bottom;
+
+            /* shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+            0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+        .page-title-box-title  {
+            font-size: 50px;
+            font-weight: 400;
+            color: #ffffff;
+            letter-spacing:  1.0px;
+            /*text-shadow: 0 0 3px #000000cc;*/
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+            margin: 0px 0px 0px 0px;
+        }
+        .page-title-box-title .container {
+            padding: 40px;
+        }
+
+        /* Container and Layout */
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto 0;
+            padding: 0 20px;
+        }
+        /* Hero backdrop full-width background */
+        .hero-backdrop {
+            position: relative;
+            width: 100%;
+            background-color: #f7f7f7;
+            overflow: hidden;
+        }
+
+        /* Decorative gradient shape */
+        .hero-shape {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(-80deg, #f7f7f7 40%, #ffffff 40%);
+            border-left: 50px solid #f7f7f7;
+            z-index: 1;
+        }
+
+        /* Content positioned over shape */
+        .hero-content {
+            position: relative;
+            padding: 2rem 0;
+            margin-top: -?px; /* adjust if needed to overlap shape */
+            z-index: 2;
+            text-align: left;
+        }
+
+        .hero-content h2 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700;
+            color: #111827;
+            margin-top: 0;
+        }
+
+        .hero-content p {
+            margin-top: 0.5rem;
+            color: #4B5563;
+            line-height: 1.5;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .hero-content {
+                padding: 4rem 0;
+            }
+
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+
+
+        @media (min-width: 640px) {
+            .container {
+                max-width: 640px;
+                padding: 1.5rem; /* sm:p-6 */
+            }
+        }
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+                padding: 2rem; /* lg:p-8 */
+            }
+        }
+        @media (min-width: 1300px) {
+            .container {
+                max-width: 1300px;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .hero-content {
+                padding: 4rem 0;
+            }
+
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 2rem; /* mb-8 */
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #111827; /* text-gray-900 */
+        }
+
+        .header p {
+            margin-top: 0.5rem; /* mt-2 */
+            color: #4B5563; /* text-gray-600 */
+        }
+
+        @media (min-width: 640px) {
+            .header h1 {
+                font-size: 3.25rem; /* sm:text-4xl */
+            }
+        }
+
+        /* Controls: Search and Filter */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* gap-4 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+
+        @media (min-width: 640px) {
+            .controls {
+                flex-direction: row;
+            }
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-wrapper svg {
+            position: absolute;
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            color: #6B7280; /* text-gray-500 */
+            top: 50%;
+            left: 0.75rem; /* left-3 */
+            transform: translateY(-50%);
+        }
+
+        .filter-wrapper {
+            position: relative;
+        }
+
+        .filter-wrapper svg {
+            position: absolute;
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+            color: #6B7280; /* text-gray-500 */
+            top: 50%;
+            right: 0.75rem; /* right-3 */
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        input[type="text"], select {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            padding: 0.75rem; /* p-3 */
+            font-size: 0.875rem; /* text-sm */
+            border: 1px solid #D1D5DB; /* border-gray-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #FFFFFF; /* bg-white */
+        }
+
+        input[type="text"] {
+            padding-left: 2.5rem; /* pl-10 */
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        @media (min-width: 640px) {
+            select {
+                width: 100px;
+            }
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            --tw-ring-color: rgb(59 130 246);
+            border-color: #3B82F6; /* focus:border-blue-500 */
+        }
+
+        /* Table Styles */
+        .table-container {
+            min-width: 1200px;
+            overflow-x: auto;
+            background-color: #FFFFFF; /* bg-white */
+            border-radius: .8rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+        }
+
+        .course-table {
+            min-width: 100%;
+            border-collapse: collapse;
+            font-family: "Open Sans", sans-serif;
+
+        }
+
+        .course-table thead {
+            /*background-color: #F3F4F6; !* bg-gray-100 *!*/
+            background-color: #4a4a4a; /* bg-gray-100 */
+            color: #FFFFFF;
+
+        }
+
+        .course-table th, .course-table td {
+            padding: 1rem 1.1rem; /* px-6 py-4 for td, py-3 for th */
+            white-space: nowrap;
+            border-bottom: 1px solid #E5E7EB; /* divide-y */
+        }
+
+
+        .course-table th {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            text-align: left;
+            font-size: 0.55rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            /*color: #6B7280; !* text-gray-500 *!*/
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .course-table td {
+            font-size: .8rem;
+        }
+        /* Filter Buttons */
+        .filter-buttons {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0rem;
+            margin-bottom: 0rem;
+            z-index: 10;
+        }
+
+        .filter-btn {
+            flex: 1; /* equal width */
+            padding: 0.75rem 0.5rem;
+            border: 1px solid #D1D5DB;
+            border-right: none; /* remove inner borders */
+            border-radius: 0;
+            background-color: #FFFFFF;
+            color: #374151;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        /* Last button gets the right border back */
+        .filter-btn:last-child {
+            border-right: 1px solid #D1D5DB;
+        }
+        .filter-btn:hover {
+            background-color: #d8d8d8;
+        }
+
+        .filter-btn.active {
+            background-color: var(--uga-red);
+            color: #FFFFFF;
+            border-color: var(--uga-red);
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+        .spinner {
+            margin: 10px auto 0;
+            width: 70px;
+            text-align: center;
+        }
+
+        .spinner > div {
+            width: 18px;
+            height: 18px;
+            background-color: #ba0c2f;
+
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+            animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes sk-bouncedelay {
+            0%, 80%, 100% { -webkit-transform: scale(0) }
+            40% { -webkit-transform: scale(1.0) }
+        }
+
+        @keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            } 40% {
+                  -webkit-transform: scale(1.0);
+                  transform: scale(1.0);
+              }
+        }
+
+
+        #noResults {
+            padding: 2rem; /* p-8 */
+            text-align: center;
+            color: #6B7280; /* text-gray-500 */
+        }
+        .pagination-wrapper {
+            margin-top: 1.5rem;
+            text-align: center;
+            justify-items: center
+        }
+
+        .pagination-info {
+            font-size: 1.55rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+            font-family: Oswald, sans-serif;
+            text-transform: uppercase;
+        }
+
+        .pagination-buttons button {
+            margin: 0 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination-buttons button.active-page {
+            background-color: #BA0C2F;
+            color: white;
+            font-weight: bold;
+        }
+        #pagination span {
+            font-weight: bold;
+            color: #777;
+        }
+        .table-container {
+            overflow-x: auto; /* just in case */
+            width: 100%;
+        }
+
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* evenly distribute column width */
+        }
+
+        .course-table th,
+        .course-table td {
+            padding: 0.4rem;
+            font-size: 0.875rem;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        table thead th:nth-child(2) {
+            text-align: center;
+        }
+
+        .course-table th:nth-child(1),
+        .course-table td:nth-child(1),
+        .course-table th:nth-child(6),
+        .course-table td:nth-child(6),
+        .course-table th:nth-child(7),
+        .course-table td:nth-child(7)
+        {
+            width: 100px; /* COURSE NUMBER */
+        }
+        .course-table th:nth-child(3),
+        .course-table td:nth-child(3) {
+            width: 70px; /* CRN */
+        }
+
+        .course-table th:nth-child(2),
+        .course-table td:nth-child(2) {
+            width: 200px; /* COURSE NAME */
+        }
+
+        .course-table th:nth-child(5),
+        .course-table th:nth-child(10),
+        .course-table th:nth-child(11),
+        .course-table th:nth-child(12),
+        .course-table td:nth-child(5),
+        .course-table td:nth-child(10),
+        .course-table td:nth-child(11),
+        .course-table td:nth-child(12) {
+            width: 70px;
+            max-width: 70px; /* MAX SEATS / AVAIL SEATS / ROOM */
+        }
+        .full-course {
+            /*background-color: #d5d5d5;  !* light grey background *!*/
+            background-color: #F3F4F6;
+                    /* medium grey text */
+            opacity: 0.8;
+        }
+
+        .ssb-bar, .ssb-bar * { box-sizing: border-box; }
+        .ssb-wrapper { width:100%; margin:0 auto; padding:2rem 0 2rem 0; background:#f7f7f7; display:flex; justify-content:center; }
+        .ssb-bar { display:flex; align-items:center; gap:0.75rem; width:100%; background:#fff; border-radius:10px; box-shadow:var(--ssb-shadow); transition:box-shadow .2s ease,transform .2s ease; overflow:visible; }
+        /*.ssb-bar:focus-within { box-shadow:var(--ssb-shadow-focus); }*/
+        .ssb-input-group { flex:1 1 auto; display:flex; align-items:center; gap:0.5rem; min-width:0; min-height: 70px;}
+        .ssb-search-btn { border:none; background:transparent; display:flex; align-items:center; justify-content:center; color:var(--ssb-accent); padding-left:1rem; cursor:pointer; flex:0 0 auto; transition:transform .15s ease,color .15s ease; }
+        .ssb-search-btn svg { width:25px; height:25px; }
+        .ssb-input-group input {
+            flex:1 1 auto;
+            min-width:0;
+            border:none;
+            background:transparent;
+            padding:.7rem 0;
+            font-size: 1.4rem;
+            color:#333;
+            outline:none;
+        }
+        /* Hide default clear button in IE/Edge */
+        .ssb-input-group input[type="search"]::-ms-clear {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+        /* Style WebKit search cancel button */
+        .ssb-input-group input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="%23ba0c2f" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 11.708.708L8.707 8l2.647 2.646a.5.5 0 11-.708.708L8 8.707l-2.646 2.647a.5.5 0 11-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z"/></svg>') no-repeat center center;
+            cursor: pointer;
+        }
+        .ssb-divider { flex:0 0 auto; color:var(--ssb-divider); font-size:2.2rem; line-height:2; user-select:none; }
+        .ssb-dropdown {
+            position: relative;
+            flex: 0 0 auto;
+            min-width: max-content;
+            display: inline-flex;
+            overflow: visible;
+            font-family: oswald, sans-serif;
+            letter-spacing: .5px;
+            font-size: 2.5rem;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem!important;
+            padding: 3rem!important;
+        }
+
+        .no-results .nr-by {
+            font-weight: bold;
+            color: #505050FF;    /* accent for search type */
+        }
+
+        .no-results .nr-query {
+            font-style: italic;
+            font-weight: bold;
+            color: #000;         /* highlight the user’s term */
+            background-color: rgba(253, 228, 150, 0.85)
+        }
+
+        .no-results .nr-campus {
+            font-weight: bold;
+            color: #505050;     /* different accent for campus */
+        }
+
+        .ssb-dropdown-toggle { all:unset; display:inline-flex; align-items:center; justify-content:space-between; width:180px; padding:.7rem 1rem; font-size:1.5rem; color:#333; cursor:pointer; overflow:visible; }
+        .ssb-dropdown-toggle .ssb-label { flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left; font-weight: 600; color: #ba0c2f;}
+        .ssb-dropdown-toggle svg { flex:0 0 auto; width:12px; height:8px; transition:transform .2s ease; }
+        .ssb-dropdown.open .ssb-dropdown-toggle svg { transform:rotate(180deg); }
+        .ssb-dropdown-menu { position:absolute; top:calc(100% + .4rem); left:0; width:100%; background:#fff; border-radius:10px; list-style:none; margin:0; padding:.4rem 0; box-shadow:var(--ssb-shadow); max-height:0; overflow:hidden; opacity:0; visibility:hidden; transform:translateY(-4px); transition:max-height .2s ease,opacity .15s ease,transform .15s ease; z-index:100; }
+        .ssb-dropdown.open .ssb-dropdown-menu { max-height:220px; opacity:1; visibility:visible; transform:translateY(0); box-shadow:var(--ssb-shadow-focus); }
+        .ssb-dropdown-item { padding:.6rem 1rem; font-size:.9rem; cursor:pointer; white-space:nowrap; transition:background .1s ease; }
+        .ssb-dropdown-item:hover, .ssb-dropdown-item:focus { background:#f2f2f2; outline:none; }
+        .ssb-dropdown-item.selected { font-weight:600; color:var(--ssb-accent); }
+        @media(max-width:420px) { .ssb-bar { flex-wrap:wrap; gap:.6rem; } .ssb-dropdown { flex:1 1 100%; } .ssb-divider { display:none; } .ssb-input-group { flex:1 1 100%; } }
+    </style>
+
+
+
+</head>
+<body>
+<nav class="navbar" id="navbar">
+    <div class="navbar-left">
+        <a href="index.html" class="logo-link"> <!-- Link back to home -->
+            <!-- Placeholder for UGA Logo -->
+            <img src="https://reg.uga.edu/_resources/images/logos/Screen-REGISTRAR-H-FC.png" alt="UGA Logo" class="uga-logo">
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <li class="relative group h-full">
+            <a href="#" class="block px-4 py-2 text-[24px] font-medium font-[oswald] group-hover:text-[#BA0C2F]">REGISTRATION</a>
+            <!-- Dropdown -->
+
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity  duration-150 absolute
+            left-0 top-full bg-white shadow-md p-4 w-400 z-10 border-t-4 border-[#BA0C2F]">
+                <ul class="list-none p-0 m-0 text-sm font-light font-[merriweather]" style="column-count: 2; column-gap: 1rem; column-rule: 1px solid #D1D5DB;">
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-5 py-1 whitespace-nowrap">62+ Program</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Academic Common Market</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Athena</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Campus Carry Information</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2025</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2026</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Holds</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Registration</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Repeating a Course</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Residency Classification &amp; Waivers</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule Adjustments</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule of Classes</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Tuition Assistance Program (TAP)</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Veterans</a></li>
+                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Withdrawals</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="dropdown">
+            <a href="#">STUDENT RECORDS</a>
+            <div class="dropdown-menu">
+
+            </div>
+        </li>
+        <li><a href="#">CALENDARS</a></li>
+        <li><a href="#">FACULTY & STAFF</a></li>
+        <li><a href="#">ACADEMICS</a></li>
+        <li><a href="#">FACULTY GOVERNANCE</a></li>
+    </ul>
+
+    <div class="navbar-right">
+        <div class="search-icon" id="searchIcon">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="search-bar" id="searchBar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button type="submit"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</nav>
+<div class="page-title-box">
+    <div class="container">
+     <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
+    </div>
+</div>
+
+
+    <!-- Hero Backdrop Section -->
+    <section class="hero-backdrop">
+        <div class="hero-shape"> </div>
+        <header class="hero-content">
+            <div class="container">
+                <h2>Fall 2025 Classes</h2>
+                <p>The table below is a searchable schedule of classes for Fall 2025.</p>
+                <p>Note: The table refreshes once daily and does not fully reflect course or seat availability.<br>
+                    For the most current and official course registration details, please consult
+                    <a href="https://athena.uga.edu">Athena</a>.
+                </p>
+            </div>
+        </header>
+    </section>
+<main class="container">
+
+
+    <div class="container" style="margin-top: -205px; padding-top: 0px;">
+
+        <!-- Campus/Type Filter Buttons -->
+        <div class="filter-buttons" id="categoryBtnContainer">
+            <button class="filter-btn active" data-filter="all">All Classes</button>
+            <button class="filter-btn" data-filter="athens">Athens Campus</button>
+            <button class="filter-btn" data-filter="tifton">Tifton Campus</button>
+            <button class="filter-btn" data-filter="griffin">Griffin Campus</button>
+            <button class="filter-btn" data-filter="gwinnett">Gwinnett Campus</button>
+            <button class="filter-btn" data-filter="online">Online Classes</button>
+            <button class="filter-btn" data-filter="honors">Honors Classes</button>
+            <button class="filter-btn" data-filter="other">Other - TBD</button>
+        </div>
+
+<!--        New Search-->
+
+        <div class="ssb-wrapper">
+            <form class="ssb-bar" role="search" autocomplete="off">
+                <div class="ssb-input-group">
+                    <button type="submit" class="ssb-search-btn" aria-label="Search">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2a9 9 0 106.32 15.32l4.09 4.09a1 1 0 001.41-1.41l-4.09-4.09A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z"/></svg>
+                    </button>
+                    <input type="search" id="ssbSearchInput" name="ssb_query"
+                           placeholder="Searching all columns (ex. ENGL 1101, English, Park Hall, Smith)"
+                           autocomplete="off" />
+                </div>
+                <span class="ssb-divider">|</span>
+                <div class="ssb-dropdown" id="ssbDropdown">
+                    <button type="button" class="ssb-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="ssb-label">SEARCH ALL</span>
+                        <svg viewBox="0 0 12 8" fill="currentColor"><path d="M6 8L0 0h12L6 8z"/></svg>
+                    </button>
+                    <ul class="ssb-dropdown-menu" role="listbox">
+                        <li class="ssb-dropdown-item selected" data-value="all">SEARCH ALL</li>
+                        <li class="ssb-dropdown-item" data-value="course-number">COURSE PREFIX</li>
+                        <li class="ssb-dropdown-item" data-value="course-name">COURSE NAME</li>
+                        <li class="ssb-dropdown-item" data-value="crn">CRN</li>
+                        <li class="ssb-dropdown-item" data-value="instructor">INSTRUCTOR</li>
+                    </ul>
+                    <input type="hidden" name="ssb_column" value="all" />
+                </div>
+            </form>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+        <script>
+            let currentSearchBy    = 'all';
+            let currentSearchQuery = '';
+            let currentCategory    = 'all';
+            const searchLabels = {
+                'all':         'Search All (searches every column)',
+                'course-number':'Course Prefix',
+                'crn':         'CRN',
+                'course-name': 'Course Name',
+                'instructor':  'Instructor'
+            };
+            const campusLabels = {
+                'all':     'All Classes (searches every campus)',
+                'athens':  'Athens Campus',
+                'tifton':  'Tifton Campus',
+                'griffin': 'Griffin Campus',
+                'gwinnett':'Gwinnett Campus',
+                'online':  'Online Classes',
+                'honors':  'Honors Classes',
+                'other':   'Other / TBD'
+            };
+            const placeholderMap = {
+                'all':             'Searching all columns (ex. ENGL 1101, English, Park Hall, Smith)',
+                'course-number': 'Searching prefixes/course numbers (ex. ENGL, ACCT 2101, BIOL 1103L)',
+                'crn':             'Searching CRN (ex. 25103)',
+                'course-name':   'Searching course titles (ex. English Comp, Animal Biology, etc.)',
+                'instructor':      'Searching instructors (ex. Smith)'
+            };
+
+            // Dropdown behavior
+            const ssbDropdown = document.getElementById('ssbDropdown');
+            const ssbToggle   = ssbDropdown.querySelector('.ssb-dropdown-toggle');
+            const ssbMenu     = ssbDropdown.querySelector('.ssb-dropdown-menu');
+            const ssbHidden   = ssbDropdown.querySelector('input[name="ssb_column"]');
+
+
+
+
+            ssbToggle.addEventListener('click', e => {
+                e.stopPropagation();
+                ssbDropdown.classList.toggle('open');
+                ssbToggle.setAttribute('aria-expanded', ssbDropdown.classList.contains('open'));
+            });
+
+            ssbMenu.addEventListener('click', e => {
+                const item = e.target.closest('.ssb-dropdown-item');
+                if (!item) return;
+                ssbMenu.querySelectorAll('.ssb-dropdown-item').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                ssbToggle.querySelector('.ssb-label').textContent = item.textContent;
+                ssbHidden.value = item.dataset.value;
+                const searchInput = document.getElementById('ssbSearchInput');
+                searchInput.placeholder = placeholderMap[ ssbHidden.value ] || placeholderMap['all'];
+
+
+                ssbDropdown.classList.remove('open');
+                ssbToggle.setAttribute('aria-expanded', 'false');
+                window.applyFilters();
+
+            });
+
+            document.addEventListener('click', e => {
+                if (!ssbDropdown.contains(e.target)) {
+                    ssbDropdown.classList.remove('open');
+                    ssbToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Data loading and filtering
+            document.addEventListener('DOMContentLoaded', () => {
+                let courseData = [], filteredData = [];
+                const rowsPerPage = 50;
+                let currentPage = 1;
+
+                const courseTableBody = document.getElementById('courseTableBody');
+                const paginationContainer = document.getElementById('pagination');
+                const paginationInfo = document.getElementById('pagination-info');
+                const searchInput = document.getElementById('ssbSearchInput');
+                const categoryButtons = document.querySelectorAll('#categoryBtnContainer .filter-btn');
+
+                // 1. Grab the hidden dropdown input
+                const ssbHidden = document
+                    .getElementById('ssbDropdown')
+                    .querySelector('input[name="ssb_column"]');
+
+                // 2. Define your per‐mode placeholders
+
+
+
+
+
+                let activeCategory = 'all';
+
+                // Load CSV data
+                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
+                    .then(r => r.text())
+                    .then(csv => {
+                        courseData = Papa.parse(csv, { header: true }).data
+                            .filter(r => r['CRN'] !== 'StringFilter')
+                            .map(r => {
+                                // Separate campus category
+                                const campusRaw = (r['CAMPUS'] || '').toLowerCase();
+                                let campusCategory = 'other';
+                                if (campusRaw.includes('online')) campusCategory = 'online';
+                                else if (campusRaw.includes('tifton')) campusCategory = 'tifton';
+                                else if (campusRaw.includes('griffin')) campusCategory = 'griffin';
+                                else if (campusRaw.includes('gwinnett')) campusCategory = 'gwinnett';
+                                else if (campusRaw.includes('athens')) campusCategory = 'athens';
+                                r.campusCategory = campusCategory;
+                                // Honors flag
+                                const courseNumRaw = (r['COURSE NUMBER'] || '').replace(/\s+/g, '');
+                                r.isHonors = /^[A-Za-z]{2,4}\d{4}H$/i.test(courseNumRaw);
+                                return r;
+                            })
+                            .sort((a, b) => ((a['COURSE NUMBER']||'').toUpperCase())
+                                .localeCompare((b['COURSE NUMBER']||'').toUpperCase(), undefined, { numeric: true }));
+                        applyFilters();
+                    });
+
+                // Prevent Enter from reloading
+                const ssbForm = document.querySelector('.ssb-bar');
+                ssbForm.addEventListener('submit', e => { e.preventDefault(); applyFilters(); });
+
+                // Search input and category buttons
+                searchInput.addEventListener('input', applyFilters);
+                categoryButtons.forEach(btn => btn.addEventListener('click', function() {
+                    categoryButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    activeCategory = this.dataset.filter;
+                    applyFilters();
+                }));
+
+                function applyFilters() {
+                    const qRaw = searchInput.value.trim().toLowerCase();
+                    const normalizedQ = qRaw.replace(/\s+/g, '');
+                    const searchBy = ssbHidden.value;
+                    currentSearchBy    = ssbHidden.value;
+                    currentSearchQuery = searchInput.value.trim();
+                    currentCategory    = activeCategory;
+
+                    if (searchBy === 'all' && normalizedQ.length <= 4) {
+                        // STEP 1: prefix matches on course number
+                        const prefixMatches = courseData.filter(r => {
+                            const matchCat = activeCategory === 'all'
+                                || (activeCategory === 'honors' && r.isHonors)
+                                || (activeCategory !== 'all' && activeCategory !== 'honors' && r.campusCategory === activeCategory);
+                            const courseNum = (r['COURSE NUMBER']||'').toLowerCase().replace(/\s+/g, '');
+                            return matchCat && courseNum.startsWith(normalizedQ);
+                        });
+                        // STEP 2: other matches across all fields, excluding prefix
+                        const otherMatches = courseData.filter(r => {
+                            const matchCat = activeCategory === 'all'
+                                || (activeCategory === 'honors' && r.isHonors)
+                                || (activeCategory !== 'all' && activeCategory !== 'honors' && r.campusCategory === activeCategory);
+                            const courseNum = (r['COURSE NUMBER']||'').toLowerCase().replace(/\s+/g, '');
+                            if (!matchCat || courseNum.startsWith(normalizedQ)) return false;
+                            const allF = Object.values(r).join(' ').toLowerCase().replace(/\s+/g, '');
+                            return allF.includes(normalizedQ);
+                        });
+                        filteredData = prefixMatches.concat(otherMatches);
+                    } else {
+                        // Scoped or long query logic
+                        filteredData = courseData.filter(r => {
+                            const matchCat = activeCategory === 'all'
+                                || (activeCategory === 'honors' && r.isHonors)
+                                || (activeCategory !== 'all' && activeCategory !== 'honors' && r.campusCategory === activeCategory);
+                            const courseNum = (r['COURSE NUMBER']||'').toLowerCase();
+                            const crn       = (r['CRN']             ||'').toLowerCase();
+                            const name      = (r['COURSE NAME']      ||'').toLowerCase();
+                            const instr     = (r['INSTRUCTOR']       ||'').toLowerCase();
+                            let matchSearch;
+                            switch (searchBy) {
+                                case 'course-number':
+                                    matchSearch = courseNum.replace(/\s+/g,'').includes(normalizedQ);
+                                    break;
+                                case 'crn':
+                                    matchSearch = crn.replace(/\s+/g,'').includes(normalizedQ);
+                                    break;
+                                case 'course-name':
+                                    matchSearch = name.replace(/\s+/g,'').includes(normalizedQ);
+                                    break;
+                                case 'instructor':
+                                    matchSearch = instr.replace(/\s+/g,'').includes(normalizedQ);
+                                    break;
+                                default:
+                                    const allF = Object.values(r).join(' ').toLowerCase().replace(/\s+/g,'');
+                                    matchSearch = allF.includes(normalizedQ);
+                            }
+                            return matchCat && matchSearch;
+                        });
+                    }
+// Push rows with no Course Number to the bottom
+                    filteredData.sort((a, b) => {
+                        const aEmpty = !a['COURSE NUMBER'];
+                        const bEmpty = !b['COURSE NUMBER'];
+                        if (aEmpty && !bEmpty) return 1;   // a has no course number → go after b
+                        if (!aEmpty && bEmpty) return -1;  // b has no course number → go after a
+                        return 0;                          // otherwise keep relative order
+                    });
+
+
+                    currentPage = 1;
+                    renderTable();
+                    renderPagination();
+                    window.applyFilters = applyFilters;
+                }
+
+                // renderTable() and renderPagination() unchanged...
+
+                function renderTable() {
+
+                    courseTableBody.innerHTML = '';
+                    if (filteredData.length === 0) {
+                        // Build a custom no‐results message
+                        const by   = searchLabels[currentSearchBy];
+                        const camp = campusLabels[currentCategory];
+
+                        const tr = document.createElement('tr');
+                        const td = document.createElement('td');
+                        td.colSpan = 11;    // span all columns
+                        td.innerHTML = `No results match
+                        <span class="nr-query">"${currentSearchQuery}"</span>
+                        for active search filters: <br/>
+                        <span class="nr-campus">${camp}</span> & <br/>
+                        <span class="nr-by">${by}</span>`;
+                        td.classList.add('no-results');
+                        tr.appendChild(td);
+                        courseTableBody.appendChild(tr);
+
+                        // (optional) hide or disable pagination
+                        paginationContainer.style.display = 'none';
+                        return;
+                    }
+
+                    // Otherwise repopulate your rows as usual…
+                    paginationContainer.style.display = '';
+
+                    // … existing row‐rendering code …
+                    const start = (currentPage - 1) * rowsPerPage;
+                    const pageData = filteredData.slice(start, start + rowsPerPage);
+                    pageData.forEach(r => {
+                        const tr = document.createElement('tr');
+                        const seats = parseInt(r['SEATS AVAILABLE']);
+                        if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
+                        tr.innerHTML = `<td>${r['COURSE NUMBER'] || ''}</td><td>${r['COURSE NAME'] || ''}</td><td>${r['CRN'] || ''}</td><td>${r['INSTRUCTOR'] || ''}</td><td>${r['DAYS'] || ''}</td><td>${r['TIME'] || ''}</td><td>${r['PART OF TERM'] || ''}</td><td>${r['CAMPUS'] ||''}</td><td>${r['BUILDING'] || ''}</td><td>${r['ROOM'] || ''}</td><td>${r['MAX STUDENTS'] || ''}</td><td>${r['SEATS AVAILABLE'] || ''}</td>`;
+                        courseTableBody.appendChild(tr);
+                    });
+                    // 2) **Post-render injection** for the first column:
+                    courseTableBody.querySelectorAll('tr td:first-child').forEach(cell => {
+                        const txt = cell.textContent.trim();
+                        if (txt.length > 4) {
+                            // split into two lines at 4 characters
+                            cell.innerHTML = txt.slice(0, 4) + ' ' + txt.slice(4);
+                        }
+                    });
+
+
+                }
+
+                function renderPagination() {
+                    const total = Math.ceil(filteredData.length / rowsPerPage);
+                    paginationInfo.textContent = `Showing ${rowsPerPage} per page · Page ${currentPage} of ${total}`;
+                    paginationContainer.innerHTML = '';
+                    const btn = (p) => {
+                        const b = document.createElement('button');
+                        b.textContent = p;
+                        if (p === currentPage) b.classList.add('active-page');
+                        b.addEventListener('click', () => {
+                            currentPage = p;
+                            renderTable();
+                            renderPagination();
+                        });
+                        paginationContainer.appendChild(b);
+                    };
+                    const ell = () => {
+                        const s = document.createElement('span');
+                        s.textContent = '…';
+                        s.style.margin = '0 6px';
+                        paginationContainer.appendChild(s);
+                    };
+                    if (total > 0) btn(1);
+                    if (currentPage > 3) ell();
+                    for (let i = Math.max(2, currentPage - 1); i <= Math.min(total - 1, currentPage + 1); i++) btn(i);
+                    if (currentPage < total - 2) ell();
+                    if (total > 1) btn(total);
+                }
+            });
+        </script>
+
+
+        <!-- Course Table -->
+        <div class="table-container">
+            <table class="course-table" id="courseTable">
+                <thead>
+                <tr>
+                    <th>Course Number</th>
+                    <th>Course<br>Name</th>
+                    <th>CRN</th>
+                    <th>Instructor</th>
+                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Part of Term</th>
+                    <th>Campus</th>
+                    <th>Building</th>
+                    <th>Room</th>
+                    <th>Max Seats</th>
+                    <th>Avail Seats</th>
+                </tr>
+                </thead>
+                <tbody id="courseTableBody">
+                <!-- Course data will be loaded here from Google Sheets -->
+                </tbody>
+            </table>
+            <div id="message-center">
+
+            </div>
+        </div>
+        <div class="pagination-wrapper">
+            <div id="pagination-info" class="pagination-info">Class Data Loading
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+
+            <div id="pagination" class="pagination-buttons"></div>
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!--        // data src-->
+<!--        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')-->
+<!--
+
+
+
+
+</body>
+</html>
