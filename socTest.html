@@ -35,8 +35,8 @@
             --ssb-accent: #ba0c2f;
             --ssb-accent-dark: #9e0a28;
             --ssb-divider: #e5e7eb;
-            --ssb-shadow: 0px 4px 4px rgba(0,0,0,.22) , 0 -2px 8px rgba(0,0,0,0.10);
-            --ssb-shadow-focus: 2 4px 4px rgba(0,0,0,.12);
+            --ssb-shadow: 0px 2px 2px rgba(0,0,0,.12) , 0 -1px 3px rgba(0,0,0,0.10);
+            --ssb-shadow-focus: 2 2px 2px rgba(0,0,0,.12);
         }
 
         @font-face {
@@ -85,6 +85,7 @@
             top: 0;
             left: 0;
             width: 100%;
+            height: 75px;
             gap: 40px; /* Space between logo, nav links, and search icon */
             z-index: 5000;
             box-sizing: border-box; /* Include padding in width calculation */
@@ -96,8 +97,8 @@
         .navbar-left .uga-logo {
             height: 70px;
             width: auto;
-            margin-top: -10px;
-            margin-bottom: -10px;
+            margin-top: -15px;
+            margin-bottom: -15px;
         }
 
         .nav-links {
@@ -225,6 +226,66 @@
             /*text-shadow: 0 0 3px #000000cc;*/
             text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
             margin: 0px 0px 0px 390px;
+        }
+
+        .mini-nav-wrapper {
+            position: relative;
+            margin-top: 30px;
+            margin-left: 270px;
+            display: inline-block;
+        }
+
+        /* Stripes layer exactly matching box size */
+        .mini-nav-container {
+            position: absolute;
+            top: -15px; /* offset upward */
+            left: -15px; /* offset left */
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(-45deg, #f7f7f7 0, #f7f7f7 2px, transparent 2px, transparent 10px);
+            border-radius: 6px;
+            z-index: 0;
+        }
+
+        /* White floating box */
+        .mini-nav-box {
+            position: relative;
+            background: white;
+            padding: 15px 25px 15px 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1;
+            text-align: right; /* Align text to the right */
+        }
+
+        /* Links styling */
+        .mini-nav-link {
+            text-decoration: none;
+            font-family: "Oswald", sans-serif;
+            font-size: 2.0rem;
+            /*letter-spacing: 0.1rem;*/
+            line-height: 1.2;
+            font-weight: 450;
+            color: #4a4a4a;
+            transition: color 0.2s ease;
+            display: inline-block; /* Make background wrap text */
+            align-self: flex-end;
+
+        }
+
+        .mini-nav-link:hover {
+            color: #ba0c2f;
+        }
+
+        /* Active link highlight */
+        .mini-nav-link.active {
+            background: linear-gradient(to top, #f3ede5
+            40%, transparent 40%);
+            /*background-color: #fdf5d3; !* light yellow background *!*/
+            padding: 0px 5px;
         }
 
 
@@ -757,6 +818,16 @@
                     <br />For the most current and official course registration details, please consult
                     <a href="https://athena.uga.edu">Athena</a>.</p>
 
+            </div>
+
+            <div class="mini-nav-wrapper">
+                <div class="mini-nav-container"></div>
+                <div class="mini-nav-box">
+                    <a href="#" class="mini-nav-link active">FALL 2025</a>
+                    <a href="#" class="mini-nav-link">SPRING 2026</a>
+                    <a href="#" class="mini-nav-link">SUMMER 2026</a>
+                    <a style="font-size: 1.2rem; margin-top: 4px;" href="#" class="mini-nav-link">ARCHIVES &gt;</a>
+                </div>
             </div>
 
 
