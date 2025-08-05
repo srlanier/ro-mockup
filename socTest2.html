@@ -238,35 +238,50 @@
             width: 100%;
             max-width: 1300px;
             margin: 0 auto 0;
-            padding: 0 20px;
+            padding: 0 0px;
         }
         /* Hero backdrop full-width background */
         .hero-backdrop {
             position: relative;
             width: 100%;
             background-color: #f7f7f7;
+            background-image: url("images/spring.png");
+            background-repeat: no-repeat;
+            background-position: center 25%;
+            background-size: cover;
             overflow: hidden;
         }
 
         /* Decorative gradient shape */
         .hero-shape {
-            position: absolute;
+            position: relative;
             top: 0;
             left: 0;
             width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
             height: 300px;
-            background: linear-gradient(-80deg, #f7f7f7 40%, #ffffff 40%);
-            border-left: 50px solid #f7f7f7;
+            border: 0 solid transparent;
+
+            /*background: linear-gradient(-80deg, #f7f7f7 40%, #ffffff 40%);*/
             z-index: 1;
         }
 
         /* Content positioned over shape */
         .hero-content {
+            font-family: Merriweather, serif;
             position: relative;
-            padding: 2rem 0;
-            margin-top: -?px; /* adjust if needed to overlap shape */
+            display: inline-block;       /* shrink-to-fit width and height */
+            padding: 0.5rem 1rem;        /* adjust for desired spacing */
+            margin: 0 auto;              /* center if needed */
             z-index: 2;
             text-align: left;
+            background: white;
+            border-bottom-right-radius: 50px;
+            border-bottom-left-radius: 50px;
+            height: auto;                /* remove fixed height */
+            width: auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1)
         }
 
         .hero-content h2 {
@@ -321,7 +336,7 @@
         /* Responsive adjustments */
         @media (min-width: 768px) {
             .hero-content {
-                padding: 4rem 0;
+                padding: 1rem 3rem;
             }
 
             .hero-content h2 {
@@ -809,7 +824,7 @@
     </div>
 </nav>
 <div class="page-title-box">
-    <div class="container">
+    <div class="container" style="padding: 0;">
      <h1 class="page-title-box-title">SCHEDULE OF CLASSES</h1>
     </div>
 </div>
@@ -817,8 +832,10 @@
 
     <!-- Hero Backdrop Section -->
     <section class="hero-backdrop">
-        <div class="hero-shape"> </div>
+        <div class="hero-shape">
+
         <header class="hero-content">
+
             <div class="container">
                 <h2>Fall 2025 Classes</h2>
                 <p>The table below is a searchable schedule of classes for Fall 2025.</p>
@@ -828,11 +845,14 @@
                 </p>
             </div>
         </header>
+        </div>
     </section>
-<main class="container">
 
 
-    <div class="container" style="margin-top: -205px; padding-top: 0px;">
+<main class="container" style="margin-top: 0px; padding: 0px;">
+
+
+    <div class="container" style="margin-top: 0px; padding: 0px;">
 
         <!-- Campus/Type Filter Buttons -->
         <div class="filter-buttons" id="categoryBtnContainer">
