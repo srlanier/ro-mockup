@@ -743,6 +743,7 @@
             /*background: #BA0C2F;*/
             display: flex;
             justify-content: center;
+
         }
 
         .ssb-bar {
@@ -755,6 +756,7 @@
             box-shadow: var(--ssb-shadow);
             transition: box-shadow .2s ease, transform .2s ease;
             overflow: visible;
+            z-index: 5;
         }
 
         /*.ssb-bar:focus-within { box-shadow:var(--ssb-shadow-focus); }*/
@@ -847,15 +849,98 @@
             color: #505050;     /* different accent for campus */
         }
 
-        .ssb-dropdown-toggle { all:unset; display:inline-flex; align-items:center; justify-content:space-between; width:180px; padding:.7rem 1rem; font-size:1.5rem; color:#333; cursor:pointer; overflow:visible; }
-        .ssb-dropdown-toggle .ssb-label { flex:1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:left; font-weight: 600; color: #ba0c2f;}
-        .ssb-dropdown-toggle svg { flex:0 0 auto; width:12px; height:8px; transition:transform .2s ease; }
-        .ssb-dropdown.open .ssb-dropdown-toggle svg { transform:rotate(180deg); }
-        .ssb-dropdown-menu { position:absolute; top:calc(100% + .4rem); left:0; width:100%; background:#fff; border-radius:10px; list-style:none; margin:0; padding:.4rem 0; box-shadow:var(--ssb-shadow); max-height:0; overflow:hidden; opacity:0; visibility:hidden; transform:translateY(-4px); transition:max-height .2s ease,opacity .15s ease,transform .15s ease; z-index:100; }
-        .ssb-dropdown.open .ssb-dropdown-menu { max-height:220px; opacity:1; visibility:visible; transform:translateY(0); box-shadow:var(--ssb-shadow-focus); }
-        .ssb-dropdown-item { padding:.6rem 1rem; font-size:.9rem; cursor:pointer; white-space:nowrap; transition:background .1s ease; }
-        .ssb-dropdown-item:hover, .ssb-dropdown-item:focus { background:#f2f2f2; outline:none; }
-        .ssb-dropdown-item.selected { font-weight:600; color:var(--ssb-accent); }
+        .ssb-dropdown-toggle {
+            all: unset;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 200px;
+            padding: .7rem 1rem;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            overflow: visible;
+        }
+
+        .ssb-dropdown-toggle .ssb-label {
+            flex: 1 1 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
+            font-weight: 600;
+            color: #ba0c2f;
+        }
+
+        .ssb-dropdown-toggle svg {
+            flex: 0 0 auto;
+            width: 12px;
+            height: 8px;
+            transition: transform .2s ease;
+        }
+
+        .ssb-dropdown.open .ssb-dropdown-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        .ssb-dropdown-menu {
+            position: absolute;
+            top: calc(100% + .4rem);
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            list-style: none;
+            margin: 0;
+            padding: .4rem 0;
+            box-shadow: var(--ssb-shadow);
+            max-height: 0;
+            overflow: visible;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: max-height .2s ease, opacity .15s ease, transform .15s ease;
+            z-index: 100;
+
+        }
+
+        .ssb-dropdown.open .ssb-dropdown-menu {
+            max-height: 550px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            box-shadow: var(--ssb-shadow);
+        }
+        .ssb-dropdown-label {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: #6b7280; /* Tailwind's gray-500 */
+            cursor: default;
+            pointer-events: none;
+            font-style: italic;
+            border-bottom: 1px solid #e5e7eb;
+            border-top: 1px solid #e5e7eb;
+            margin-bottom: 0.25rem;
+        }
+
+        .ssb-dropdown-item {
+            padding: .6rem 1rem;
+            font-size: .9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .1s ease;
+        }
+
+
+        .ssb-dropdown-item:hover, .ssb-dropdown-item:focus {
+            background: #f2f2f2;
+            outline: none;
+        }
+
+        .ssb-dropdown-item.selected {
+            font-weight: 600;
+            color: var(--ssb-accent);
+        }
         @media(max-width:420px) { .ssb-bar { flex-wrap:wrap; gap:.6rem; } .ssb-dropdown { flex:1 1 100%; } .ssb-divider { display:none; } .ssb-input-group { flex:1 1 100%; } }
 
 
@@ -953,9 +1038,6 @@
                     For the most current and official course registration details, please consult
                     <a href="https://athena.uga.edu">Athena</a>.
                 </p>
-                <p style="color: darkblue;">This version has two filters, location/format tabs and a dropdown to refine search parameters.</p>
-
-
 
             </div>
 
@@ -971,17 +1053,7 @@
             </div>
         </div>
         <div class="container">
-        <!-- Campus/Type Filter Buttons -->
-        <div class="filter-buttons" id="categoryBtnContainer">
-            <button class="filter-btn active" data-filter="all">All Classes</button>
-            <button class="filter-btn" data-filter="athens">Athens Campus</button>
-            <button class="filter-btn" data-filter="tifton">Tifton Campus</button>
-            <button class="filter-btn" data-filter="griffin">Griffin Campus</button>
-            <button class="filter-btn" data-filter="gwinnett">Gwinnett Campus</button>
-            <button class="filter-btn" data-filter="online">Online Classes</button>
-            <button class="filter-btn" data-filter="honors">Honors Classes</button>
-            <button class="filter-btn" data-filter="other">Other - TBD</button>
-        </div>
+
 
         <!--        New Search-->
 
@@ -992,7 +1064,7 @@
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2a9 9 0 106.32 15.32l4.09 4.09a1 1 0 001.41-1.41l-4.09-4.09A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z"/></svg>
                     </button>
                     <input type="search" id="ssbSearchInput" name="ssb_query"
-                           placeholder="Searching all columns (ex. ENGL 1101, English, Park Hall, Smith)"
+                           placeholder="Search any column (ex. ENGL 1101, Chemistry, Park Hall, Smith)"
                            autocomplete="off" />
                 </div>
                 <span class="ssb-divider">|</span>
@@ -1002,306 +1074,191 @@
                         <svg viewBox="0 0 12 8" fill="currentColor"><path d="M6 8L0 0h12L6 8z"/></svg>
                     </button>
                     <ul class="ssb-dropdown-menu" role="listbox">
+
                         <li class="ssb-dropdown-item selected" data-value="all">SEARCH ALL</li>
-                        <li class="ssb-dropdown-item" data-value="course-number">COURSE PREFIX</li>
-                        <li class="ssb-dropdown-item" data-value="course-name">COURSE NAME</li>
-                        <li class="ssb-dropdown-item" data-value="crn">CRN</li>
-                        <li class="ssb-dropdown-item" data-value="instructor">INSTRUCTOR</li>
+                        <li class="ssb-dropdown-label" aria-hidden="true">Filter by campus or course type:</li>
+                        <li class="ssb-dropdown-item" data-value="athens">ATHENS</li>
+                        <li class="ssb-dropdown-item" data-value="tifton">TIFTON</li>
+                        <li class="ssb-dropdown-item" data-value="griffin">GRIFFIN</li>
+<!--                        <li class="ssb-dropdown-item" data-value="gwinnett">GWINNETT</li>-->
+                        <li class="ssb-dropdown-item" data-value="online">ONLINE</li>
+                        <li class="ssb-dropdown-item" data-value="honors">HONORS</li>
+                        <li class="ssb-dropdown-item" data-value="other">Other - TBD</li>
                     </ul>
+
                     <input type="hidden" name="ssb_column" value="all" />
                 </div>
             </form>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-        <script>
-            let currentSearchBy    = 'all';
-            let currentSearchQuery = '';
-            let currentCategory    = 'all';
-            const searchLabels = {
-                'all':         'Search All (searches every column)',
-                'course-number':'Course Prefix',
-                'crn':         'CRN',
-                'course-name': 'Course Name',
-                'instructor':  'Instructor'
-            };
-            const campusLabels = {
-                'all':     'All Classes (searches every campus)',
-                'athens':  'Athens Campus',
-                'tifton':  'Tifton Campus',
-                'griffin': 'Griffin Campus',
-                'gwinnett':'Gwinnett Campus',
-                'online':  'Online Classes',
-                'honors':  'Honors Classes',
-                'other':   'Other / TBD'
-            };
-            const placeholderMap = {
-                'all':             'Searching all columns (ex. ENGL 1101, English, Park Hall, Smith)',
-                'course-number': 'Searching prefixes/course numbers (ex. ENGL, ACCT 2101, BIOL 1103L)',
-                'crn':             'Searching CRN (ex. 25103)',
-                'course-name':   'Searching course titles (ex. English Comp, Animal Biology, etc.)',
-                'instructor':      'Searching instructors (ex. Smith)'
-            };
 
-            // Dropdown behavior
-            const ssbDropdown = document.getElementById('ssbDropdown');
-            const ssbToggle   = ssbDropdown.querySelector('.ssb-dropdown-toggle');
-            const ssbMenu     = ssbDropdown.querySelector('.ssb-dropdown-menu');
-            const ssbHidden   = ssbDropdown.querySelector('input[name="ssb_column"]');
+            <!-- Include PapaParse -->
+            <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    let courseData = [], filteredData = [];
+                    const rowsPerPage = 50;
+                    let currentPage = 1;
 
+                    const courseTableBody = document.getElementById('courseTableBody');
+                    const paginationContainer = document.getElementById('pagination');
+                    const paginationInfo = document.getElementById('pagination-info');
+                    const searchInput = document.getElementById('ssbSearchInput');
+                    const ssbDropdown = document.getElementById('ssbDropdown');
+                    const ssbHidden = ssbDropdown.querySelector('input[name="ssb_column"]');
+                    const ssbToggle = ssbDropdown.querySelector('.ssb-dropdown-toggle');
+                    const ssbMenu = ssbDropdown.querySelector('.ssb-dropdown-menu');
 
+                    ssbToggle.addEventListener('click', e => {
+                        e.stopPropagation();
+                        ssbDropdown.classList.toggle('open');
+                        ssbToggle.setAttribute('aria-expanded', ssbDropdown.classList.contains('open'));
+                    });
 
-            ssbToggle.addEventListener('click', e => {
-                e.stopPropagation();
-                ssbDropdown.classList.toggle('open');
-                ssbToggle.setAttribute('aria-expanded', ssbDropdown.classList.contains('open'));
-            });
-
-            ssbMenu.addEventListener('click', e => {
-                const item = e.target.closest('.ssb-dropdown-item');
-                if (!item) return;
-                ssbMenu.querySelectorAll('.ssb-dropdown-item').forEach(i => i.classList.remove('selected'));
-                item.classList.add('selected');
-                ssbToggle.querySelector('.ssb-label').textContent = item.textContent;
-                ssbHidden.value = item.dataset.value;
-                const searchInput = document.getElementById('ssbSearchInput');
-                searchInput.placeholder = placeholderMap[ ssbHidden.value ] || placeholderMap['all'];
-
-
-                ssbDropdown.classList.remove('open');
-                ssbToggle.setAttribute('aria-expanded', 'false');
-                window.applyFilters();
-
-            });
-
-            document.addEventListener('click', e => {
-                if (!ssbDropdown.contains(e.target)) {
-                    ssbDropdown.classList.remove('open');
-                    ssbToggle.setAttribute('aria-expanded', 'false');
-                }
-            });
-
-            // Data loading and filtering
-            document.addEventListener('DOMContentLoaded', () => {
-                let courseData = [], filteredData = [];
-                const rowsPerPage = 50;
-                let currentPage = 1;
-
-                const courseTableBody = document.getElementById('courseTableBody');
-                const paginationContainer = document.getElementById('pagination');
-                const paginationInfo = document.getElementById('pagination-info');
-                const searchInput = document.getElementById('ssbSearchInput');
-                const categoryButtons = document.querySelectorAll('#categoryBtnContainer .filter-btn');
-
-                // 1. Grab the hidden dropdown input
-                const ssbHidden = document
-                    .getElementById('ssbDropdown')
-                    .querySelector('input[name="ssb_column"]');
-
-                // 2. Define your per‐mode placeholders
-
-
-
-
-
-                let activeCategory = 'all';
-
-                // Load CSV data
-                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
-                    .then(r => r.text())
-                    .then(csv => {
-                        courseData = Papa.parse(csv, { header: true }).data
-                            .filter(r => r['CRN'] !== 'StringFilter')
-                            .map(r => {
-                                // Separate campus category
-                                const campusRaw = (r['CAMPUS'] || '').toLowerCase();
-                                let campusCategory = 'other';
-                                if (campusRaw.includes('online')) campusCategory = 'online';
-                                else if (campusRaw.includes('tifton')) campusCategory = 'tifton';
-                                else if (campusRaw.includes('griffin')) campusCategory = 'griffin';
-                                else if (campusRaw.includes('gwinnett')) campusCategory = 'gwinnett';
-                                else if (campusRaw.includes('athens')) campusCategory = 'athens';
-                                r.campusCategory = campusCategory;
-                                // Honors flag
-                                const courseNumRaw = (r['COURSE NUMBER'] || '').replace(/\s+/g, '');
-                                r.isHonors = /^[A-Za-z]{2,4}\d{4}H$/i.test(courseNumRaw);
-                                return r;
-                            })
-                            .sort((a, b) => ((a['COURSE NUMBER']||'').toUpperCase())
-                                .localeCompare((b['COURSE NUMBER']||'').toUpperCase(), undefined, { numeric: true }));
+                    ssbMenu.addEventListener('click', e => {
+                        const item = e.target.closest('.ssb-dropdown-item');
+                        if (!item) return;
+                        ssbMenu.querySelectorAll('.ssb-dropdown-item').forEach(i => i.classList.remove('selected'));
+                        item.classList.add('selected');
+                        ssbToggle.querySelector('.ssb-label').textContent = item.textContent;
+                        ssbHidden.value = item.dataset.value;
+                        ssbDropdown.classList.remove('open');
+                        ssbToggle.setAttribute('aria-expanded', 'false');
                         applyFilters();
                     });
 
-                // Prevent Enter from reloading
-                const ssbForm = document.querySelector('.ssb-bar');
-                ssbForm.addEventListener('submit', e => { e.preventDefault(); applyFilters(); });
+                    document.addEventListener('click', e => {
+                        if (!ssbDropdown.contains(e.target)) {
+                            ssbDropdown.classList.remove('open');
+                            ssbToggle.setAttribute('aria-expanded', 'false');
+                        }
+                    });
 
-                // Search input and category buttons
-                searchInput.addEventListener('input', applyFilters);
-                categoryButtons.forEach(btn => btn.addEventListener('click', function() {
-                    categoryButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    activeCategory = this.dataset.filter;
-                    applyFilters();
-                }));
+                    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
+                        .then(r => r.text())
+                        .then(csv => {
+                            courseData = Papa.parse(csv, { header: true }).data
+                                .filter(r => r['CRN'] !== 'StringFilter')
+                                .map(r => {
+                                    const campusRaw = (r['CAMPUS'] || '').toLowerCase();
+                                    if (campusRaw.includes('online')) r.Category = 'online';
+                                    else if (campusRaw.includes('tifton')) r.Category = 'tifton';
+                                    else if (campusRaw.includes('griffin')) r.Category = 'griffin';
+                                    // else if (campusRaw.includes('gwinnett')) r.Category = 'gwinnett';
+                                    else if (campusRaw.includes('athens')) r.Category = 'athens';
+                                    else r.Category = 'other';
+                                    const courseNumRaw = (r['COURSE NUMBER'] || '').replace(/\s+/g, '');
+                                    if (/^[A-Za-z]{2,4}\d{4}H$/i.test(courseNumRaw)) r.Category = 'honors';
+                                    return r;
+                                })
+                                .sort((a, b) => ((a['COURSE NUMBER'] || '').toUpperCase())
+                                    .localeCompare((b['COURSE NUMBER'] || '').toUpperCase(), undefined, { numeric: true }));
+                            applyFilters();
+                        });
 
-                function applyFilters() {
-                    const qRaw = searchInput.value.trim().toLowerCase();
-                    const normalizedQ = qRaw.replace(/\s+/g, '');
-                    const searchBy = ssbHidden.value;
-                    currentSearchBy    = ssbHidden.value;
-                    currentSearchQuery = searchInput.value.trim();
-                    currentCategory    = activeCategory;
+                    searchInput.addEventListener('input', applyFilters);
 
-                    if (searchBy === 'all' && normalizedQ.length <= 4) {
-                        // STEP 1: prefix matches on course number
+                    function applyFilters() {
+                        const query = searchInput.value.trim().toLowerCase();
+                        const normalizedQ = query.replace(/\s+/g, '');
+                        const selectedCategory = ssbHidden.value;
+
                         const prefixMatches = courseData.filter(r => {
-                            const matchCat = activeCategory === 'all'
-                                || (activeCategory === 'honors' && r.isHonors)
-                                || (activeCategory !== 'all' && activeCategory !== 'honors' && r.campusCategory === activeCategory);
-                            const courseNum = (r['COURSE NUMBER']||'').toLowerCase().replace(/\s+/g, '');
+                            const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
+                            const matchCat = selectedCategory === 'all' || r.Category === selectedCategory;
                             return matchCat && courseNum.startsWith(normalizedQ);
                         });
-                        // STEP 2: other matches across all fields, excluding prefix
+
                         const otherMatches = courseData.filter(r => {
-                            const matchCat = activeCategory === 'all'
-                                || (activeCategory === 'honors' && r.isHonors)
-                                || (activeCategory !== 'all' && activeCategory !== 'honors' && r.campusCategory === activeCategory);
-                            const courseNum = (r['COURSE NUMBER']||'').toLowerCase().replace(/\s+/g, '');
+                            const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
+                            const matchCat = selectedCategory === 'all' || r.Category === selectedCategory;
                             if (!matchCat || courseNum.startsWith(normalizedQ)) return false;
                             const allF = Object.values(r).join(' ').toLowerCase().replace(/\s+/g, '');
                             return allF.includes(normalizedQ);
                         });
+
                         filteredData = prefixMatches.concat(otherMatches);
-                    } else {
-                        // Scoped or long query logic
-                        filteredData = courseData.filter(r => {
-                            const matchCat = activeCategory === 'all'
-                                || (activeCategory === 'honors' && r.isHonors)
-                                || (activeCategory !== 'all' && activeCategory !== 'honors' && r.campusCategory === activeCategory);
-                            const courseNum = (r['COURSE NUMBER']||'').toLowerCase();
-                            const crn       = (r['CRN']             ||'').toLowerCase();
-                            const name      = (r['COURSE NAME']      ||'').toLowerCase();
-                            const instr     = (r['INSTRUCTOR']       ||'').toLowerCase();
-                            let matchSearch;
-                            switch (searchBy) {
-                                case 'course-number':
-                                    matchSearch = courseNum.replace(/\s+/g,'').includes(normalizedQ);
-                                    break;
-                                case 'crn':
-                                    matchSearch = crn.replace(/\s+/g,'').includes(normalizedQ);
-                                    break;
-                                case 'course-name':
-                                    matchSearch = name.replace(/\s+/g,'').includes(normalizedQ);
-                                    break;
-                                case 'instructor':
-                                    matchSearch = instr.replace(/\s+/g,'').includes(normalizedQ);
-                                    break;
-                                default:
-                                    const allF = Object.values(r).join(' ').toLowerCase().replace(/\s+/g,'');
-                                    matchSearch = allF.includes(normalizedQ);
-                            }
-                            return matchCat && matchSearch;
+
+                        filteredData.sort((a, b) => {
+                            const aEmpty = !a['COURSE NUMBER'];
+                            const bEmpty = !b['COURSE NUMBER'];
+                            if (aEmpty && !bEmpty) return 1;
+                            if (!aEmpty && bEmpty) return -1;
+                            return 0;
                         });
-                    }
-// Push rows with no Course Number to the bottom
-                    filteredData.sort((a, b) => {
-                        const aEmpty = !a['COURSE NUMBER'];
-                        const bEmpty = !b['COURSE NUMBER'];
-                        if (aEmpty && !bEmpty) return 1;   // a has no course number → go after b
-                        if (!aEmpty && bEmpty) return -1;  // b has no course number → go after a
-                        return 0;                          // otherwise keep relative order
-                    });
 
-
-                    currentPage = 1;
-                    renderTable();
-                    renderPagination();
-                    window.applyFilters = applyFilters;
-                }
-
-                // renderTable() and renderPagination() unchanged...
-
-                function renderTable() {
-
-                    courseTableBody.innerHTML = '';
-                    if (filteredData.length === 0) {
-                        // Build a custom no‐results message
-                        const by   = searchLabels[currentSearchBy];
-                        const camp = campusLabels[currentCategory];
-
-                        const tr = document.createElement('tr');
-                        const td = document.createElement('td');
-                        td.colSpan = 11;    // span all columns
-                        td.innerHTML = `No results match
-                        <span class="nr-query">"${currentSearchQuery}"</span>
-                        for active search filters: <br/>
-                        <span class="nr-campus">${camp}</span> & <br/>
-                        <span class="nr-by">${by}</span>`;
-                        td.classList.add('no-results');
-                        tr.appendChild(td);
-                        courseTableBody.appendChild(tr);
-
-                        // (optional) hide or disable pagination
-                        paginationContainer.style.display = 'none';
-                        return;
+                        currentPage = 1;
+                        renderTable();
+                        renderPagination();
                     }
 
-                    // Otherwise repopulate your rows as usual…
-                    paginationContainer.style.display = '';
-
-                    // … existing row‐rendering code …
-                    const start = (currentPage - 1) * rowsPerPage;
-                    const pageData = filteredData.slice(start, start + rowsPerPage);
-                    pageData.forEach(r => {
-                        const tr = document.createElement('tr');
-                        const seats = parseInt(r['SEATS AVAILABLE']);
-                        if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
-                        tr.innerHTML = `<td>${r['COURSE NUMBER'] || ''}</td><td>${r['COURSE NAME'] || ''}</td><td>${r['CRN'] || ''}</td><td>${r['INSTRUCTOR'] || ''}</td><td>${r['DAYS'] || ''}</td><td>${r['TIME'] || ''}</td><td>${r['PART OF TERM'] || ''}</td><td>${r['CAMPUS'] ||''}</td><td>${r['BUILDING'] || ''}</td><td>${r['ROOM'] || ''}</td><td>${r['MAX STUDENTS'] || ''}</td><td>${r['SEATS AVAILABLE'] || ''}</td>`;
-                        courseTableBody.appendChild(tr);
-                    });
-                    // 2) **Post-render injection** for the first column:
-                    courseTableBody.querySelectorAll('tr td:first-child').forEach(cell => {
-                        const txt = cell.textContent.trim();
-                        if (txt.length > 4) {
-                            // split into two lines at 4 characters
-                            cell.innerHTML = txt.slice(0, 4) + ' ' + txt.slice(4);
+                    function renderTable() {
+                        courseTableBody.innerHTML = '';
+                        if (filteredData.length === 0) {
+                            const tr = document.createElement('tr');
+                            const td = document.createElement('td');
+                            td.colSpan = 12;
+                            td.classList.add('no-results');
+                            td.textContent = 'No matching results found.';
+                            tr.appendChild(td);
+                            courseTableBody.appendChild(tr);
+                            paginationContainer.style.display = 'none';
+                            return;
                         }
-                    });
 
-
-                }
-
-                function renderPagination() {
-                    const total = Math.ceil(filteredData.length / rowsPerPage);
-                    paginationInfo.textContent = `Showing ${rowsPerPage} per page · Page ${currentPage} of ${total}`;
-                    paginationContainer.innerHTML = '';
-                    const btn = (p) => {
-                        const b = document.createElement('button');
-                        b.textContent = p;
-                        if (p === currentPage) b.classList.add('active-page');
-                        b.addEventListener('click', () => {
-                            currentPage = p;
-                            renderTable();
-                            renderPagination();
+                        paginationContainer.style.display = '';
+                        const start = (currentPage - 1) * rowsPerPage;
+                        const pageData = filteredData.slice(start, start + rowsPerPage);
+                        pageData.forEach(r => {
+                            const tr = document.createElement('tr');
+                            const seats = parseInt(r['SEATS AVAILABLE']);
+                            if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
+                            tr.innerHTML = `<td>${r['COURSE NUMBER'] || ''}</td><td>${r['COURSE NAME'] || ''}</td><td>${r['CRN'] || ''}</td><td>${r['INSTRUCTOR'] || ''}</td><td>${r['DAYS'] || ''}</td><td>${r['TIME'] || ''}</td><td>${r['PART OF TERM'] || ''}</td><td>${r['CAMPUS'] || ''}</td><td>${r['BUILDING'] || ''}</td><td>${r['ROOM'] || ''}</td><td>${r['MAX STUDENTS'] || ''}</td><td>${r['SEATS AVAILABLE'] || ''}</td>`;
+                            courseTableBody.appendChild(tr);
                         });
-                        paginationContainer.appendChild(b);
-                    };
-                    const ell = () => {
-                        const s = document.createElement('span');
-                        s.textContent = '…';
-                        s.style.margin = '0 6px';
-                        paginationContainer.appendChild(s);
-                    };
-                    if (total > 0) btn(1);
-                    if (currentPage > 3) ell();
-                    for (let i = Math.max(2, currentPage - 1); i <= Math.min(total - 1, currentPage + 1); i++) btn(i);
-                    if (currentPage < total - 2) ell();
-                    if (total > 1) btn(total);
-                }
-            });
-        </script>
+
+                        courseTableBody.querySelectorAll('tr td:first-child').forEach(cell => {
+                            const txt = cell.textContent.trim();
+                            if (txt.length > 4) {
+                                cell.innerHTML = txt.slice(0, 4) + ' ' + txt.slice(4);
+                            }
+                        });
+                    }
+
+                    function renderPagination() {
+                        const total = Math.ceil(filteredData.length / rowsPerPage);
+                        paginationInfo.textContent = `Showing ${rowsPerPage} per page · Page ${currentPage} of ${total}`;
+                        paginationContainer.innerHTML = '';
+
+                        const btn = (p) => {
+                            const b = document.createElement('button');
+                            b.textContent = p;
+                            if (p === currentPage) b.classList.add('active-page');
+                            b.addEventListener('click', () => {
+                                currentPage = p;
+                                renderTable();
+                                renderPagination();
+                            });
+                            paginationContainer.appendChild(b);
+                        };
+
+                        const ell = () => {
+                            const s = document.createElement('span');
+                            s.textContent = '…';
+                            s.style.margin = '0 6px';
+                            paginationContainer.appendChild(s);
+                        };
+
+                        if (total > 0) btn(1);
+                        if (currentPage > 3) ell();
+                        for (let i = Math.max(2, currentPage - 1); i <= Math.min(total - 1, currentPage + 1); i++) btn(i);
+                        if (currentPage < total - 2) ell();
+                        if (total > 1) btn(total);
+                    }
+                });
+            </script>
+
         </div>
 
     </section>
