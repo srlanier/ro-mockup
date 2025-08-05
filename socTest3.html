@@ -64,7 +64,7 @@
             margin: 0;
             /*background-color: #888888;*/
             /*background-color: white;*/
-            background-color: white;
+            background-color: #f7f7f7;
             color: var(--uga-grey);
             overflow-x: hidden; /* Ensure no horizontal scrollbar */
         }
@@ -204,7 +204,7 @@
         .page-title-box {
             box-sizing: border-box;
             width: 100%;
-            margin: 74px auto 0;
+            margin: 0px auto 0;
             padding: 40px 0 0 5px;
             text-align: left;
             position: relative;
@@ -245,12 +245,9 @@
         .hero-backdrop {
             position: relative;
             width: 100%;
+            height: auto;
             /*height: 370px;*/
             background-color: #f7f7f7;
-            /*background-image: url("images/spring.png");*/
-            background-repeat: no-repeat;
-            background-position: center 25%;
-            background-size: cover;
             /*overflow: hidden;*/
         }
 
@@ -504,8 +501,9 @@
             min-width: 1200px;
             overflow-x: auto;
             background-color: #FFFFFF; /* bg-white */
-            border-radius: .8rem; /* rounded-lg */
+            border-radius: 0; /* rounded-lg */
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+            margin-top: 1.5rem;
         }
 
         .course-table {
@@ -526,6 +524,7 @@
             padding: 1rem 1.1rem; /* px-6 py-4 for td, py-3 for th */
             white-space: nowrap;
             border-bottom: 1px solid #E5E7EB; /* divide-y */
+            border-bottom: 1px solid #f7f7f7; /* divide-y */
         }
 
 
@@ -543,47 +542,6 @@
         .course-table td {
             font-size: .8rem;
         }
-        /* Filter Buttons */
-        .filter-buttons {
-            position: relative;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0rem;
-            margin-bottom: 0rem;
-            z-index: 10;
-
-        }
-
-        .filter-btn {
-            flex: 1; /* equal width */
-            padding: 0.75rem 0.5rem;
-            border: 1px solid #D1D5DB;
-            border-right: none; /* remove inner borders */
-            border-radius: 0;
-            background-color: #FFFFFF;
-            color: #374151;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            text-align: center;
-            box-sizing: border-box;
-            font-family: 'Merriweather', serif;
-        }
-        /* Last button gets the right border back */
-        .filter-btn:last-child {
-            border-right: 1px solid #D1D5DB;
-        }
-        .filter-btn:hover {
-            background-color: #d8d8d8;
-        }
-
-        .filter-btn.active {
-            background-color: var(--uga-red);
-            color: #FFFFFF;
-            border-color: var(--uga-red);
-        }
 
         /* Utility Classes */
         .hidden {
@@ -591,13 +549,13 @@
         }
         .spinner {
             margin: 10px auto 0;
-            width: 70px;
+            width: 150px;
             text-align: center;
         }
 
         .spinner > div {
-            width: 18px;
-            height: 18px;
+            width: 25px;
+            height: 25px;
             background-color: #ba0c2f;
 
             border-radius: 100%;
@@ -639,6 +597,7 @@
         }
         .pagination-wrapper {
             margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
             text-align: center;
             justify-items: center
         }
@@ -690,9 +649,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .course-table th {
+
+        }
 
         table thead th:nth-child(2) {
-            text-align: center;
+
         }
 
         .course-table th:nth-child(1),
@@ -726,10 +688,10 @@
             max-width: 70px; /* MAX SEATS / AVAIL SEATS / ROOM */
         }
         .full-course {
-            /*background-color: #d5d5d5;  !* light grey background *!*/
-            background-color: #F3F4F6;
-                    /* medium grey text */
-            opacity: 0.8;
+            background-color: #d5d5d5;  /* light grey background */
+            /*background-color: #F3F4F6;*/
+            /*background-color: #c2c2c2;  !* light grey background *!*/
+            /*opacity: 0.9;*/
         }
 
         .ssb-bar, .ssb-bar * {
@@ -954,69 +916,7 @@
 
 </head>
 <body>
-<nav class="navbar" id="navbar">
-    <div class="navbar-left">
-        <a href="index.html" class="logo-link"> <!-- Link back to home -->
-            <!-- Placeholder for UGA Logo -->
-            <img src="https://reg.uga.edu/_resources/images/logos/Screen-REGISTRAR-H-FC.png" alt="UGA Logo" class="uga-logo">
-        </a>
-    </div>
 
-    <ul class="nav-links">
-        <li class="relative group h-full">
-            <a href="#" class="block px-4 py-2 text-[24px] font-medium font-[oswald] group-hover:text-[#BA0C2F]">REGISTRATION</a>
-            <!-- Dropdown -->
-
-            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity  duration-150 absolute
-            left-0 top-full bg-white shadow-md p-4 w-400 z-10 border-t-4 border-[#BA0C2F]">
-                <ul class="list-none p-0 m-0 text-sm font-light font-[merriweather]" style="column-count: 2; column-gap: 1rem; column-rule: 1px solid #D1D5DB;">
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-5 py-1 whitespace-nowrap">62+ Program</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Academic Common Market</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Athena</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Campus Carry Information</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2025</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Daily Class Schedule 2026</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Holds</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Registration</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Repeating a Course</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Residency Classification &amp; Waivers</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule Adjustments</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Schedule of Classes</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Tuition Assistance Program (TAP)</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Veterans</a></li>
-                    <li><a href="#" class="block hover:bg-gray-100 rounded px-2 py-1 whitespace-nowrap">Withdrawals</a></li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="dropdown">
-            <a href="#">STUDENT RECORDS</a>
-            <div class="dropdown-menu">
-
-            </div>
-        </li>
-        <li><a href="#">CALENDARS</a></li>
-        <li><a href="#">FACULTY & STAFF</a></li>
-        <li><a href="#">ACADEMICS</a></li>
-        <li><a href="#">FACULTY GOVERNANCE</a></li>
-    </ul>
-
-    <div class="navbar-right">
-        <div class="search-icon" id="searchIcon">
-            <i class="fas fa-search"></i>
-        </div>
-        <div class="search-bar" id="searchBar">
-            <input type="text" id="searchInput" placeholder="Search...">
-            <button type="submit"><i class="fas fa-arrow-right"></i></button>
-        </div>
-    </div>
-
-    <div class="hamburger-menu" id="hamburgerMenu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-</nav>
 
 <div class="page-title-box">
     <div class="container">
@@ -1263,8 +1163,19 @@
 
     </section>
 
+<div class="background-top-gray" style="
+  width: 100%;
+  height: 100%;
+  /*background-color: #F7F7F7;*/
 
-<!--<main class="container" style="margin-top: 0px; padding: 0px;">-->
+
+  /*background: linear-gradient(to bottom, #F7F7F7 55%, #FFFFFF 100%);*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+"></div>
+
     <main class="container">
 
 <!--    <div class="container" style="margin-top: 0px; padding: 0px;">-->
@@ -1317,6 +1228,7 @@
 
 
 </main>
+
 
 
 
