@@ -27,16 +27,16 @@
 
         @font-face {
             font-family: "Oswald";
-            src: url('../fonts/Oswald-VariableFont_wght.ttf');
+            src: url('fonts/Oswald-VariableFont_wght.ttf');
         }
 
         @font-face {
             font-family: "Merriweather Sans";
-            src: url('../fonts/MerriweatherSans-VariableFont_wght.ttf');
+            src: url('fonts/MerriweatherSans-VariableFont_wght.ttf');
         }
         @font-face {
             font-family: "Merriweather";
-            src: url('../fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
+            src: url('fonts/Merriweather-VariableFont_opsz,wdth,wght.ttf');
         }
 
         /* Custom font utility for Merriweather Sans */
@@ -483,6 +483,13 @@
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
+        .step-title a {
+            color: #ba0c2f;
+            text-decoration: none;
+        }
+        .step-title a:hover {
+            text-decoration: underline;
+        }
 
         .step-description {
             color: #374151;
@@ -493,7 +500,7 @@
             border-radius: 0.5rem;
             border: 1px solid #E5E7EB;
             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            width: 100%;
+            width: 50%;
             height: auto;
         }
 
@@ -512,6 +519,13 @@
 
         .faq-answer {
             color: #374151;
+        }
+        .faq-answer a {
+            color: #ba0c2f;
+            text-decoration: none;
+        }
+        .faq-answer a:hover {
+            text-decoration: underline;
         }
 
         /* Responsive Adjustments */
@@ -533,6 +547,7 @@
                 flex-direction: row;
             }
         }
+
     </style>
 </head>
 <body>
@@ -605,14 +620,9 @@
 <main>
     <div class="content">
         <!-- Step-by-Step Instructions Section -->
-        <section>
-            <h2 class="section-title">Undergraduate Students</h2>
-        </section>
-        <section>
-            <h2 class="section-title">Graduate Students</h2>
-        </section>
+
         <section class="card" aria-labelledby="instructions-heading">
-            <h2 id="instructions-heading" class="section-title">How to Apply to Graduate in ATHENA </h2>
+            <h2 id="instructions-heading" class="section-title">How to Apply to Graduate in ATHENA</h2>
 
             <ol class="steps-list">
                 <!-- Step 1: Log In -->
@@ -621,7 +631,7 @@
                         <div class="step-number" aria-hidden="true">1</div>
                     </div>
                     <div class="step-content">
-                        <h3 class="step-title">Step 1: Log in to ATHENA</h3>
+                        <h3 class="step-title">Step 1: Log in to <a href="https://athena.uga.edu">ATHENA</a></h3>
                     </div>
                 </li>
 
@@ -631,10 +641,10 @@
                         <div class="step-number" aria-hidden="true">2</div>
                     </div>
                     <div class="step-content">
-                        <h3 class="step-title">Step 2: Open the 'Student Services' menu</h3>
-                        <img src="https://placehold.co/600x300/e0e7ff/374151?text=SIS+Dashboard+View"
+                        <h3 class="step-title">Step 2: Open the <a href="https://athena-prod.uga.edu/StudentSelfService/ssb/studentCommonDashboard">'Student Services'</a> menu</h3>
+                        <img src="images/thumbnail_Student Services Tile Athena.png"
                              onerror="this.onerror=null;this.src='https://placehold.co/600x300/e0e7ff/374151?text=Image+Not+Found';"
-                             alt="Screenshot of the SIS dashboard, with an arrow pointing to the 'Apply to Graduate' link."
+                             alt="Screenshot of the ATHENA Student dashboard, with an indicator to select the Student Services menu link."
                              class="step-image">
                     </div>
                 </li>
@@ -729,15 +739,19 @@
             <h2 id="faq-heading" class="section-title">Frequently Asked Questions (FAQ)</h2>
             <div class="faq-list">
                 <div>
-                    <h4 class="faq-question">How do I get a ticket for the commencement ceremony?</h4>
-                    <p class="faq-answer">text</p>
+                    <h4 class="faq-question">How can I view my submitted application?</h4>
+                    <p class="faq-answer">Locate the 'Student Services' menu (Step 2 above), expand the 'Graduation' heading, and select 'View Application to Graduate.'</p>
                 </div>
                 <div>
                     <h4 class="faq-question">What if I miss the application deadline?</h4>
                     <p class="faq-answer">text</p>
                 </div>
                 <div>
-                    <h4 class="faq-question">How can I change my diploma name information?</h4>
+                    <h4 class="faq-question">When will my Graduation Application be approved?</h4>
+                    <p class="faq-answer">The degree conferral period begins after commencement and lasts 2 weeks. Departments will review the degree requirements of all students with an active Graduation Application.</p>
+                </div>
+                <div>
+                    <h4 class="faq-question">How do I get a ticket for the commencement ceremony?</h4>
                     <p class="faq-answer">text</p>
                 </div>
                 <div>
@@ -746,12 +760,17 @@
                 </div>
                 <div>
                     <h4 class="faq-question">Can I change my diploma address after submitting my application?</h4>
-                    <p class="faq-answer">If you need to change your diploma address after submitting your graduation application, please contact reghelp@uga.edu from your UGA email address.</p>
+                    <p class="faq-answer">If you need to change your diploma address after submitting your graduation application, please contact <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a> from your UGA email address.</p>
                 </div>
                 <div>
-                    <h4 class="faq-question">How can I view my submitted application?</h4>
-                    <p class="faq-answer">Locate the 'Student Services' menu (Step 2 above), expand the 'Graduation' heading, and select 'Apply to Graduate.'</p>
+                    <h4 class="faq-question">How can I change my diploma name information?</h4>
+                    <p class="faq-answer">text</p>
                 </div>
+                <div>
+                    <h4 class="faq-question">I am getting a “No Curricula Available” error, what do I do?</h4>
+                    <p class="faq-answer">Select a different Curriculum Term (Step 4 above) and try again. If the error persists, please contact <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a>.</p>
+                </div>
+
             </div>
         </section>
 
