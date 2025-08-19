@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcripts</title>
+    <title>Apply to Graduate</title>
     <link rel="stylesheet" href="css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -235,7 +235,7 @@
 
         .content {
             flex: 4;
-            padding: 0px;
+            padding: 1rem;
             /*background: var(--white);*/
             border-radius: 0 0 8px 8px;
         }
@@ -417,6 +417,122 @@
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
         @media (min-width: 600px) { .grid-2 { grid-template-columns: repeat(2,1fr); }}
 
+        /*style 8-15*/
+        /* Card/Section Styling */
+        .card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 6px 12px rgba(0, 0, 0, 0.08);
+
+        }
+
+        .card.margin-top {
+            margin-top: 2rem;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ba0c2f;
+            transition: color 0.3s ease;
+        }
+
+
+
+        /* Step-by-Step List Styles */
+        .steps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .steps-list > li:not(:first-child) {
+            margin-top: 2rem;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .step-number-container {
+            flex-shrink: 0;
+        }
+
+        .step-number {
+            background-color: #ba0c2f;
+            color: #ffffff;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .step-content {
+            flex: 1 1 0%;
+        }
+
+        .step-title {
+            font-size: 1.45rem!important;
+
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .step-image {
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            width: 100%;
+            height: auto;
+        }
+
+        /* FAQ Section Styles */
+        .faq-list > div:not(:first-child) {
+            border-top: 1px solid #E5E7EB;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .faq-question {
+            font-weight: 800;
+            font-size: 1.225rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-answer {
+            color: #374151;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 640px) {
+            .container {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+            .page-header h1 {
+                font-size: 2.25rem;
+            }
+            .card {
+                padding: 2rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .step-item {
+                flex-direction: row;
+            }
+        }
     </style>
 </head>
 <body>
@@ -484,171 +600,161 @@
     </div>
 </nav>
 <div class="page-title-box">
-    <h1 class="page-title-box-title">TRANSCRIPTS</h1>
+    <h1 class="page-title-box-title">APPLY TO GRADUATE</h1>
 </div>
 <main>
     <div class="content">
+        <!-- Step-by-Step Instructions Section -->
+        <section>
+            <h2 class="section-title">Undergraduate Students</h2>
+        </section>
+        <section>
+            <h2 class="section-title">Graduate Students</h2>
+        </section>
+        <section class="card" aria-labelledby="instructions-heading">
+            <h2 id="instructions-heading" class="section-title">How to Apply to Graduate in ATHENA </h2>
 
-        <!-- Summer 2025 Availability -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
-                <h2>Summer 2025 Availability</h2>
-            </div>
-                 <div class="grid-2">
-                    <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Grades Posted:</h3>
-                    <ul>
-                        <li>on Athena <strong>August 5</strong></li>
-                        <li>Verify before ordering.</li>
-                    </ul>
+            <ol class="steps-list">
+                <!-- Step 1: Log In -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">1</div>
                     </div>
-                     <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Degree Awarded:</h3>
-                    <ul>
-                        <li>between <strong>August 5–18</strong></li>
-                        <li>Confirm graduation date on Athena.</li>
-                    </ul>
-                </div>
-                     </div>
-        </div>
-        <!-- UnOfficial Transcript Ordering -->
-        <div class="info-box">
-            <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
-            <h2>Unofficial Transcripts</h2>
-            <div class="grid-2">
+                    <div class="step-content">
+                        <h3 class="step-title">Step 1: Log in to ATHENA</h3>
+                    </div>
+                </li>
+
+                <!-- Step 2: Navigate to Student Services -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">2</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 2: Open the 'Student Services' menu</h3>
+                        <img src="https://placehold.co/600x300/e0e7ff/374151?text=SIS+Dashboard+View"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x300/e0e7ff/374151?text=Image+Not+Found';"
+                             alt="Screenshot of the SIS dashboard, with an arrow pointing to the 'Apply to Graduate' link."
+                             class="step-image">
+                    </div>
+                </li>
+
+                <!-- Step 3: Select Term and Program -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">3</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 3: Expand the 'Graduation' heading and select 'Apply to Graduate'</h3>
+                    </div>
+                </li>
+
+                <!-- Step 4: Select Curriculum Term -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">4</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 4: Select the Curriculum Term</h3>
+                        <p class="step-description">Note this is not your graduation term; it is the semester from which your curriculum will be pulled. Please select the latest term available.</p>
+
+                    </div>
+                </li>
+
+                <!-- Step 5: Select Program -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">5</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 5: Select the Program</h3>
+                        <p class="step-description">If more than one program is listed, choose one and proceed. A new application is required for each program to which you are applying.</p>
+                    </div>
+                </li>
+                <!-- Step 6: Select Graduation Date -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">6</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 6: Select the Graduation Date</h3>
+                    </div>
+                </li>
+                <!-- Step 7: Select Commencement Attendance -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">7</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 7: Select whether you will attend the commencement ceremony</h3>
+                        <p class="step-description">This option is only available for fall and spring commencements. Summer undergraduates participate in spring commencement, and summer graduate students participate in the following fall commencement.</p>
+                    </div>
+                </li>
+                <!-- Step 8: Review Name -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">8</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 8: Review the diploma name information</h3>
+                    </div>
+                </li>
+                <!-- Step 9: Select Mailing Address -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">9</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 9: Select the mailing address for your diploma</h3>
+                        <p class="step-description">Diplomas will be mailed 8-10 weeks after commencement. You can add a new address if necessary.</p>
+                    </div>
+                </li>
+                <!-- Step 10: Review and Confirm -->
+                <li class="step-item">
+                    <div class="step-number-container">
+                        <div class="step-number" aria-hidden="true">10</div>
+                    </div>
+                    <div class="step-content">
+                        <h3 class="step-title">Step 10: Review and confirm the application information</h3>
+                        <p class="step-description">If anything is incorrect, go back and make corrections. If all details are correct, click 'Submit Request.'</p>
+                    </div>
+                </li>
+            </ol>
+            <br />
+            <p>For students graduating with multiple programs of study, you must repeat these steps for each program.</p>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="card margin-top" aria-labelledby="faq-heading">
+            <h2 id="faq-heading" class="section-title">Frequently Asked Questions (FAQ)</h2>
+            <div class="faq-list">
                 <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students:</h3>
-                    <ul>
-                        <li>view via the Athena student portal.</li>
-                    </ul>
+                    <h4 class="faq-question">How do I get a ticket for the commencement ceremony?</h4>
+                    <p class="faq-answer">text</p>
                 </div>
                 <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students:</h3>
-                    <ul>
-                        <li>reactivate your student account by contacting the EITS Help Desk at <a href="tel:706-542-3106">706‑542‑3106</a>.</li>
-                    </ul>
-                </div>
-                </div>
-        </div>
-        <!-- Official Transcript Ordering -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
-                <h2>Official Transcript Ordering</h2>
-            </div>
-            <p style="margin:0 0 8px;">Order your UGA transcripts securely via Parchment.</p>
-        </div>
-        <!-- Online Ordering -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-desktop"></i></span>
-                <h2>Online Ordering</h2>
-            </div>
-            <div class="grid-2">
-                <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Current Students:</h3>
-                    <ol style="margin:0; padding-left:1.25rem;">
-                        <li>Log in at <a href="http://my.uga.edu">my.uga.edu</a></li>
-                        <li>Click <strong>Order Transcripts</strong> under Instant Access</li>
-                        <li>Submit credit/debit payment</li>
-                        <li>Processing in 1–5 business days</li>
-                    </ol>
+                    <h4 class="faq-question">What if I miss the application deadline?</h4>
+                    <p class="faq-answer">text</p>
                 </div>
                 <div>
-                    <h3 style="font-family:'Oswald',sans-serif; margin-bottom:8px;">Former Students:</h3>
-                    <ol style="margin:0; padding-left:1.25rem;">
-                        <li>Go to <a href="https://www.parchment.com">Parchment</a></li>
-                        <li>Enter email in <strong>Start Here</strong></li>
-                        <li>Log in or create an account</li>
-                        <li>Submit credit/debit payment</li>
-                        <li>Wait 1–5 business days</li>
-                    </ol>
+                    <h4 class="faq-question">How can I change my diploma name information?</h4>
+                    <p class="faq-answer">text</p>
+                </div>
+                <div>
+                    <h4 class="faq-question">When will I receive my diploma?</h4>
+                    <p class="faq-answer">Diplomas will be mailed 8-10 weeks after commencement.</p>
+                </div>
+                <div>
+                    <h4 class="faq-question">Can I change my diploma address after submitting my application?</h4>
+                    <p class="faq-answer">If you need to change your diploma address after submitting your graduation application, please contact reghelp@uga.edu from your UGA email address.</p>
+                </div>
+                <div>
+                    <h4 class="faq-question">How can I view my submitted application?</h4>
+                    <p class="faq-answer">Locate the 'Student Services' menu (Step 2 above), expand the 'Graduation' heading, and select 'Apply to Graduate.'</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Fees & Processing -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-dollar-sign"></i></span>
-                <h2>Fees &amp; Processing</h2>
-            </div>
-            <div class="grid-2">
-                <div><strong>Fee:</strong> $8.00 per copy</div>
-                <div><strong>Processing:</strong> 5 business days</div>
-                <div><strong>Delivery:</strong> 6–13 business days (USPS)</div>
-                <div><strong>Sales Tax:</strong> Effective Jan 6, 2025 (shown at checkout)</div>
-            </div>
-        </div>
-
-        <!-- Shipping Options -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-box"></i></span>
-                <h2>Shipping Options</h2>
-            </div>
-            <ul style="margin:0; padding-left:1.25rem;">
-                <li><strong>Standard (USPS):</strong> Included ($8.00), 6–13 business days</li>
-                <li><strong>Expedited (FedEx):</strong> +$12 (US) / +$50 (Intl)</li>
-            </ul>
-        </div>
-
-        <!-- Mail-In Requests -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-envelope"></i></span>
-                <h2>Mail‑In Requests</h2>
-            </div>
-            <p style="margin:0 0 8px;">Complete the UGA Student Transcript Request Form and mail with payment:</p>
-            <address style="background: var(--gray-200); padding:16px; border-radius:4px; margin:0 0 8px;">
-                Office of the Registrar<br>
-                Holmes‑Hunter Academic Building<br>
-                University of Georgia<br>
-                Athens, GA 30602‑6113
-            </address>
-            <p style="font-size:0.875rem; color: var(--uga-grey); margin:0;">*Use money orders or corporate checks only; no personal checks or cash.*</p>
-        </div>
-
-        <!-- Third-Party Requests -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-handshake"></i></span>
-                <h2>Third‑Party Requests</h2>
-            </div>
-            <p style="margin:0 0 8px;">Third parties requesting a transcript on behalf of current or former UGA students will need all of the following:</p>
-            <ul style="margin:0; padding-left:1.25rem; list-style-type: disc;">
-                <li><a href="#">Third Party Transcript Request Form</a></li>
-                <li><a href="#">Signed Permission to Release Educational Info</a></li>
-                <li>Money order or corporate check payable to the University of Georgia ($8 per transcript)</li>
-            </ul>
-        </div>
-
-        <!-- Enclosures & Support -->
-        <div class="info-box">
-            <div class="info-header">
-                <span class="icon-circle"><i class="fas fa-paperclip"></i></span>
-                <h2>Notarized Transcripts</h2>
-            </div>
-            <ul style="margin:0; padding-left:1.25rem;">
-                <li>Notary is required for Apostille/Great Seal requests (e.g., transcripts or diplomas for students moving or working abroad). </li>
-                <li>Download the form and review requirements <a href="#">here</a>.</li>
-            </ul>
-        </div>
-        <!-- Helpful Tutorials -->
-        <div class="info-box">
-            <span class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></span>
-            <h2>Helpful Tutorials</h2>
-            <ul style="margin:0; padding-left:1.25rem; list-style-type: disc;">
-                <li><a href="#">How to Create a Parchment Account</a></li>
-                <li><a href="#">How to Add or Edit an Email Address in Your Parchment Account</a></li>
-                <li><a href="#">How to Order a Transcript</a></li>
-                <li><a href="#">How to Place an Order with Expedited (FedEx) Shipping</a></li>
-                <li><a href="#">How to Place an Order for Pick Up</a></li>
-                <li><a href="#">How to Access Online Support</a></li>
-            </ul>
-            <p style="margin-top:16px;">Additional questions about transcripts may be sent to <a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a>.</p>
-        </div>
 
     </div>
 
@@ -666,20 +772,21 @@
                 <a href="#">FERPA</a>
                 <a href="#">Forms and Policies</a>
                 <a href="#">Grades</a>
-                <a href="#">Graduation</a>
+
                 <li>
-                    <a href="#" class="active">Transcripts</a></li>
+                    <a href="#">Graduation</a></li>
                 <ul>
-                    <li><a href="#i">Apostille/Great Seal</a></li>
-                    <li><a href="#">Unofficial Transcript</a></li>
+                    <li><a href="#" class="active">Apply To Graduate</a></li>
+                    <li><a href="#">Commencement Ceremony</a></li>
                 </ul>
+                <a href="#">Transcripts</a>
                 <a href="#">Third-Party Report Requests</a>
             </ul>
         </nav>
         <div class="sidebar-contact">
             <h4>Questions? Contact</h4>
             <p><i class="fas fa-envelope"></i><a href="mailto:reghelp@uga.edu">reghelp@uga.edu</a></p>
-            <p><i class="fas fa-phone"></i>706-542-3106</p>
+            <p><i class="fas fa-phone"></i>(706) 542-4040</p>
         </div>
     </aside>
 </main>

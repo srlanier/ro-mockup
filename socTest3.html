@@ -661,12 +661,12 @@
 
         .course-table th:nth-child(1),
         .course-table td:nth-child(1),
-        .course-table th:nth-child(6),
-        .course-table td:nth-child(6),
-        .course-table th:nth-child(7),
-        .course-table td:nth-child(7)
+        .course-table th:nth-child(5),
+        .course-table td:nth-child(5),
+        .course-table th:nth-child(8),
+        .course-table td:nth-child(8)
         {
-            width: 100px; /* COURSE NUMBER */
+            width: 100px; /* COURSE NUMBER, CAMPUS, TIME*/
         }
         .course-table th:nth-child(3),
         .course-table td:nth-child(3) {
@@ -678,16 +678,16 @@
             width: 200px; /* COURSE NAME */
         }
 
-        .course-table th:nth-child(5),
+        .course-table th:nth-child(7),
         .course-table th:nth-child(10),
         .course-table th:nth-child(11),
         .course-table th:nth-child(12),
-        .course-table td:nth-child(5),
+        .course-table td:nth-child(7),
         .course-table td:nth-child(10),
         .course-table td:nth-child(11),
         .course-table td:nth-child(12) {
             width: 70px;
-            max-width: 70px; /* MAX SEATS / AVAIL SEATS / ROOM */
+            max-width: 70px; /* DAYS, MAX SEATS / AVAIL SEATS / ROOM */
         }
         .full-course {
             background-color: #d5d5d5;  /* light grey background */
@@ -998,6 +998,71 @@
             <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 
             <script>
+                function groupByCRN(data) {
+                    const grouped = {};
+                    const dayPriority = ['MWF', 'TR', 'M', 'T', 'W', 'R', 'F', 'S', 'U'];
+
+                    // Returns lowest index of any matching pattern in dayPriority
+                    function getDayRank(days) {
+                        const clean = (days || '').replace(/\s+/g, '').toUpperCase();
+                        for (let i = 0; i < dayPriority.length; i++) {
+                            if (clean === dayPriority[i]) return i;
+                        }
+                        for (let i = 0; i < dayPriority.length; i++) {
+                            if (clean.includes(dayPriority[i])) return i + 0.5; // partial match ranks slightly lower
+                        }
+                        return 99; // unknown days last
+                    }
+
+                    data.forEach(row => {
+                        const crn = row['CRN'];
+                        if (!grouped[crn]) {
+                            grouped[crn] = {
+                                ...row,
+                                sessions: []
+                            };
+                        }
+
+                        grouped[crn].sessions.push({
+                            days: row['DAYS'] || '',
+                            time: row['TIME'] || '',
+                            building: row['BUILDING'] || '',
+                            room: row['ROOM'] || ''
+                        });
+                    });
+
+                    // Sort sessions and build multi-line fields
+                    return Object.values(grouped).map(r => {
+                        const sortedSessions = r.sessions
+                            .filter(s => s.days || s.time || s.building || s.room)
+                            .sort((a, b) => getDayRank(a.days) - getDayRank(b.days));
+
+                        const DAYS = [];
+                        const TIME = [];
+                        const BUILDING = [];
+                        const ROOM = [];
+
+                        sortedSessions.forEach(s => {
+                            DAYS.push(s.days || '');
+                            TIME.push(s.time || '');
+                            BUILDING.push(s.building || '');
+                            ROOM.push(s.room || '');
+                        });
+
+                        // Collapse if all values are the same
+                        const allSame = (arr) => arr.every(val => val === arr[0]);
+
+                        return {
+                            ...r,
+                            DAYS: DAYS.join('<br>'),
+                            TIME: TIME.join('<br>'),
+                            BUILDING: allSame(BUILDING) ? BUILDING[0] : BUILDING.join('<br>'),
+                            ROOM: allSame(ROOM) ? ROOM[0] : ROOM.join('<br>')
+                        };
+                    });
+
+                }
+
                 document.addEventListener('DOMContentLoaded', () => {
                     let courseData = [], filteredData = [];
                     const rowsPerPage = 50;
@@ -1040,7 +1105,7 @@
                     fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
                         .then(r => r.text())
                         .then(csv => {
-                            courseData = Papa.parse(csv, { header: true }).data
+                            const parsed = Papa.parse(csv, { header: true }).data
                                 .filter(r => r['CRN'] !== 'StringFilter')
                                 .map(r => {
                                     const campusRaw = (r['CAMPUS'] || '').toLowerCase();
@@ -1053,21 +1118,26 @@
                                     if (r.Category.length === 0) r.Category.push('other');
 
                                     const courseNumRaw = (r['COURSE NUMBER'] || '').replace(/\s+/g, '');
-                                    // honors logic - H suffix, if not that then "honors" in title
                                     const courseTitle = (r['COURSE NAME'] || '').toLowerCase();
                                     if (
-                                        /^[A-Za-z]{2,4}\d{4}H$/i.test(courseNumRaw) ||  // e.g., ENGL1101H
-                                        courseTitle.endsWith('honors') ||              // e.g., "Biology I Lab - Honors"
-                                        courseTitle.includes('honors')                 // general fallback
+                                        /^[A-Za-z]{2,4}\d{4}H$/i.test(courseNumRaw) ||
+                                        courseTitle.endsWith('honors') ||
+                                        courseTitle.includes('honors')
                                     ) {
                                         if (!r.Category.includes('honors')) r.Category.push('honors');
                                     }
 
-
+                                    r['COURSE NUMBER'] = courseNumRaw.toUpperCase();
                                     return r;
                                 })
                                 .sort((a, b) => ((a['COURSE NUMBER'] || '').toUpperCase())
                                     .localeCompare((b['COURSE NUMBER'] || '').toUpperCase(), undefined, { numeric: true }));
+
+                            courseData = groupByCRN(parsed).sort((a, b) => {
+                                const aCN = (a['COURSE NUMBER'] || '').toUpperCase();
+                                const bCN = (b['COURSE NUMBER'] || '').toUpperCase();
+                                return aCN.localeCompare(bCN, undefined, { numeric: true });
+                            });
                             applyFilters();
                         });
 
@@ -1092,29 +1162,27 @@
                             const matchCat = selectedCategory === 'all' || r.Category.includes(selectedCategory);
                             if (!matchCat || courseNum.startsWith(normalizedQ)) return false;
 
-                            // Accepted Search Columns from CSV
                             const searchableKeys = [
                                 'COURSE NUMBER',
                                 'COURSE NAME',
                                 'CRN',
                                 'INSTRUCTOR',
+                                'CAMPUS',
+                                'PART OF TERM',
                                 'DAYS',
                                 'TIME',
-                                'PART OF TERM',
-                                'CAMPUS',
                                 'BUILDING',
                                 'PrefixFilter',
                                 'CROSS LIST'
                             ];
 
                             const rawQuery = searchInput.value.trim().toLowerCase();
-                            const queryWords = rawQuery.split(/\s+/); // Split BEFORE removing spaces
+                            const queryWords = rawQuery.split(/\s+/);
                             const allF = searchableKeys
                                 .map(k => (r[k] || '').toString().toLowerCase().replace(/\s+/g, ''))
                                 .join('');
-                            return allF.includes(normalizedQ);
 
-
+                            return queryWords.every(qw => allF.includes(qw));
                         });
 
                         filteredData = prefixMatches.concat(otherMatches);
@@ -1149,11 +1217,27 @@
                         paginationContainer.style.display = '';
                         const start = (currentPage - 1) * rowsPerPage;
                         const pageData = filteredData.slice(start, start + rowsPerPage);
+
                         pageData.forEach(r => {
                             const tr = document.createElement('tr');
                             const seats = parseInt(r['SEATS AVAILABLE']);
                             if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
-                            tr.innerHTML = `<td>${r['COURSE NUMBER'] || ''}</td><td>${r['COURSE NAME'] || ''}</td><td>${r['CRN'] || ''}</td><td>${r['INSTRUCTOR'] || ''}</td><td>${r['DAYS'] || ''}</td><td>${r['TIME'] || ''}</td><td>${r['PART OF TERM'] || ''}</td><td>${r['CAMPUS'] || ''}</td><td>${r['BUILDING'] || ''}</td><td>${r['ROOM'] || ''}</td><td>${r['MAX STUDENTS'] || ''}</td><td>${r['SEATS AVAILABLE'] || ''}</td>`;
+
+                            tr.innerHTML = `
+                    <td>${r['COURSE NUMBER'] || ''}</td>
+                    <td>${r['COURSE NAME'] || ''}</td>
+                    <td>${r['CRN'] || ''}</td>
+                    <td>${r['INSTRUCTOR'] || ''}</td>
+                   <td>${r['CAMPUS'] || ''}</td>
+                    <td>${r['PART OF TERM'] || ''}</td>
+                     <td>${r['DAYS'] || ''}</td>
+                    <td>${r['TIME'] || ''}</td>
+                    <td>${r['BUILDING'] || ''}</td>
+                    <td>${r['ROOM'] || ''}</td>
+                    <td>${r['MAX STUDENTS'] || ''}</td>
+                    <td>${r['SEATS AVAILABLE'] || ''}</td>
+                `;
+
                             courseTableBody.appendChild(tr);
                         });
 
@@ -1198,6 +1282,7 @@
                 });
             </script>
 
+
         </div>
 
     </section>
@@ -1232,10 +1317,10 @@
                     <th>Course<br>Name</th>
                     <th>CRN</th>
                     <th>Instructor</th>
+                    <th>Campus</th>
+                    <th>Part of Term</th>
                     <th>Days</th>
                     <th>Time</th>
-                    <th>Part of Term</th>
-                    <th>Campus</th>
                     <th>Building</th>
                     <th>Room</th>
                     <th>Max Seats</th>
