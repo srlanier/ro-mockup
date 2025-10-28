@@ -1,0 +1,380 @@
+<html lang="en">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo</title>
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Use Inter font family -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    h1 {
+      font-family: 'Oswald', sans-serif;
+    }
+     p {
+      font-family: 'Merriweather', serif;
+    }
+    /* Custom styles for icons */
+    .search-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .filter-icon {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+    /* Custom class for smooth dropdown transition */
+    .dropdown-panel {
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+      transform-origin: top;
+    }
+    .dropdown-panel.hidden {
+      opacity: 0;
+      transform: translateY(-10px) scaleY(0.95);
+      pointer-events: none;
+    }
+    /* Removed custom row background colors to default to white */
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary-bg': '#fef4ea', /* Pale Cream */
+            'accent-red': '#ba0c2f', /* Crimson Red */
+            'dark-text': '#4a4a4a', /* Dark Gray */
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-primary-bg">
+
+<!-- Hero Section: ~70% of the viewport height (Heavy Top) -->
+<header class="h-[70vh] flex flex-col justify-center items-center p-4">
+  <p class="text-xl sm:text-3xl text-dark-text/70 mb-0 text-center max-w-4xl ">
+    Schedule of Classes
+  </p>
+  <h1 class="text-5xl sm:text-7xl font-extrabold text-dark-text mb-8 text-center leading-tight">
+    SPRING 2026
+  </h1>
+
+
+
+  <!-- Big Search Bar & Dropdown Container -->
+  <div class="w-full max-w-4xl px-6 relative" id="search-container">
+
+    <!-- Main Search Bar -->
+    <div class="flex shadow-2xl rounded-2xl overflow-hidden ring-4 ring-primary-bg/50 transition-all duration-300 hover:shadow-3xl z-10 relative">
+
+      <!-- Filter Toggle Button -->
+      <button
+              id="filter-toggle"
+              class="flex items-center justify-center bg-white border-r border-gray-200 text-dark-text hover:bg-gray-50 transition-colors duration-200 px-6 sm:px-8"
+              aria-label="Toggle filters"
+              onclick="toggleFilterDropdown()"
+      >
+        <!-- Settings/Filter Icon -->
+        <svg class="filter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16M8 7H4M18 12h2M6 17H4"/>
+          <circle cx="16" cy="7" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="8" cy="12" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="17" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+
+      </button>
+
+      <!-- Input Field (Kept for visual consistency, though not used in this demo logic) -->
+      <input
+              type="text"
+              placeholder="Search for a class (e.g. ENGL 1101)"
+              aria-label="Search field"
+              class="flex-grow py-5 px-8 text-dark-text text-xl placeholder:text-dark-text/40 focus:outline-none focus:ring-0 bg-white"
+      >
+
+      <!-- Search Button (Accent Red) -->
+      <button
+              class="flex items-center justify-center bg-accent-red hover:bg-[#a00b2a] transition-colors duration-300 px-8 sm:px-12"
+              aria-label="Submit search"
+      >
+        <!-- Magnifying Glass Icon (White) -->
+        <svg class="search-icon text-white w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Filter Dropdown Panel -->
+    <div id="filter-dropdown" class="dropdown-panel hidden absolute w-full mt-2 bg-white rounded-2xl shadow-2xl p-4 border border-gray-100 z-0">
+      <p class="text-dark-text text-lg font-semibold mb-3 border-b pb-2 border-gray-100">Filter Options:</p>
+      <div class="space-y-3">
+        <!-- Filter 1: REMOVAL FILTER -->
+        <div class="flex items-center space-x-3">
+          <input type="checkbox" id="hide-full-filter" onchange="updateDemo()" class="h-5 w-5 rounded border-gray-300 text-accent-red focus:ring-accent-red">
+          <label for="hide-full-filter" class="text-dark-text text-base cursor-pointer">
+            Hide full classes (Available equal 0 || Waitlist greater 0)
+          </label>
+        </div>
+
+        <!-- Filter 2: HIGHLIGHT FILTER -->
+        <div class="flex items-center space-x-3">
+          <input type="checkbox" id="highlight-zero-available-filter" onchange="updateDemo()" class="h-5 w-5 rounded border-gray-300 text-accent-red focus:ring-accent-red">
+          <label for="highlight-zero-available-filter" class="text-dark-text text-base cursor-pointer">
+            Highlight zero available (Available equal 0)
+          </label>
+        </div>
+
+        <!-- Filter 3: VISUAL REPLACEMENT FILTER -->
+        <div class="flex items-center space-x-3">
+          <input type="checkbox" id="mark-zero-full-filter" onchange="updateDemo()" class="h-5 w-5 rounded border-gray-300 text-accent-red focus:ring-accent-red">
+          <label for="mark-zero-full-filter" class="text-dark-text text-base cursor-pointer">
+            Mark 0 Available as "FULL"
+          </label>
+        </div>
+
+        <!-- Filter 4: LAYOUT CHANGE FILTER -->
+        <div class="flex items-center space-x-3">
+          <input type="checkbox" id="waitlist-as-pill-filter" onchange="updateDemo()" class="h-5 w-5 rounded border-gray-300 text-accent-red focus:ring-accent-red">
+          <label for="waitlist-as-pill-filter" class="text-dark-text text-base cursor-pointer">
+            Waitlist as inline pill
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Data Set Selectors -->
+
+<!-- Content Block: ~30% of the viewport height (Blank White) -->
+<main class="min-h-[30vh] bg-white border-t-8 border-[#4a4a4a]/10 p-8 shadow-inner">
+  <div id="class-table-container" class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg">
+    <!-- Table will be rendered here by JavaScript -->
+  </div>
+  <div class="flex space-x-4 mb-8 mt-10 justify-center items-center">
+    <button
+            id="data-a-btn"
+            onclick="setDataSet('Unadjusted')"
+            class="px-5 py-2 rounded-full font-semibold transition-colors duration-200 shadow-md data-set-button bg-accent-red text-white hover:bg-[#a00b2a]"
+    >
+      Unadjusted
+    </button>
+    <button
+            id="data-b-btn"
+            onclick="setDataSet('Adjusted')"
+            class="px-5 py-2 rounded-full font-semibold transition-colors duration-200 shadow-md data-set-button bg-white text-dark-text hover:bg-gray-100"
+    >
+      Adjusted
+    </button>
+  </div>
+  <p class="text-center text-dark-text/50 pt-6 mt-4 text-sm">Use the buttons above to switch data sets and apply the filters.</p>
+</main>
+
+<script>
+  // --- DATA DEFINITIONS ---
+  // classDataA is now "Unadjusted"
+  const classDataA = [
+    { name: "Class A", max: 30, available: 0, waitlist: 7 },
+    { name: "Class B", max: 180, available: 3, waitlist: 12 },
+    { name: "Class C", max: 45, available: 10, waitlist: 0 },
+    { name: "Class D", max: 300, available: 12, waitlist: 10 },
+    { name: "Class E", max: 300, available: 2, waitlist: 1 }
+  ];
+  // classDataB is now "Adjusted"
+  const classDataB = [
+    { name: "Class A", max: 30, available: 0, waitlist: 7 },
+    { name: "Class B", max: 180, available: 0, waitlist: 9 },
+    { name: "Class C", max: 45, available: 10, waitlist: 0 },
+    { name: "Class D", max: 300, available: 2, waitlist: 0 },
+    { name: "Class E", max: 300, available: 1, waitlist: 0 }
+  ];
+
+  // Initial state set to the new default label
+  let currentDataSet = 'Unadjusted';
+
+  // --- UI & STATE MANAGEMENT ---
+
+  function toggleFilterDropdown() {
+    const dropdown = document.getElementById('filter-dropdown');
+    dropdown.classList.toggle('hidden');
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    const container = document.getElementById('search-container');
+    const dropdown = document.getElementById('filter-dropdown');
+    const toggleButton = document.getElementById('filter-toggle');
+
+    if (!container.contains(event.target) && !dropdown.classList.contains('hidden')) {
+      // Check if the click is outside the container (which includes the dropdown)
+      if (event.target !== toggleButton && !toggleButton.contains(event.target)) {
+        dropdown.classList.add('hidden');
+      }
+    }
+  });
+
+  function setDataSet(dataSet) {
+    currentDataSet = dataSet;
+
+    const btnA = document.getElementById('data-a-btn');
+    const btnB = document.getElementById('data-b-btn');
+    const label = document.getElementById('data-set-label');
+
+    const isUnadjusted = dataSet === 'Unadjusted';
+
+    // ADDED SAFETY CHECK: Only attempt to update button styles if both elements exist.
+    if (btnA && btnB) {
+      // Update button styles
+      if (isUnadjusted) {
+        btnA.classList.add('bg-accent-red', 'text-white', 'hover:bg-[#a00b2a]');
+        btnA.classList.remove('bg-white', 'text-dark-text', 'hover:bg-gray-100');
+        btnB.classList.remove('bg-accent-red', 'text-white', 'hover:bg-[#a00b2a]');
+        btnB.classList.add('bg-white', 'text-dark-text', 'hover:bg-gray-100');
+      } else { // Must be 'Adjusted'
+        btnB.classList.add('bg-accent-red', 'text-white', 'hover:bg-[#a00b2a]');
+        btnB.classList.remove('bg-white', 'text-dark-text', 'hover:bg-gray-100');
+        btnA.classList.remove('bg-accent-red', 'text-white', 'hover:bg-[#a00b2a]');
+        btnA.classList.add('bg-white', 'text-dark-text', 'hover:bg-gray-100');
+      }
+    }
+
+    // Update label (if found)
+    if (label) {
+      label.textContent = dataSet;
+    }
+
+    // This is the critical data update line, which now runs even if the style update fails.
+    updateDemo();
+  }
+
+  function applyFilter(data) {
+    const hideFull = document.getElementById('hide-full-filter').checked;
+
+    // Filter logic: Keep only classes where Available > 0 AND Waitlist = 0
+    if (hideFull) {
+      return data.filter(cls => {
+        // isFull is true if available is 0 or less OR waitlist is greater than 0
+        const isFull = (cls.available <= 0 || cls.waitlist > 0);
+        return !isFull;
+      });
+    }
+    return data; // No removal filter applied
+  }
+
+  function renderTable(data) {
+    const container = document.getElementById('class-table-container');
+
+    // Get Display Toggle States
+    const highlightZero = document.getElementById('highlight-zero-available-filter').checked;
+    const markZeroFull = document.getElementById('mark-zero-full-filter').checked;
+    const waitlistAsPill = document.getElementById('waitlist-as-pill-filter').checked;
+
+    if (data.length === 0) {
+      container.innerHTML = `
+                    <p class="text-center text-xl text-dark-text/70 p-10 bg-gray-50 rounded-lg">
+                        No classes match the current filter criteria.
+                    </p>
+                `;
+      return;
+    }
+
+    // Conditional Header Rendering
+    let waitlistHeader = '';
+    if (!waitlistAsPill) {
+      waitlistHeader = '<th class="py-3 px-4 text-center text-sm font-semibold uppercase tracking-wider">Waitlist</th>';
+    }
+
+    let tableHTML = `
+                <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                    <thead class="bg-dark-text text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase tracking-wider">Class</th>
+                            <th class="py-3 px-4 text-center text-sm font-semibold uppercase tracking-wider">Max Seats</th>
+                            <th class="py-3 px-4 text-center text-sm font-semibold uppercase tracking-wider">Available</th>
+                            ${waitlistHeader}
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+            `;
+
+    data.forEach(cls => {
+      // 1. Row Background Logic (Highlight)
+      let rowClass = 'bg-white';
+      if (highlightZero && cls.available === 0) {
+        rowClass = 'bg-gray-200'; // Apply the requested gray background
+      }
+
+      // 2. Available Display Logic (FULL/Number)
+      let availableDisplay = cls.available;
+      // If displaying 'FULL', ensure the color is bold red for the word 'FULL', otherwise neutral dark text
+      let availableTextStyle = 'text-dark-text';
+      if (markZeroFull && cls.available === 0) {
+        availableDisplay = 'FULL';
+      }
+
+      // 3. Waitlist Pill / Standard Cell Logic
+      let waitlistPill = '';
+      let waitlistCell = '';
+
+      if (waitlistAsPill) {
+        if (cls.waitlist > 0) {
+          waitlistPill = `
+<!--                            <span class="inline-flex items-center px-1.5 py-1 rounded-sm text-xs font-medium bg-orange-100 text-orange-800 ml-2 mt-1 whitespace-nowrap">-->
+                                                         <span class="inline-flex items-center px-1.5 py-1 rounded-sm text-xs font-medium bg-amber-200 text-gray-800 ml-2 mt-1 whitespace-nowrap">
+                                WL: ${cls.waitlist}
+                            </span>
+                        `;
+        }
+      } else {
+        // Standard Waitlist column - text-dark-text for neutral color
+        waitlistCell = `<td class="py-4 px-4 text-center text-dark-text">${cls.waitlist}</td>`;
+      }
+
+
+      tableHTML += `
+                    <tr class="${rowClass} hover:bg-gray-100 transition-colors duration-150">
+                        <td class="py-4 px-4 text-dark-text font-medium">${cls.name}</td>
+                        <td class="py-4 px-4 text-center text-dark-text">${cls.max}</td>
+                        <td class="py-4 px-4 text-center ${availableTextStyle} flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0">
+                            <span>${availableDisplay}</span>
+                            ${waitlistPill}
+                        </td>
+                        ${waitlistCell}
+                    </tr>
+                `;
+    });
+
+    tableHTML += `
+                    </tbody>
+                </table>
+            `;
+    container.innerHTML = tableHTML;
+  }
+
+  function updateDemo() {
+    // Check against new string value 'Unadjusted' (which corresponds to classDataA)
+    let selectedData = currentDataSet === 'Unadjusted' ? classDataA : classDataB;
+
+    // 1. Apply Removal Filter (Must happen before rendering)
+    const filteredData = applyFilter(selectedData);
+
+    // 2. Render UI (Applies the highlight and display filters during rendering)
+    renderTable(filteredData);
+  }
+
+  // Initial setup on window load
+  window.onload = function() {
+    // Ensure initial state is rendered
+    updateDemo();
+  };
+
+</script>
+</body>
+</html>
