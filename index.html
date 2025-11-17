@@ -1056,47 +1056,9 @@
             <aside class="w-full md:w-[250px] max-w-md text-white">
                 <h2 class="text-[28px] font-bold mb-4 drop-shadow-md">Upcoming Events</h2>
 
-                <div class="space-y-4" style="font-family:'Merriweather Sans';">
-                    <!-- Event -->
-                    <div class="flex items-center gap-2">
-                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
-                            <div class="uppercase text-[12px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">OCT</div>
-                            <div class="text-lg" style="color:#333333;">31</div>
-                        </div>
-                        <div class="bg-black/40 rounded-md px-2 py-1 text-base font-medium drop-shadow-sm">
-                            Fall Break -<br/> No Classes
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
-                            <div class="uppercase text-[12px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">NOV</div>
-                            <div class="text-lg" style="color:#333333;">12</div>
-                        </div>
-                        <div class="bg-black/40 rounded-md px-2 py-1 text-base font-medium drop-shadow-sm">
-                            Withdrawal Deadline
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
-                            <div class="uppercase text-[12px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">NOV</div>
-                            <div class="text-lg" style="color:#333333;">26</div>
-                        </div>
-                        <div class="bg-black/40 rounded-md px-2 py-1 text-base font-medium drop-shadow-sm">
-                            Thanksgiving Break -<br /> No Classes
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
-                            <div class="uppercase text-[12px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">DEC</div>
-                            <div class="text-lg" style="color:#333333;">1</div>
-                        </div>
-                        <div class="bg-black/40 rounded-md px-2 py-1 text-base font-medium drop-shadow-sm">
-                            Classes Resume
-                        </div>
-                    </div>
+                <div id="upcoming-events-container" class="space-y-4" style="font-family:'Merriweather Sans';">
+                    <!-- Events will be populated by JavaScript -->
+                    <div class="text-center py-4 text-sm opacity-75">Loading events...</div>
                 </div>
             </aside>
         </div>
@@ -1306,6 +1268,84 @@
 
 
 
+
+<!-- Featured Events Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const API_BASE = 'https://apps-dev.reg.uga.edu/rods_api';
+        const container = document.getElementById('upcoming-events-container');
+
+        // Normalize date string from TEXT field to proper ISO format
+        function normalizeDateString(dateStr) {
+            if (!dateStr) return '';
+            // Handle "2025-08-13T00:00:00+00" → "2025-08-13T00:00:00+00:00"
+            return dateStr.replace(/([+-]\d{2})$/, '$1:00');
+        }
+
+        // Format event for display
+        function formatEventDate(isoDate) {
+            if (!isoDate) return { month: '', day: '' };
+            const normalized = normalizeDateString(isoDate);
+            const date = new Date(normalized);
+            if (isNaN(date.getTime())) {
+                console.error('Invalid date:', isoDate);
+                return { month: 'ERR', day: '?' };
+            }
+            const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+            const day = date.getDate();
+            return { month, day };
+        }
+
+        // Create event HTML
+        function createEventHTML(event) {
+            const { month, day } = formatEventDate(event.start_iso);
+            return `
+                <div class="flex items-center gap-2">
+                    <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
+                        <div class="uppercase text-[12px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">${month}</div>
+                        <div class="text-lg" style="color:#333333;">${day}</div>
+                    </div>
+                    <div class="bg-black/40 rounded-md px-2 py-1 text-base font-medium drop-shadow-sm">
+                        ${event.title}
+                    </div>
+                </div>
+            `;
+        }
+
+        try {
+            // Fetch all calendar events
+            const response = await fetch(`${API_BASE}/calendars?is_featured=eq.true&order=start_iso.asc`);
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch events');
+            }
+
+            const allEvents = await response.json();
+            console.log('📅 Fetched featured events:', allEvents.length);
+
+            // Filter to future events only
+            const now = new Date();
+            const upcomingEvents = allEvents.filter(event => {
+                const eventDate = new Date(normalizeDateString(event.start_iso));
+                return eventDate >= now;
+            });
+
+            // Take the next 5 upcoming events
+            const nextFive = upcomingEvents.slice(0, 5);
+
+            // Render events
+            if (nextFive.length > 0) {
+                container.innerHTML = nextFive.map(createEventHTML).join('');
+            } else {
+                container.innerHTML = '<div class="text-center py-4 text-sm opacity-75">No upcoming featured events</div>';
+            }
+
+        } catch (error) {
+            console.error('❌ Error loading featured events:', error);
+            container.innerHTML = '<div class="text-center py-4 text-sm opacity-75">Unable to load events</div>';
+        }
+    });
+</script>
 
 <!-- UGA branding Nav script -->
 <script>

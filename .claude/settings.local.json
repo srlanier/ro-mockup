@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(\"C:\\Users\\srlanier\\ro-mockup\\ucc-content-only.txt\")",
+      "Bash(C:Userssrlanierro-mockupucc-preview.html)",
+      "Bash(echo:*)",
+      "Bash(\"C:\\Users\\srlanier\\ro-mockup\\ucc-preview.html\")",
+      "Bash(awk:*)",
+      "Bash(ucc-preview.html)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

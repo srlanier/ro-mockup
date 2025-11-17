@@ -58,6 +58,12 @@
 </head>
 <body class="bg-primary-bg">
 
+<!-- Navigation loaded from partial -->
+<div id="navbar-placeholder"></div>
+
+<!-- Spacer for fixed navbar -->
+<div style="height: 90px;"></div>
+
 <!-- Hero Section: ~70% of the viewport height (Heavy Top) -->
 <header class="h-[70vh] flex flex-col justify-center items-center p-4">
   <p class="text-xl sm:text-3xl text-dark-text/70 mb-0 text-center max-w-4xl ">
@@ -376,5 +382,562 @@
   };
 
 </script>
+
+<!-- Load Navbar from Partial -->
+<script>
+  // Load navbar HTML from partial
+  fetch('partials/navbar.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('navbar-placeholder').innerHTML = html;
+
+      // Initialize navbar scripts after loading
+      initializeNavbar();
+    })
+    .catch(error => {
+      console.error('Error loading navbar:', error);
+    });
+
+  function initializeNavbar() {
+    // Set initial logo for interior pages (always use dark logo)
+    const logo = document.getElementById('uga-logo');
+    if (logo) logo.src = 'images/OfficeRegistrar_logo_Horizontal_FC.png';
+
+    // Alphabetize nav dropdown items
+    const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+    dropdownMenus.forEach(menu => {
+      const links = Array.from(menu.querySelectorAll("a"));
+      links.sort((a, b) => a.textContent.localeCompare(b.textContent));
+      menu.innerHTML = "";
+      links.forEach(link => menu.appendChild(link));
+    });
+
+    // Nav drawer script
+    const btn     = document.getElementById('navToggle');
+    const scrim   = document.getElementById('mobileScrim');
+    const drawer  = document.getElementById('mobileDrawer');
+    const close   = document.getElementById('drawerClose');
+    const dstUL   = document.getElementById('drawerLinks');
+
+    function openMenu(){ body.classList.add('menu-open'); btn?.setAttribute('aria-expanded','true'); drawer?.setAttribute('aria-hidden','false'); }
+    function closeMenu(){ body.classList.remove('menu-open'); btn?.setAttribute('aria-expanded','false'); drawer?.setAttribute('aria-hidden','true'); }
+
+    btn?.addEventListener('click', () => body.classList.contains('menu-open') ? closeMenu() : openMenu());
+    close?.addEventListener('click', closeMenu);
+    scrim?.addEventListener('click', closeMenu);
+    window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    window.matchMedia('(min-width: 981px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+
+    // Build accordion from desktop nav
+    const srcUL = document.querySelector('#navbar .nav-links');
+    if (!srcUL || !dstUL) return;
+
+    dstUL.innerHTML = '';
+
+    [...srcUL.children].forEach(li => {
+      const item = document.createElement('li');
+      const topLink = li.querySelector(':scope > a');
+      const dropdown = li.querySelector(':scope .dropdown-menu');
+
+      if (dropdown) {
+        const title = (topLink?.textContent || '').trim() || 'Menu';
+        const btnHdr = document.createElement('button');
+        btnHdr.className = 'acc-btn';
+        btnHdr.type = 'button';
+        btnHdr.setAttribute('aria-expanded', 'false');
+        btnHdr.textContent = title;
+
+        const panel = document.createElement('div');
+        panel.className = 'acc-panel';
+
+        const links = dropdown.querySelectorAll('a');
+        links.forEach(a => {
+          const cloneA = a.cloneNode(true);
+          cloneA.removeAttribute('style');
+          cloneA.className = '';
+          panel.appendChild(cloneA);
+        });
+
+        item.appendChild(btnHdr);
+        item.appendChild(panel);
+      } else if (topLink) {
+        const a = topLink.cloneNode(true);
+        a.removeAttribute('style');
+        a.className = 'toplink';
+        item.appendChild(a);
+      }
+
+      dstUL.appendChild(item);
+    });
+
+    // Toggle logic
+    dstUL.addEventListener('click', (e) => {
+      const btnHdr = e.target.closest('.acc-btn');
+      if (!btnHdr) return;
+
+      const panel = btnHdr.nextElementSibling;
+      const isOpen = btnHdr.getAttribute('aria-expanded') === 'true';
+
+      dstUL.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(b => {
+        if (b !== btnHdr) {
+          b.setAttribute('aria-expanded','false');
+          const p = b.nextElementSibling;
+          p?.classList.remove('open');
+          p?.style.removeProperty('max-height');
+        }
+      });
+
+      btnHdr.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        panel.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      } else {
+        panel.classList.remove('open');
+        panel.style.maxHeight = '0px';
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      dstUL.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(b => {
+        const p = b.nextElementSibling;
+        if (p) p.style.maxHeight = p.scrollHeight + 'px';
+      });
+    });
+  }
+</script>
+
+<!-- Link navbar styles from index.html -->
+<link rel="stylesheet" href="css/all.min.css">
+<link rel="stylesheet" href="css/uga-branding.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --uga-red: #BA0C2F;
+  --uga-grey: #4A4A4A;
+  --white: #ffffff;
+  --light-grey: #f4f4f4;
+  --dark-blue: #0A2342;
+  --dark-grey-text: #333333;
+  --dark-grey: #3e3e3e;
+  --tan: #d6d2c4;
+  --wrap-max: 1600px;
+}
+
+/* Navbar Styles - Interior pages use white background from start */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 5px 0px 5px 0px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  gap: 40px;
+  z-index: 1000;
+  box-sizing: border-box;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.navbar-left .uga-logo {
+  height: 70px;
+  width: auto;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.nav-links li {
+  position: relative;
+  margin: 0 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+  font-size: 1.3em;
+  padding: 10px;
+  display: block;
+  text-shadow: none;
+  transition: .3s ease;
+}
+
+.nav-links a:hover,
+.nav-links li:hover > a {
+  background-color: var(--uga-red);
+  color: white;
+}
+
+.nav-links li:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-menu {
+  position: fixed;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-top: 3px solid var(--uga-red);
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  column-gap: 0rem;
+  row-gap: 0;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 1px;
+  background-color: #F0F0F0;
+}
+
+.nav-links li:nth-child(6) .dropdown-menu {
+  grid-template-columns: 1fr;
+}
+
+.nav-links li:nth-child(6) .dropdown-menu::before {
+  content: none;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  text-shadow: none;
+  font-size: 1em;
+  font-family: "Montserrat", sans-serif;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #F0F0F0;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.search-icon {
+  font-size: 1.3em;
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.search-icon:hover {
+  color: var(--uga-red);
+}
+
+.wrap {
+  max-width: 1800px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 2vw, 32px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar > .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.navbar-left .uga-logo {
+  height: 70px;
+  width: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* Menu button */
+.menu-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: #BA0C2F;
+  color: #fff;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  letter-spacing: .2px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.menu-btn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.menu-btn .menu-icon {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 12px;
+  flex: 0 0 16px;
+  background: linear-gradient(#fff,#fff) center 5px / 100% 2px no-repeat;
+}
+
+.menu-btn .menu-icon::before,
+.menu-btn .menu-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff;
+}
+
+.menu-btn .menu-icon::before {
+  top: 0;
+}
+
+.menu-btn .menu-icon::after {
+  bottom: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 980px) {
+  .menu-btn {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    background: white;
+    border-top: 1px solid rgba(0,0,0,.08);
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 8px 0;
+    z-index: 1001;
+  }
+
+  #navbar.open .nav-links {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 0;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 1.05em;
+    background: transparent;
+    color: black;
+  }
+
+  .dropdown-menu {
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    box-shadow: none !important;
+    border-top: none !important;
+    padding: 0 !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .dropdown-menu::before {
+    content: none !important;
+  }
+}
+
+/* Slide-in drawer */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 2000;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(92vw, 420px);
+  background: #fff;
+  color: #111;
+  box-shadow: -4px 0 18px rgba(0,0,0,.25);
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.drawer-title {
+  font: 600 1.4rem/1 "Merriweather", serif;
+}
+
+.drawer-close {
+  background: transparent;
+  border: 0;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.drawer-body {
+  padding: 10px 8px 24px 8px;
+  overflow: auto;
+}
+
+.drawer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-links > li {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.drawer-links a {
+  display: block;
+  padding: 14px 14px;
+  color: #111;
+  text-decoration: none;
+  font: 400 1rem/1.3 "Montserrat", system-ui, sans-serif;
+}
+
+.drawer-links a:hover {
+  background: #f7f7f7;
+}
+
+body.menu-open .scrim {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.menu-open .drawer {
+  transform: translateX(0);
+}
+
+.drawer-links .acc-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #fff;
+  color: #111;
+  border: 0;
+  cursor: pointer;
+  font: 400 1.5rem/1.3 "Oswald", sans-serif;
+  text-align: left;
+}
+
+.drawer-links .acc-btn:focus-visible {
+  outline: 2px solid #BA0C2F;
+  outline-offset: 2px;
+}
+
+.drawer-links .acc-btn::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  transform: rotate(-45deg);
+  transition: transform .2s ease;
+}
+
+.drawer-links .acc-btn[aria-expanded="true"]::after {
+  transform: rotate(45deg);
+}
+
+.drawer-links .acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .25s ease, opacity .2s ease;
+  opacity: .0;
+}
+
+.drawer-links .acc-panel.open {
+  opacity: 1;
+}
+
+.drawer-links .acc-panel a {
+  display: block;
+  padding: 12px 16px;
+  margin-left: 1rem;
+  color: #111;
+  text-decoration: none;
+  font: 400 .9rem/1.35 "Montserrat", system-ui, sans-serif;
+}
+
+.drawer-links .acc-panel a:hover {
+  background: #cfcfcf;
+}
+
+.drawer-links .toplink {
+  display: block;
+  padding: 14px 16px;
+  color: #111;
+  text-decoration: none;
+  font: 600 1rem/1.3 "Merriweather", serif;
+}
+
+.drawer-links .toplink:hover {
+  background: #f7f7f7;
+}
+</style>
+
 </body>
 </html>

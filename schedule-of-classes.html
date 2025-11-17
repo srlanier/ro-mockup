@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule of Classes</title>
+    <!-- Load Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@700&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Papa Parse for CSV parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        p {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Custom styles for icons */
+        .search-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .filter-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+
+        /* Custom class for smooth dropdown transition */
+        .dropdown-panel {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            transform-origin: top;
+        }
+
+        .dropdown-panel.hidden {
+            opacity: 0;
+            transform: translateY(-10px) scaleY(0.95);
+            pointer-events: none;
+        }
+
+        /* Table styles from socTest3 */
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        .course-table thead {
+            background-color: #4a4a4a;
+            color: #FFFFFF;
+        }
+
+        .course-table th, .course-table td {
+            padding: 0.75rem 0.9rem;
+            white-space: nowrap;
+            border-bottom: 1px solid #f7f7f7;
+        }
+
+        /* Allow course name to wrap */
+        .course-table td:nth-child(2) {
+            white-space: normal;
+            max-width: 250px;
+            word-wrap: break-word;
+        }
+
+        .course-table th {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            text-align: left;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .course-table td {
+            font-size: 0.9rem;
+        }
+
+        .full-course {
+            background-color: #d5d5d5;
+        }
+
+        /* Pagination styles */
+        .pagination-wrapper {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .pagination-info {
+            font-size: 1.55rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+            font-family: Oswald, sans-serif;
+            text-transform: uppercase;
+        }
+
+        .pagination-buttons button {
+            margin: 0 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination-buttons button.active-page {
+            background-color: #BA0C2F;
+            color: white;
+            font-weight: bold;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem !important;
+            padding: 3rem !important;
+        }
+
+        /* Spinner for loading */
+        .spinner {
+            margin: 10px auto 0;
+            width: 150px;
+            text-align: center;
+        }
+
+        .spinner > div {
+            width: 25px;
+            height: 25px;
+            background-color: #ba0c2f;
+            border-radius: 100%;
+            display: inline-block;
+            -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+            animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+        }
+
+        .spinner .bounce1 {
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .spinner .bounce2 {
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        @-webkit-keyframes sk-bouncedelay {
+            0%, 80%, 100% { -webkit-transform: scale(0) }
+            40% { -webkit-transform: scale(1.0) }
+        }
+
+        @keyframes sk-bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            }
+            40% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+            }
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-bg': '#fef4ea',
+                        'accent-red': '#ba0c2f',
+                        'dark-text': '#4a4a4a',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body style="background-color: #ba0c2f; margin: 0; padding: 0;">
+
+<!-- Navigation loaded from partial -->
+<div id="navbar-placeholder"></div>
+
+<!-- Spacer for fixed navbar -->
+<div style="height: 90px; background-color: white;"></div>
+
+<!-- Hero Section from socDemo -->
+<header class="h-[70vh] flex flex-col justify-center items-center p-4" style="position: relative; overflow: hidden; background-color: rgba(186, 12, 47, 1); background-image: url(https://www.terry.uga.edu/wp-content/uploads/stacked-peaks-haikei.svg); background-position: 50% 60%; background-blend-mode: overlay; background-repeat: no-repeat; background-size: cover;">
+
+    <p class="text-xl sm:text-3xl mb-0 text-center max-w-4xl" style="position: relative; z-index: 1; color: rgba(255, 255, 255, 0.9);">
+        Schedule of Classes
+    </p>
+    <h1 class="text-5xl sm:text-7xl font-extrabold mb-8 text-center leading-tight" style="position: relative; z-index: 1; color: white; text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 4px;">
+        SPRING 2026
+    </h1>
+
+    <!-- Big Search Bar & Dropdown Container -->
+    <div class="w-full max-w-4xl px-6 relative" id="search-container" style="z-index: 2;">
+        <!-- Main Search Bar -->
+        <div class="flex shadow-2xl rounded-2xl overflow-hidden ring-4 ring-primary-bg/50 transition-all duration-300 hover:shadow-3xl z-10 relative">
+            <!-- Filter Toggle Button -->
+            <button
+                id="filter-toggle"
+                class="flex flex-col items-center justify-center bg-white border-r border-gray-200 text-dark-text hover:bg-gray-50 transition-colors duration-200 px-6 sm:px-8 py-3"
+                aria-label="Toggle filters"
+                onclick="toggleFilterDropdown()"
+            >
+                <!-- "FILTER" text -->
+                <span style="font-family: 'Oswald', sans-serif; font-weight: 400; font-size: 0.65rem; letter-spacing: 0.05em; margin-bottom: 0.25rem;">FILTER</span>
+                <!-- List-Filter Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="filter-icon">
+                    <path d="M2 5h20"/>
+                    <path d="M6 12h12"/>
+                    <path d="M9 19h6"/>
+                </svg>
+            </button>
+
+            <!-- Search Input Field -->
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search for a class (e.g. ENGL 1101)"
+                aria-label="Search field"
+                class="flex-grow py-5 px-8 text-dark-text text-xl placeholder:text-dark-text/40 focus:outline-none focus:ring-0 bg-white"
+            >
+
+            <!-- Search Button (Teal) -->
+            <button
+                class="flex items-center justify-center transition-colors duration-300 px-8 sm:px-12"
+                style="background-color: #00A3AD;"
+                onmouseover="this.style.backgroundColor='#008c95'"
+                onmouseout="this.style.backgroundColor='#00A3AD'"
+                aria-label="Submit search"
+                onclick="applyFilters()"
+            >
+                <!-- Magnifying Glass Icon (White) -->
+                <svg class="search-icon text-white w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Filter Dropdown Panel (will be populated later with proper filters) -->
+        <div id="filter-dropdown" class="dropdown-panel hidden absolute w-full mt-2 bg-white rounded-2xl shadow-2xl p-4 border border-gray-100 z-0">
+            <p class="text-dark-text text-lg font-semibold mb-3 border-b pb-2 border-gray-100">Filter Options:</p>
+            <div class="space-y-3">
+                <!-- Placeholder filters - will be enhanced later -->
+                <div class="flex items-center space-x-3">
+                    <input type="checkbox" id="hide-full-filter" class="h-5 w-5 rounded border-gray-300 text-accent-red focus:ring-accent-red">
+                    <label for="hide-full-filter" class="text-dark-text text-base cursor-pointer">
+                        Hide full classes
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Content Block with Table -->
+<main class="min-h-[30vh] bg-white border-t-8 border-[#4a4a4a]/10 p-8 shadow-inner">
+    <div class="w-full px-4 mx-auto" style="max-width: 98%;">
+        <!-- Course Table -->
+        <div class="overflow-x-auto shadow-lg rounded-lg bg-white">
+            <table class="course-table" id="courseTable">
+                <thead>
+                    <tr>
+                        <th>Course Number</th>
+                        <th>Course<br>Name</th>
+                        <th>CRN</th>
+                        <th>Instructor</th>
+                        <th>Campus</th>
+                        <th>Part of Term</th>
+                        <th>Days</th>
+                        <th>Time</th>
+                        <th>Building</th>
+                        <th>Room</th>
+                        <th>Max Seats</th>
+                        <th>Avail Seats</th>
+                    </tr>
+                </thead>
+                <tbody id="courseTableBody">
+                    <!-- Course data will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+            <div id="pagination-info" class="pagination-info">
+                Class Data Loading
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+            <div id="pagination" class="pagination-buttons"></div>
+        </div>
+    </div>
+</main>
+
+<!-- JavaScript from socTest3 for table functionality -->
+<script>
+    // Group data by CRN function from socTest3
+    function groupByCRN(data) {
+        const grouped = {};
+        const dayPriority = ['MWF', 'TR', 'M', 'T', 'W', 'R', 'F', 'S', 'U'];
+
+        function getDayRank(days) {
+            const clean = (days || '').replace(/\s+/g, '').toUpperCase();
+            for (let i = 0; i < dayPriority.length; i++) {
+                if (clean === dayPriority[i]) return i;
+            }
+            for (let i = 0; i < dayPriority.length; i++) {
+                if (clean.includes(dayPriority[i])) return i + 0.5;
+            }
+            return 99;
+        }
+
+        data.forEach(row => {
+            const crn = row['CRN'];
+            if (!grouped[crn]) {
+                grouped[crn] = {
+                    ...row,
+                    sessions: []
+                };
+            }
+
+            grouped[crn].sessions.push({
+                days: row['DAYS'] || '',
+                time: row['TIME'] || '',
+                building: row['BUILDING'] || '',
+                room: row['ROOM'] || ''
+            });
+        });
+
+        return Object.values(grouped).map(r => {
+            const sortedSessions = r.sessions
+                .filter(s => s.days || s.time || s.building || s.room)
+                .sort((a, b) => getDayRank(a.days) - getDayRank(b.days));
+
+            const DAYS = [];
+            const TIME = [];
+            const BUILDING = [];
+            const ROOM = [];
+
+            sortedSessions.forEach(s => {
+                DAYS.push(s.days || '');
+                TIME.push(s.time || '');
+                BUILDING.push(s.building || '');
+                ROOM.push(s.room || '');
+            });
+
+            const allSame = (arr) => arr.every(val => val === arr[0]);
+
+            return {
+                ...r,
+                DAYS: DAYS.join('<br>'),
+                TIME: TIME.join('<br>'),
+                BUILDING: allSame(BUILDING) ? BUILDING[0] : BUILDING.join('<br>'),
+                ROOM: allSame(ROOM) ? ROOM[0] : ROOM.join('<br>')
+            };
+        });
+    }
+
+    // Filter dropdown toggle
+    function toggleFilterDropdown() {
+        const dropdown = document.getElementById('filter-dropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const container = document.getElementById('search-container');
+        const dropdown = document.getElementById('filter-dropdown');
+        const toggleButton = document.getElementById('filter-toggle');
+
+        if (!container.contains(event.target) && !dropdown.classList.contains('hidden')) {
+            if (event.target !== toggleButton && !toggleButton.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        }
+    });
+
+    // Main table functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        let courseData = [], filteredData = [];
+        const rowsPerPage = 50;
+        let currentPage = 1;
+
+        const courseTableBody = document.getElementById('courseTableBody');
+        const paginationContainer = document.getElementById('pagination');
+        const paginationInfo = document.getElementById('pagination-info');
+        const searchInput = document.getElementById('searchInput');
+
+        // Define applyFilters early so it can be called from fetch
+        function applyFilters() {
+            console.log('applyFilters called, courseData.length:', courseData.length);
+            const query = searchInput.value.trim().toLowerCase();
+            const normalizedQ = query.replace(/\s+/g, '');
+            const hideFull = document.getElementById('hide-full-filter').checked;
+
+            const prefixMatches = courseData.filter(r => {
+                const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
+                const seats = parseInt(r['SEATS AVAILABLE']);
+                if (hideFull && (!isNaN(seats) && seats === 0)) return false;
+                return courseNum.startsWith(normalizedQ);
+            });
+
+            const otherMatches = courseData.filter(r => {
+                const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
+                const seats = parseInt(r['SEATS AVAILABLE']);
+                if (hideFull && (!isNaN(seats) && seats === 0)) return false;
+                if (courseNum.startsWith(normalizedQ)) return false;
+
+                const searchableKeys = [
+                    'COURSE NUMBER',
+                    'COURSE NAME',
+                    'CRN',
+                    'INSTRUCTOR',
+                    'CAMPUS',
+                    'PART OF TERM',
+                    'DAYS',
+                    'TIME',
+                    'BUILDING',
+                    'CROSS LIST'
+                ];
+
+                const rawQuery = searchInput.value.trim().toLowerCase();
+                const queryWords = rawQuery.split(/\s+/);
+                const allF = searchableKeys
+                    .map(k => (r[k] || '').toString().toLowerCase().replace(/\s+/g, ''))
+                    .join('');
+
+                return queryWords.every(qw => allF.includes(qw));
+            });
+
+            filteredData = prefixMatches.concat(otherMatches);
+
+            filteredData.sort((a, b) => {
+                const aEmpty = !a['COURSE NUMBER'];
+                const bEmpty = !b['COURSE NUMBER'];
+                if (aEmpty && !bEmpty) return 1;
+                if (!aEmpty && bEmpty) return -1;
+                return 0;
+            });
+
+            currentPage = 1;
+            renderTable();
+            renderPagination();
+        }
+
+        // Fetch and parse CSV data
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
+            .then(r => {
+                console.log('Fetch response:', r);
+                return r.text();
+            })
+            .then(csv => {
+                console.log('CSV loaded, length:', csv.length);
+                const parsed = Papa.parse(csv, { header: true }).data
+                    .filter(r => r['CRN'] !== 'StringFilter')
+                    .map(r => {
+                        const campusRaw = (r['CAMPUS'] || '').toLowerCase();
+                        r.Category = [];
+
+                        if (campusRaw.includes('online')) r.Category.push('online');
+                        if (campusRaw.includes('tifton')) r.Category.push('tifton');
+                        if (campusRaw.includes('griffin')) r.Category.push('griffin');
+                        if (campusRaw.includes('athens')) r.Category.push('athens');
+                        if (r.Category.length === 0) r.Category.push('other');
+
+                        const courseNumRaw = (r['COURSE NUMBER'] || '').replace(/\s+/g, '');
+                        const courseTitle = (r['COURSE NAME'] || '').toLowerCase();
+                        if (
+                            /^[A-Za-z]{2,4}\d{4}H$/i.test(courseNumRaw) ||
+                            courseTitle.endsWith('honors') ||
+                            courseTitle.includes('honors')
+                        ) {
+                            if (!r.Category.includes('honors')) r.Category.push('honors');
+                        }
+
+                        r['COURSE NUMBER'] = courseNumRaw.toUpperCase();
+                        return r;
+                    })
+                    .sort((a, b) => ((a['COURSE NUMBER'] || '').toUpperCase())
+                        .localeCompare((b['COURSE NUMBER'] || '').toUpperCase(), undefined, { numeric: true }));
+
+                courseData = groupByCRN(parsed).sort((a, b) => {
+                    const aCN = (a['COURSE NUMBER'] || '').toUpperCase();
+                    const bCN = (b['COURSE NUMBER'] || '').toUpperCase();
+                    return aCN.localeCompare(bCN, undefined, { numeric: true });
+                });
+
+                console.log('Course data loaded:', courseData.length, 'courses');
+                applyFilters();
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                paginationInfo.innerHTML = 'Error loading class data. Please refresh the page.';
+            });
+
+        searchInput.addEventListener('input', applyFilters);
+        searchInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyFilters();
+            }
+        });
+
+        function renderTable() {
+            courseTableBody.innerHTML = '';
+            if (filteredData.length === 0) {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 12;
+                td.classList.add('no-results');
+                td.textContent = 'No matching results found.';
+                tr.appendChild(td);
+                courseTableBody.appendChild(tr);
+                paginationContainer.style.display = 'none';
+                return;
+            }
+
+            paginationContainer.style.display = '';
+            const start = (currentPage - 1) * rowsPerPage;
+            const pageData = filteredData.slice(start, start + rowsPerPage);
+
+            pageData.forEach(r => {
+                const tr = document.createElement('tr');
+                const seats = parseInt(r['SEATS AVAILABLE']);
+                if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
+
+                tr.innerHTML = `
+                    <td>${r['COURSE NUMBER'] || ''}</td>
+                    <td>${r['COURSE NAME'] || ''}</td>
+                    <td>${r['CRN'] || ''}</td>
+                    <td>${r['INSTRUCTOR'] || ''}</td>
+                    <td>${r['CAMPUS'] || ''}</td>
+                    <td>${r['PART OF TERM'] || ''}</td>
+                    <td>${r['DAYS'] || ''}</td>
+                    <td>${r['TIME'] || ''}</td>
+                    <td>${r['BUILDING'] || ''}</td>
+                    <td>${r['ROOM'] || ''}</td>
+                    <td>${r['MAX STUDENTS'] || ''}</td>
+                    <td>${r['SEATS AVAILABLE'] || ''}</td>
+                `;
+
+                courseTableBody.appendChild(tr);
+            });
+
+            courseTableBody.querySelectorAll('tr td:first-child').forEach(cell => {
+                const txt = cell.textContent.trim();
+                if (txt.length > 4) {
+                    cell.innerHTML = txt.slice(0, 4) + ' ' + txt.slice(4);
+                }
+            });
+        }
+
+        function renderPagination() {
+            const total = Math.ceil(filteredData.length / rowsPerPage);
+            console.log('Rendering pagination:', filteredData.length, 'items,', total, 'pages');
+            paginationInfo.textContent = `Showing ${rowsPerPage} per page · Page ${currentPage} of ${total}`;
+            paginationContainer.innerHTML = '';
+
+            const btn = (p) => {
+                const b = document.createElement('button');
+                b.textContent = p;
+                if (p === currentPage) b.classList.add('active-page');
+                b.addEventListener('click', () => {
+                    currentPage = p;
+                    renderTable();
+                    renderPagination();
+                });
+                paginationContainer.appendChild(b);
+            };
+
+            const ell = () => {
+                const s = document.createElement('span');
+                s.textContent = '…';
+                s.style.margin = '0 6px';
+                paginationContainer.appendChild(s);
+            };
+
+            if (total > 0) btn(1);
+            if (currentPage > 3) ell();
+            for (let i = Math.max(2, currentPage - 1); i <= Math.min(total - 1, currentPage + 1); i++) btn(i);
+            if (currentPage < total - 2) ell();
+            if (total > 1) btn(total);
+        }
+    });
+</script>
+
+<!-- Load Navbar from Partial -->
+<script>
+    fetch('partials/navbar.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('navbar-placeholder').innerHTML = html;
+            initializeNavbar();
+        })
+        .catch(error => {
+            console.error('Error loading navbar:', error);
+        });
+
+    function initializeNavbar() {
+        const logo = document.getElementById('uga-logo');
+        if (logo) logo.src = 'images/OfficeRegistrar_logo_Horizontal_FC.png';
+
+        const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+        dropdownMenus.forEach(menu => {
+            const links = Array.from(menu.querySelectorAll("a"));
+            links.sort((a, b) => a.textContent.localeCompare(b.textContent));
+            menu.innerHTML = "";
+            links.forEach(link => menu.appendChild(link));
+        });
+
+        const btn = document.getElementById('navToggle');
+        const scrim = document.getElementById('mobileScrim');
+        const drawer = document.getElementById('mobileDrawer');
+        const close = document.getElementById('drawerClose');
+        const dstUL = document.getElementById('drawerLinks');
+
+        function openMenu(){ body.classList.add('menu-open'); btn?.setAttribute('aria-expanded','true'); drawer?.setAttribute('aria-hidden','false'); }
+        function closeMenu(){ body.classList.remove('menu-open'); btn?.setAttribute('aria-expanded','false'); drawer?.setAttribute('aria-hidden','true'); }
+
+        btn?.addEventListener('click', () => body.classList.contains('menu-open') ? closeMenu() : openMenu());
+        close?.addEventListener('click', closeMenu);
+        scrim?.addEventListener('click', closeMenu);
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+        window.matchMedia('(min-width: 981px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+
+        const srcUL = document.querySelector('#navbar .nav-links');
+        if (!srcUL || !dstUL) return;
+
+        dstUL.innerHTML = '';
+
+        [...srcUL.children].forEach(li => {
+            const item = document.createElement('li');
+            const topLink = li.querySelector(':scope > a');
+            const dropdown = li.querySelector(':scope .dropdown-menu');
+
+            if (dropdown) {
+                const title = (topLink?.textContent || '').trim() || 'Menu';
+                const btnHdr = document.createElement('button');
+                btnHdr.className = 'acc-btn';
+                btnHdr.type = 'button';
+                btnHdr.setAttribute('aria-expanded', 'false');
+                btnHdr.textContent = title;
+
+                const panel = document.createElement('div');
+                panel.className = 'acc-panel';
+
+                const links = dropdown.querySelectorAll('a');
+                links.forEach(a => {
+                    const cloneA = a.cloneNode(true);
+                    cloneA.removeAttribute('style');
+                    cloneA.className = '';
+                    panel.appendChild(cloneA);
+                });
+
+                item.appendChild(btnHdr);
+                item.appendChild(panel);
+            } else if (topLink) {
+                const a = topLink.cloneNode(true);
+                a.removeAttribute('style');
+                a.className = 'toplink';
+                item.appendChild(a);
+            }
+
+            dstUL.appendChild(item);
+        });
+
+        dstUL.addEventListener('click', (e) => {
+            const btnHdr = e.target.closest('.acc-btn');
+            if (!btnHdr) return;
+
+            const panel = btnHdr.nextElementSibling;
+            const isOpen = btnHdr.getAttribute('aria-expanded') === 'true';
+
+            dstUL.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(b => {
+                if (b !== btnHdr) {
+                    b.setAttribute('aria-expanded','false');
+                    const p = b.nextElementSibling;
+                    p?.classList.remove('open');
+                    p?.style.removeProperty('max-height');
+                }
+            });
+
+            btnHdr.setAttribute('aria-expanded', String(!isOpen));
+            if (!isOpen) {
+                panel.classList.add('open');
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+            } else {
+                panel.classList.remove('open');
+                panel.style.maxHeight = '0px';
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            dstUL.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(b => {
+                const p = b.nextElementSibling;
+                if (p) p.style.maxHeight = p.scrollHeight + 'px';
+            });
+        });
+    }
+</script>
+
+<!-- Link navbar styles -->
+<link rel="stylesheet" href="css/all.min.css">
+<link rel="stylesheet" href="css/uga-branding.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --uga-red: #BA0C2F;
+  --uga-grey: #4A4A4A;
+  --white: #ffffff;
+  --light-grey: #f4f4f4;
+  --dark-blue: #0A2342;
+  --dark-grey-text: #333333;
+  --dark-grey: #3e3e3e;
+  --tan: #d6d2c4;
+  --wrap-max: 1600px;
+}
+
+/* Navbar Styles - Interior pages use white background from start */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 5px 0px 5px 0px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  gap: 40px;
+  z-index: 1000;
+  box-sizing: border-box;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.navbar-left .uga-logo {
+  height: 70px;
+  width: auto;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.nav-links li {
+  position: relative;
+  margin: 0 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+  font-size: 1.3em;
+  padding: 10px;
+  display: block;
+  text-shadow: none;
+  transition: .3s ease;
+}
+
+.nav-links a:hover,
+.nav-links li:hover > a {
+  background-color: var(--uga-red);
+  color: white;
+}
+
+.nav-links li:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-menu {
+  position: fixed;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-top: 3px solid var(--uga-red);
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  column-gap: 0rem;
+  row-gap: 0;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 1px;
+  background-color: #F0F0F0;
+}
+
+.nav-links li:nth-child(6) .dropdown-menu {
+  grid-template-columns: 1fr;
+}
+
+.nav-links li:nth-child(6) .dropdown-menu::before {
+  content: none;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  text-shadow: none;
+  font-size: 1em;
+  font-family: "Montserrat", sans-serif;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #F0F0F0;
+  color: black;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.search-icon {
+  font-size: 1.3em;
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.search-icon:hover {
+  color: var(--uga-red);
+}
+
+.wrap {
+  max-width: 1800px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 2vw, 32px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar > .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.navbar-left .uga-logo {
+  height: 70px;
+  width: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* Menu button */
+.menu-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: #BA0C2F;
+  color: #fff;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  letter-spacing: .2px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.menu-btn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.menu-btn .menu-icon {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 12px;
+  flex: 0 0 16px;
+  background: linear-gradient(#fff,#fff) center 5px / 100% 2px no-repeat;
+}
+
+.menu-btn .menu-icon::before,
+.menu-btn .menu-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff;
+}
+
+.menu-btn .menu-icon::before {
+  top: 0;
+}
+
+.menu-btn .menu-icon::after {
+  bottom: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 980px) {
+  .menu-btn {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    background: white;
+    border-top: 1px solid rgba(0,0,0,.08);
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 8px 0;
+    z-index: 1001;
+  }
+
+  #navbar.open .nav-links {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 0;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 1.05em;
+    background: transparent;
+    color: black;
+  }
+
+  .dropdown-menu {
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    box-shadow: none !important;
+    border-top: none !important;
+    padding: 0 !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .dropdown-menu::before {
+    content: none !important;
+  }
+}
+
+/* Slide-in drawer */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 2000;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(92vw, 420px);
+  background: #fff;
+  color: #111;
+  box-shadow: -4px 0 18px rgba(0,0,0,.25);
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.drawer-title {
+  font: 600 1.4rem/1 "Merriweather", serif;
+}
+
+.drawer-close {
+  background: transparent;
+  border: 0;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.drawer-body {
+  padding: 10px 8px 24px 8px;
+  overflow: auto;
+}
+
+.drawer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-links > li {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.drawer-links a {
+  display: block;
+  padding: 14px 14px;
+  color: #111;
+  text-decoration: none;
+  font: 400 1rem/1.3 "Montserrat", system-ui, sans-serif;
+}
+
+.drawer-links a:hover {
+  background: #f7f7f7;
+}
+
+body.menu-open .scrim {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.menu-open .drawer {
+  transform: translateX(0);
+}
+
+.drawer-links .acc-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #fff;
+  color: #111;
+  border: 0;
+  cursor: pointer;
+  font: 400 1.5rem/1.3 "Oswald", sans-serif;
+  text-align: left;
+}
+
+.drawer-links .acc-btn:focus-visible {
+  outline: 2px solid #BA0C2F;
+  outline-offset: 2px;
+}
+
+.drawer-links .acc-btn::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  transform: rotate(-45deg);
+  transition: transform .2s ease;
+}
+
+.drawer-links .acc-btn[aria-expanded="true"]::after {
+  transform: rotate(45deg);
+}
+
+.drawer-links .acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .25s ease, opacity .2s ease;
+  opacity: .0;
+}
+
+.drawer-links .acc-panel.open {
+  opacity: 1;
+}
+
+.drawer-links .acc-panel a {
+  display: block;
+  padding: 12px 16px;
+  margin-left: 1rem;
+  color: #111;
+  text-decoration: none;
+  font: 400 .9rem/1.35 "Montserrat", system-ui, sans-serif;
+}
+
+.drawer-links .acc-panel a:hover {
+  background: #cfcfcf;
+}
+
+.drawer-links .toplink {
+  display: block;
+  padding: 14px 16px;
+  color: #111;
+  text-decoration: none;
+  font: 600 1rem/1.3 "Merriweather", serif;
+}
+
+.drawer-links .toplink:hover {
+  background: #f7f7f7;
+}
+</style>
+
+</body>
+</html>

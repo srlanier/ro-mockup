@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGA Academic Calendars</title>
+    <!-- Load Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@700&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Base & Typography --- */
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f1f1f1;
+            color: #111827; /* text-gray-900 */
+            margin: 0;
+            padding: 0;
+            font-size: 18px; /* Increased from default 16px */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+            margin-top: 0;
+            margin-bottom: 0;
+
+        }
+
+        /* --- Layout Wrappers --- */
+        .max-w-5xl {
+            max-width: 1100px; /* 1024px */
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+
+        /* --- Mock Sticky Nav --- */
+        .sticky-nav {
+            height: 100px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 1rem; /* px-4 */
+            padding-right: 1rem; /* px-4 */
+        }
+        .sticky-nav-logo {
+            font-size: 1.5rem; /* text-2xl */
+            line-height: 2rem;
+            font-weight: 700; /* font-bold */
+            color: #1f2937; /* text-gray-800 */
+        }
+        .sticky-nav-links {
+            display: flex;
+            gap: 1rem; /* gap-4 */
+        }
+        .sticky-nav-links span {
+            color: #4b5563; /* text-gray-600 */
+        }
+
+        .app-nav-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        .filter-controls-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .save-controls-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-left: auto;
+        }
+
+        .filter-icon,
+        .download-icon {
+            color: rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
+        }
+
+        .calendar-icon-decal {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 80px;
+            color: white;
+            opacity: 0.35;
+            stroke-width: 1.25;
+        }
+
+        .dropdown-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        /* --- Dropdown Buttons --- */
+        .dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 0.375rem;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+        }
+        .dropdown-btn span {
+            text-align: left;
+        }
+
+        .dropdown-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .dropdown-btn .icon-chevron {
+            opacity: 0.9;
+            stroke: white;
+        }
+        .dropdown-btn:focus {
+            outline: 4px solid transparent;
+            outline-offset: 4px;
+            box-shadow: 0 0 0 6px #00A3AD; /* ring-2 ring-offset-2 ring-red-600 */
+        }
+        .dropdown-btn .icon-chevron {
+            width: 18px;
+            height: 18px;
+            color: #9ca3af; /* text-gray-400 */
+            margin-left: 0.25rem; /* ml-1 */
+            stroke-width: 3;
+        }
+
+        /* --- Dropdown Panels --- */
+        .dropdown-panel {
+            position: absolute;
+            display: none; /* 'hidden' class */
+            top: 100%;
+            margin-top: 0.5rem; /* mt-2 */
+            background-color: #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            padding-top: 0.5rem; /* py-2 */
+            padding-bottom: 0.5rem; /* py-2 */
+            z-index: 50;
+            overflow: hidden; /* overflow-hidden */
+            white-space: nowrap; /* Prevent text wrapping */
+            /* ring-1 ring-black ring-opacity-5 */
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown-panel.show {
+            display: block;
+        }
+        #calendar-dropdown {
+            width: auto;
+            min-width: 320px;
+        }
+        #year-dropdown {
+            width: 180px;
+            min-width: 180px;
+            max-width: 180px;
+        }
+        #term-dropdown {
+            width: 160px;
+            min-width: 160px;
+            max-width: 160px;
+        }
+        #save-dropdown {
+            right: 0; /* Align to right edge of parent to prevent clipping */
+            left: auto;
+            width: auto;
+            min-width: 180px;
+        }
+
+
+        /* --- Unified Widget --- */
+        .unified-widget {
+
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+            overflow: hidden; /* To clip the children's corners */
+
+        }
+
+        .widget-header {
+            background-color: rgba(186, 12, 47, 1);
+            background-image: url(https://www.terry.uga.edu/wp-content/uploads/stacked-peaks-haikei.svg);
+            background-position: 50% 60%;
+            background-blend-mode: overlay;
+            padding: 2rem 2rem .5rem 2rem !important;
+            border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+
+        .widget-header-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            font-weight: 400;
+            color: white;
+            text-transform: uppercase;
+            margin: 0 0 1.5rem 0;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 4px;
+        }
+
+        .widget-body {
+            background-color: #ffffff;
+            padding: 1.5rem; /* p-6 */
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem; /* mb-6 */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-title {
+            font-size: 2.25rem; /* Increased from 1.875rem */
+            line-height: 2.5rem;
+            font-weight: 700; /* font-bold */
+            color: #272727; /* text-red-700 */
+        }
+        .card-subtitle {
+            color: #4b5563; /* text-gray-600 */
+            margin-top: 0.25rem; /* mt-1 */
+            font-size: 1.125rem; /* Increased */
+        }
+
+        /* Last updated subtitle under title */
+        .last-updated-subtitle {
+            color: #4b5563;
+            margin: 0 0 1rem 0;
+            font-size: 0.875rem;
+            text-align: left;
+        }
+
+        /* Export buttons standalone container */
+        .export-buttons-standalone {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        /* --- Calendar Table --- */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse; /* For clean lines */
+        }
+        .calendar-table thead {
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #4b5563; /* text-gray-600 */
+            text-transform: uppercase; /* uppercase */
+            font-size: 0.875rem; /* Increased from 0.75rem */
+            line-height: 1.25rem;
+        }
+        .calendar-table th {
+            padding: 0.75rem; /* p-3 */
+            text-align: left; /* text-left */
+            font-weight: 600; /* font-semibold */
+            letter-spacing: 0.05em; /* tracking-wider */
+        }
+        .calendar-table th.text-center {
+            text-align: center;
+        }
+        .calendar-table th.w-48 {
+            width: 12rem; /* w-48 */
+        }
+        .calendar-table tbody {
+            border-top: 1px solid #e5e7eb; /* divide-y divide-gray-200 */
+        }
+        .calendar-table tr:not(:first-child) {
+            border-top: 1px solid #e5e7eb; /* divide-y divide-gray-200 */
+        }
+        .calendar-table tr.row-white {
+            background-color: #ffffff;
+        }
+        .calendar-table tr.row-gray {
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .calendar-table td {
+            padding: 1rem; /* p-4 */
+            font-size: 1.0rem; /* Increased from 0.875rem */
+            line-height: 1.5rem;
+            vertical-align: middle; /* Aligns with pill */
+        }
+        .calendar-table td.event-cell {
+            font-weight: 500; /* font-medium */
+        }
+        .calendar-table td.date-cell {
+            text-align: center;
+        }
+        .calendar-table td.day-cell {
+            text-align: center;
+        }
+
+        /* Date Cell Wrapper for Pill */
+        .date-wrapper {
+            display: inline-grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 0.25rem; /* gap-x-1 */
+            width: 100%;
+            max-width: 150px;
+        }
+        .date-wrapper span {
+            text-align: center;
+        }
+
+        /* Annual Sub-header Row */
+        .annual-subheader-row td {
+            background-color: #f3f4f6; /* bg-gray-100 */
+            padding: 0.75rem; /* p-3 */
+            font-size: 1.375rem; /* Increased from 1.125rem */
+            line-height: 1.875rem;
+            font-weight: 600; /* font-semibold */
+            color: #1f2937; /* text-gray-800 */
+        }
+
+        /* Term Label (above table) */
+        .term-label {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-weight: 400;
+            color: #111827; /* gray-900 */
+            font-size: 2.6rem;
+            margin-bottom: 0.75rem;
+            margin-top: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-right: 1.5rem;
+        }
+
+        .term-label:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Session label for summer terms */
+        .session-label {
+            font-family: 'Merriweather', serif;
+            text-transform: none;
+            font-weight: 400;
+            font-size: 1.6rem;
+            color: #4b5563;
+            border-left: 3px dotted #BA0C2F;
+            padding-left: 0.75rem;
+            margin-left: 0.75rem;
+            display: inline-block;
+            vertical-align: baseline;
+            line-height: 1;
+        }
+
+        /* Triangle bookend after term label */
+        .term-label::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0.3em;
+            width: 0;
+            height: 0;
+            border-left: 1.04rem solid #BA0C2F;
+            border-top: 1.04rem solid transparent;
+        }
+
+        /* Term header with buttons (for first term only) */
+        .term-header-with-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .term-header-with-buttons:first-of-type {
+            margin-top: 0;
+        }
+
+        .term-header-with-buttons .term-label {
+            margin: 0;
+            flex: 0 1 auto;
+        }
+
+        .term-header-with-buttons .export-buttons-standalone {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        /* Table wrapper for annual view */
+        .table-section {
+            margin-bottom: 2rem;
+        }
+
+        .table-section:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Responsive Helpers --- */
+        .hidden {
+            display: none;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .widget-header-title {
+                font-size: 2.5rem; /* Smaller title on mobile */
+                margin-bottom: 1rem;
+            }
+
+            .app-nav-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+
+            .filter-controls-group,
+            .save-controls-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .save-controls-group {
+                margin-left: 0; /* Remove auto margin on mobile */
+            }
+
+            /* Make dropdowns full width on mobile */
+            .dropdown-wrapper {
+                flex: 1;
+            }
+
+            .dropdown-btn {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            #calendar-dropdown,
+            #year-dropdown,
+            #save-dropdown {
+                width: 100%;
+                min-width: 100%;
+                max-width: 100%;
+                left: 0;
+                right: 0;
+            }
+        }
+
+        @media (min-width: 640px) { /* sm: */
+            .sm-px-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            .sm-py-8 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            .sm-table-cell {
+                display: table-cell;
+            }
+
+            /* Responsive padding for widget */
+            .widget-header {
+                padding: 2rem;
+            }
+            .widget-body {
+                padding: 2rem;
+            }
+        }
+
+        /* --- Tooltip Styles (Already Plain CSS) --- */
+        .revision-pill, .revision-placeholder {
+            position: relative;
+            cursor: help;
+            background-color: #e5e7eb;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            font-size: 0.65rem;
+            font-weight: 600;
+            line-height: 1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            vertical-align: super;
+            margin-left: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .revision-placeholder {
+            visibility: hidden;
+            cursor: default;
+        }
+        .revision-pill::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1f2937;
+            color: #ffffff;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.4;
+            text-align: left;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+            z-index: 10;
+        }
+        .revision-pill:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- Dropdown Menu Item Style (Already Plain CSS) --- */
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            text-align: left;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.125rem;
+            white-space: nowrap; /* Prevent text wrapping */
+            gap: 0.75rem;
+        }
+        .dropdown-item svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .dropdown-item span {
+            flex: 1;
+        }
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+        .check-icon {
+            width: 1rem;
+            height: 1rem;
+            stroke: #E4002B;
+            stroke-width: 3;
+            visibility: hidden;
+        }
+        .dropdown-item.selected .check-icon {
+            visibility: visible;
+        }
+
+        /* --- Export Buttons --- */
+        .export-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .export-btn:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .export-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke-width: 2;
+        }
+
+        .export-btn svg:last-child {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Dropdown for Save button */
+        .export-dropdown-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .export-dropdown-panel {
+            position: absolute;
+            display: none;
+            top: 100%;
+            right: 0;
+            margin-top: 0.25rem;
+            background-color: #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 0.375rem;
+            border: 1px solid #e5e7eb;
+            padding: 0.25rem;
+            z-index: 50;
+            min-width: 150px;
+        }
+
+        .export-dropdown-panel.show {
+            display: block;
+        }
+
+        .export-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.4rem 0.65rem;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.8125rem;
+            color: #374151;
+            text-align: left;
+            border-radius: 0.25rem;
+            transition: background-color 0.15s;
+        }
+
+        .export-dropdown-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .export-dropdown-item svg {
+            width: 13px;
+            height: 13px;
+        }
+    </style>
+</head>
+<body class="bg-gray-200 text-gray-900">
+
+<!-- Navigation loaded from partial -->
+<div id="navbar-placeholder"></div>
+
+<!-- Spacer for fixed navbar -->
+<div style="height: 83px;"></div>
+
+<!-- Main Content Wrapper -->
+<div class="max-w-5xl mx-auto py-0 sm-py-0 px-4 sm-px-6">
+
+    <!-- --- Unified Widget Wrapper --- -->
+    <div class="unified-widget">
+
+        <!-- Widget Header (Controls) -->
+        <nav class="widget-header">
+            <!-- Calendar Title -->
+            <h1 id="widget-header-title" class="widget-header-title">Academic Calendar - Spring 2026</h1>
+
+            <div class="app-nav-controls">
+                <!-- Left side: Filter controls (centered) -->
+                <div class="filter-controls-group">
+                    <!-- Filter Icon -->
+                    <svg class="filter-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 5h20"/>
+                        <path d="M6 12h12"/>
+                        <path d="M9 19h6"/>
+                    </svg>
+
+                    <!-- Calendar Type Dropdown -->
+                    <div class="dropdown-wrapper">
+                        <button id="calendar-btn" class="dropdown-btn" aria-label="Select calendar type" aria-haspopup="true" aria-expanded="false">
+                            <span>Calendar</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="icon-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div id="calendar-dropdown" class="dropdown-panel" role="menu" aria-label="Calendar types">
+                            <!-- Calendar links populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Academic Year Dropdown -->
+                    <div id="year-btn-wrapper" class="dropdown-wrapper">
+                        <button id="year-btn" class="dropdown-btn" aria-label="Select academic year" aria-haspopup="true" aria-expanded="false">
+                            <span>Academic Year</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="icon-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div id="year-dropdown" class="dropdown-panel" role="menu" aria-label="Academic years">
+                            <!-- Year links populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Save button -->
+                <div class="save-controls-group">
+                    <!-- Download Icon -->
+                    <svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+
+                    <!-- Save Dropdown -->
+                    <div class="dropdown-wrapper">
+                        <button id="save-btn" class="dropdown-btn" aria-label="Save calendar" aria-haspopup="true" aria-expanded="false">
+                            <span>Save</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="icon-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div id="save-dropdown" class="dropdown-panel" role="menu" aria-label="Save options">
+                            <!-- Save options populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Widget Body (Content) -->
+        <div class="widget-body">
+            <!-- Last Updated -->
+            <p id="last-updated-p" class="last-updated-subtitle">Last Updated: <span id="last-updated"></span></p>
+
+            <!-- Calendar Table Container -->
+            <div id="calendar-tables-wrapper">
+                <!-- Will be populated with one or more tables by JavaScript -->
+            </div>
+        </div>
+
+    </div> <!-- End .unified-widget -->
+
+</div>
+
+<script>
+    // --- API Configuration ---
+    const API_BASE = 'https://apps-dev.reg.uga.edu/rods_api';
+
+    // --- Data Storage ---
+    let allCalendars = {}; // Will be populated from API
+
+    // --- Helper Functions ---
+
+    // Map session codes to display names
+    function getSessionDisplayName(sessionCode) {
+        if (!sessionCode) return '';
+
+        // Normalize the session code to handle case variations
+        const normalized = sessionCode.toUpperCase();
+
+        const sessionMap = {
+            'MAY': 'May Session',
+            'EXT': 'Extended Session',
+            'THRU': 'Thru Term',
+            'SSI': 'Short Session I',
+            'SSII': 'Short Session II'
+        };
+        return sessionMap[normalized] || sessionCode;
+    }
+
+    // Get sort order for sessions (for summer terms)
+    function getSessionSortOrder(sessionCode) {
+        if (!sessionCode) return 999;
+
+        // Normalize the session code to handle case variations
+        const normalized = sessionCode.toUpperCase();
+
+        const sortOrder = {
+            'MAY': 1,
+            'EXT': 2,
+            'THRU': 3,
+            'SSI': 4,
+            'SSII': 5
+        };
+        return sortOrder[normalized] || 999;
+    }
+
+    // Parse term code to get year and term
+    function parseTermCode(termCode) {
+        const year = parseInt(termCode.substring(0, 4));
+        const termNum = termCode.substring(4, 6);
+
+        let term = '';
+        if (termNum === '08') term = 'fall';
+        else if (termNum === '02') term = 'spring';
+        else if (termNum === '05') term = 'summer';
+
+        return { year, term };
+    }
+
+    // Build academic year string (e.g., "2025-2026")
+    function buildAcademicYear(year, term) {
+        if (term === 'fall') {
+            return `${year}-${year + 1}`;
+        } else {
+            return `${year - 1}-${year}`;
+        }
+    }
+
+    // Normalize date string from TEXT field to proper ISO format
+    function normalizeDateString(dateStr) {
+        if (!dateStr) return '';
+        // Handle "2025-08-13T00:00:00+00" → "2025-08-13T00:00:00+00:00"
+        // PostgreSQL TEXT fields may omit the colon in timezone offset
+        return dateStr.replace(/([+-]\d{2})$/, '$1:00');
+    }
+
+    // Format ISO date to "Aug. 13" format
+    function formatDate(isoDate) {
+        if (!isoDate) return '';
+        const normalized = normalizeDateString(isoDate);
+        const date = new Date(normalized);
+        if (isNaN(date.getTime())) {
+            console.error('Invalid date:', isoDate, '→', normalized);
+            return 'Invalid Date';
+        }
+        const month = date.toLocaleDateString('en-US', { month: 'short' });
+        const day = date.getDate();
+        return `${month}. ${day}`;
+    }
+
+    // Get day of week from ISO date
+    function getDayOfWeek(isoDate) {
+        if (!isoDate) return '';
+        const normalized = normalizeDateString(isoDate);
+        const date = new Date(normalized);
+        if (isNaN(date.getTime())) {
+            console.error('Invalid date:', isoDate, '→', normalized);
+            return '';
+        }
+        return date.toLocaleDateString('en-US', { weekday: 'long' });
+    }
+
+    // Format date range
+    function formatDateRange(startIso, endIso) {
+        if (!endIso) {
+            return formatDate(startIso);
+        }
+
+        const startDate = new Date(normalizeDateString(startIso));
+        const endDate = new Date(normalizeDateString(endIso));
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            console.error('Invalid date range:', startIso, endIso);
+            return 'Invalid Date Range';
+        }
+
+        // Same month
+        if (startDate.getMonth() === endDate.getMonth()) {
+            const month = startDate.toLocaleDateString('en-US', { month: 'short' });
+            return `${month}. ${startDate.getDate()}-${endDate.getDate()}`;
+        } else {
+            // Different months
+            return `${formatDate(startIso)} - ${formatDate(endIso)}`;
+        }
+    }
+
+    // Get day of week range
+    function getDayRange(startIso, endIso) {
+        if (!endIso) {
+            return getDayOfWeek(startIso);
+        }
+
+        const startDay = getDayOfWeek(startIso);
+        const endDay = getDayOfWeek(endIso);
+
+        if (startDay === endDay) {
+            return startDay;
+        } else {
+            return `${startDay} – ${endDay}`;
+        }
+    }
+
+    // Determine event status based on title
+    function getEventStatus(title) {
+        const titleLower = title.toLowerCase();
+
+        if (titleLower.includes('classes begin') || titleLower.includes('classes end')) {
+            return 'success';
+        } else if (titleLower.includes('drop/add') || titleLower.includes('withdrawal')) {
+            return 'warning';
+        } else {
+            return 'default';
+        }
+    }
+
+    // Load calendars from API
+    async function loadCalendarsFromAPI() {
+        try {
+            const response = await fetch(`${API_BASE}/calendars?order=start_iso.asc`);
+            if (!response.ok) throw new Error('Failed to fetch calendars');
+
+            const apiData = await response.json();
+
+            // Group by academic year and term
+            apiData.forEach(event => {
+                const { year, term } = parseTermCode(event.term_code);
+                const academicYear = buildAcademicYear(year, term);
+                const sessionCode = event.session_code || 'main';
+
+                // Initialize structure
+                if (!allCalendars[academicYear]) {
+                    allCalendars[academicYear] = {};
+                }
+                if (!allCalendars[academicYear][term]) {
+                    allCalendars[academicYear][term] = {
+                        title: `UGA ${term.charAt(0).toUpperCase() + term.slice(1)} ${year} Academic Calendar`,
+                        sessions: {}
+                    };
+                }
+                if (!allCalendars[academicYear][term].sessions[sessionCode]) {
+                    // Map session code to display name
+                    const sessionName = getSessionDisplayName(sessionCode);
+                    allCalendars[academicYear][term].sessions[sessionCode] = {
+                        sessionName: sessionName,
+                        sortOrder: getSessionSortOrder(sessionCode),
+                        data: []
+                    };
+                }
+
+                // Transform API event to widget format
+                const widgetEvent = {
+                    event: event.title,
+                    date: formatDateRange(event.start_iso, event.end_iso),
+                    day: getDayRange(event.start_iso, event.end_iso),
+                    status: getEventStatus(event.title),
+                    history: [] // No revisions for now
+                };
+
+                allCalendars[academicYear][term].sessions[sessionCode].data.push(widgetEvent);
+            });
+
+        } catch (error) {
+            console.error('[Calendar] Error loading from API:', error);
+            alert('Failed to load calendar data from API. Please try again later.');
+        }
+    }
+
+    // --- Function to read calendar type from URL hash ---
+    function getCalendarFromHash() {
+        const hash = window.location.hash.substring(1); // Remove the '#'
+        const validCalendars = ['academic', 'scheduling', 'registration', 'payment', 'exam', 'term', 'keyDates', 'facultyDates'];
+        return validCalendars.includes(hash) ? hash : 'academic';
+    }
+
+    // --- App State ---
+    let currentState = {
+        calendar: getCalendarFromHash(),
+        year: '2025-2026',
+        term: 'annual'  // Always show full academic year
+    };
+
+    // --- DOM Elements ---
+    const yearBtn = document.getElementById('year-btn');
+    const calendarBtn = document.getElementById('calendar-btn');
+    const yearBtnWrapper = document.getElementById('year-btn-wrapper');
+
+    const yearDropdown = document.getElementById('year-dropdown');
+    const calendarDropdown = document.getElementById('calendar-dropdown');
+
+    const widgetHeaderTitle = document.getElementById('widget-header-title');
+    const lastUpdatedElem = document.getElementById('last-updated');
+    const lastUpdatedP = document.getElementById('last-updated-p');
+    const calendarTablesWrapper = document.getElementById('calendar-tables-wrapper');
+
+    // Function to update the widget header title
+    function updateWidgetHeaderTitle() {
+        const calendarText = currentState.calendar === 'academic' ? 'Academic Calendar' :
+                           currentState.calendar === 'scheduling' ? 'Centralized Classroom Scheduling Dates' :
+                           currentState.calendar === 'registration' ? 'Registration Dates' :
+                           currentState.calendar === 'payment' ? 'Payment Dates' :
+                           currentState.calendar === 'exam' ? 'Final Exam Schedule' :
+                           currentState.calendar === 'term' ? 'Parts of Term' :
+                           currentState.calendar === 'keyDates' ? 'Key Dates for Semester' :
+                           currentState.calendar === 'facultyDates' ? 'Important Dates for Faculty/Staff' : 'Academic Calendar';
+
+        // Always show full academic year
+        widgetHeaderTitle.textContent = `${calendarText} ${currentState.year}`;
+    }
+
+    // --- Generic Dropdown Toggle Function ---
+    function toggleDropdown(dropdown, button) {
+        const allDropdowns = [
+            { panel: calendarDropdown, btn: calendarBtn },
+            { panel: yearDropdown, btn: yearBtn },
+            { panel: saveDropdown, btn: saveBtn }
+        ];
+
+        // Close all other dropdowns
+        allDropdowns.forEach(d => {
+            if (d.panel !== dropdown) {
+                d.panel.classList.remove('show');
+                d.btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Toggle current dropdown
+        const isOpen = dropdown.classList.toggle('show');
+        button.setAttribute('aria-expanded', isOpen.toString());
+    }
+
+    // --- Export Button Elements ---
+    const saveBtn = document.getElementById('save-btn');
+    const saveDropdown = document.getElementById('save-dropdown');
+
+    // --- Close all dropdowns if clicking outside ---
+    window.addEventListener('click', (e) => {
+        const isOutside = ![
+            calendarBtn, calendarDropdown,
+            yearBtn, yearDropdown,
+            saveBtn, saveDropdown
+        ].some(el => el.contains(e.target));
+
+        if (isOutside) {
+            calendarDropdown.classList.remove('show');
+            yearDropdown.classList.remove('show');
+            saveDropdown.classList.remove('show');
+            calendarBtn.setAttribute('aria-expanded', 'false');
+            yearBtn.setAttribute('aria-expanded', 'false');
+            saveBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // --- Main Function to Build the Calendar ---
+    function renderCalendar(year, term) {
+        calendarTablesWrapper.innerHTML = '';
+
+        // --- ANNUAL VIEW LOGIC ---
+        if (term === 'annual') {
+            const termsToRender = ['fall', 'spring', 'summer'];
+            let hasEvents = false;
+            const years = year.split('-');
+            const fallYear = years[0];
+            const springSummerYear = years[1];
+
+            termsToRender.forEach(termKey => {
+                const calendar = allCalendars[year]?.[termKey];
+                if (!calendar) return;
+
+                hasEvents = true;
+                const termText = termKey.charAt(0).toUpperCase() + termKey.slice(1);
+                let termYear = '';
+                if (termKey === 'fall') {
+                    termYear = fallYear;
+                } else {
+                    termYear = springSummerYear;
+                }
+
+                // For summer, iterate through sessions; for others, use 'main' session
+                const sessions = calendar.sessions || {};
+                const sessionKeys = Object.keys(sessions);
+
+                // If summer term, render each session separately
+                if (termKey === 'summer' && sessionKeys.length > 0) {
+                    // Sort session keys by their sort order
+                    const sortedSessionKeys = sessionKeys.sort((a, b) => {
+                        const orderA = sessions[a].sortOrder || 999;
+                        const orderB = sessions[b].sortOrder || 999;
+                        return orderA - orderB;
+                    });
+
+                    sortedSessionKeys.forEach(sessionKey => {
+                        const sessionData = sessions[sessionKey];
+                        if (!sessionData || !sessionData.data || sessionData.data.length === 0) return;
+
+                        // Create table section wrapper
+                        const tableSection = document.createElement('div');
+                        tableSection.className = 'table-section';
+
+                        // Create term label with session
+                        const termLabel = document.createElement('div');
+                        termLabel.className = 'term-label';
+                        termLabel.textContent = `${termText} ${termYear}`;
+
+                        // Add session label if session name exists
+                        if (sessionData.sessionName) {
+                            const sessionSpan = document.createElement('span');
+                            sessionSpan.className = 'session-label';
+                            sessionSpan.textContent = sessionData.sessionName;
+                            termLabel.appendChild(sessionSpan);
+                        }
+
+                        tableSection.appendChild(termLabel);
+
+                        // Create table container
+                        const tableContainer = document.createElement('div');
+                        tableContainer.className = 'table-container';
+
+                        // Create table
+                        const table = document.createElement('table');
+                        table.className = 'calendar-table';
+
+                        // Add thead
+                        const thead = document.createElement('thead');
+                        thead.innerHTML = `
+                            <tr>
+                                <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
+                                <th class="text-center w-48">Date</th>
+                                <th class="text-center w-48 hidden sm-table-cell">Day</th>
+                            </tr>
+                        `;
+                        table.appendChild(thead);
+
+                        // Add tbody with data
+                        const tbody = document.createElement('tbody');
+                        sessionData.data.forEach((item, index) => {
+                            const row = createCalendarRow(item, index);
+                            tbody.appendChild(row);
+                        });
+                        table.appendChild(tbody);
+
+                        tableContainer.appendChild(table);
+                        tableSection.appendChild(tableContainer);
+                        calendarTablesWrapper.appendChild(tableSection);
+                    });
+                } else {
+                    // For fall/spring, use the main session
+                    const mainSession = sessions['main'] || sessions[sessionKeys[0]];
+                    if (!mainSession || !mainSession.data || mainSession.data.length === 0) return;
+
+                    // Create table section wrapper
+                    const tableSection = document.createElement('div');
+                    tableSection.className = 'table-section';
+
+                    // Create term label
+                    const termLabel = document.createElement('div');
+                    termLabel.className = 'term-label';
+                    termLabel.textContent = `${termText} ${termYear}`;
+                    tableSection.appendChild(termLabel);
+
+                    // Create table container
+                    const tableContainer = document.createElement('div');
+                    tableContainer.className = 'table-container';
+
+                    // Create table
+                    const table = document.createElement('table');
+                    table.className = 'calendar-table';
+
+                    // Add thead
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = `
+                        <tr>
+                            <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
+                            <th class="text-center w-48">Date</th>
+                            <th class="text-center w-48 hidden sm-table-cell">Day</th>
+                        </tr>
+                    `;
+                    table.appendChild(thead);
+
+                    // Add tbody with data
+                    const tbody = document.createElement('tbody');
+                    mainSession.data.forEach((item, index) => {
+                        const row = createCalendarRow(item, index);
+                        tbody.appendChild(row);
+                    });
+                    table.appendChild(tbody);
+
+                    tableContainer.appendChild(table);
+                    tableSection.appendChild(tableContainer);
+                    calendarTablesWrapper.appendChild(tableSection);
+                }
+            });
+
+            if (!hasEvents) {
+                showError("Sorry, we couldn't find any data for the " + year + " academic year.");
+            }
+
+            // --- SINGLE TERM VIEW LOGIC ---
+        } else {
+            const calendar = allCalendars[year]?.[term];
+
+            if (!calendar) {
+                console.error(`Calendar not found for ${year} ${term}`);
+                showError("Sorry, we couldn't find data for " + term.charAt(0).toUpperCase() + term.slice(1) + " " + year + ".");
+                return;
+            }
+
+            // Extract year from calendar title for term label
+            const years = year.split('-');
+            const termText = term.charAt(0).toUpperCase() + term.slice(1);
+            let termYear = '';
+            if (term === 'fall') {
+                termYear = years[0];
+            } else {
+                termYear = years[1];
+            }
+
+            // Get sessions
+            const sessions = calendar.sessions || {};
+            const sessionKeys = Object.keys(sessions);
+
+            // If summer term, render each session separately
+            if (term === 'summer' && sessionKeys.length > 0) {
+                // Sort session keys by their sort order
+                const sortedSessionKeys = sessionKeys.sort((a, b) => {
+                    const orderA = sessions[a].sortOrder || 999;
+                    const orderB = sessions[b].sortOrder || 999;
+                    return orderA - orderB;
+                });
+
+                sortedSessionKeys.forEach(sessionKey => {
+                    const sessionData = sessions[sessionKey];
+                    if (!sessionData || !sessionData.data || sessionData.data.length === 0) return;
+
+                    // Create header with session
+                    const termLabel = document.createElement('div');
+                    termLabel.className = 'term-label';
+                    termLabel.textContent = `${termText} ${termYear}`;
+
+                    // Add session label if session name exists
+                    if (sessionData.sessionName) {
+                        const sessionSpan = document.createElement('span');
+                        sessionSpan.className = 'session-label';
+                        sessionSpan.textContent = sessionData.sessionName;
+                        termLabel.appendChild(sessionSpan);
+                    }
+
+                    calendarTablesWrapper.appendChild(termLabel);
+
+                    // Create single table
+                    const tableContainer = document.createElement('div');
+                    tableContainer.className = 'table-container';
+
+                    const table = document.createElement('table');
+                    table.className = 'calendar-table';
+
+                    // Add thead
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = `
+                        <tr>
+                            <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
+                            <th class="text-center w-48">Date</th>
+                            <th class="text-center w-48 hidden sm-table-cell">Day</th>
+                        </tr>
+                    `;
+                    table.appendChild(thead);
+
+                    // Add tbody with data
+                    const tbody = document.createElement('tbody');
+                    sessionData.data.forEach((item, index) => {
+                        const row = createCalendarRow(item, index);
+                        tbody.appendChild(row);
+                    });
+                    table.appendChild(tbody);
+
+                    tableContainer.appendChild(table);
+                    calendarTablesWrapper.appendChild(tableContainer);
+                });
+            } else {
+                // For fall/spring, use the main session
+                const mainSession = sessions['main'] || sessions[sessionKeys[0]];
+                if (!mainSession || !mainSession.data || mainSession.data.length === 0) {
+                    showError("Sorry, we couldn't find data for " + termText + " " + year + ".");
+                    return;
+                }
+
+                // Create header
+                const termLabel = document.createElement('div');
+                termLabel.className = 'term-label';
+                termLabel.textContent = `${termText} ${termYear}`;
+                calendarTablesWrapper.appendChild(termLabel);
+
+                // Create single table
+                const tableContainer = document.createElement('div');
+                tableContainer.className = 'table-container';
+
+                const table = document.createElement('table');
+                table.className = 'calendar-table';
+
+                // Add thead
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
+                        <th class="text-center w-48">Date</th>
+                        <th class="text-center w-48 hidden sm-table-cell">Day</th>
+                    </tr>
+                `;
+                table.appendChild(thead);
+
+                // Add tbody with data
+                const tbody = document.createElement('tbody');
+                mainSession.data.forEach((item, index) => {
+                    const row = createCalendarRow(item, index);
+                    tbody.appendChild(row);
+                });
+                table.appendChild(tbody);
+
+                tableContainer.appendChild(table);
+                calendarTablesWrapper.appendChild(tableContainer);
+            }
+        }
+
+        updateLastUpdated();
+
+        buildCalendarDropdown();
+        buildYearDropdown();
+    }
+
+    // --- Helper: Create Single Calendar Row ---
+    function createCalendarRow(item, index) {
+        const row = document.createElement('tr');
+        row.className = index % 2 === 0 ? 'row-white' : 'row-gray';
+
+        // 1. Event Cell
+        const eventCell = document.createElement('td');
+        eventCell.className = 'event-cell';
+        eventCell.appendChild(document.createTextNode(item.event));
+        if (item.status === 'success') eventCell.style.boxShadow = 'inset 7px 0 0 0 #00A3AD';
+        else if (item.status === 'warning') eventCell.style.boxShadow = 'inset 7px 0 0 0 #E4002B';
+        else eventCell.style.boxShadow = 'inset 7px 0 0 0 transparent';
+        row.appendChild(eventCell);
+
+        // 2. Date Cell
+        const dateCell = document.createElement('td');
+        dateCell.className = 'date-cell';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'date-wrapper';
+        const dateText = document.createElement('span');
+        dateText.textContent = item.date;
+        wrapper.appendChild(dateText);
+
+        // 3. Day Cell
+        const dayCell = document.createElement('td');
+        dayCell.className = 'day-cell hidden sm-table-cell';
+        dayCell.textContent = item.day;
+
+        dateCell.appendChild(wrapper);
+        row.appendChild(dateCell);
+        row.appendChild(dayCell);
+        return row;
+    }
+
+    // --- Helper: Update Last Updated Text ---
+    function updateLastUpdated() {
+        lastUpdatedElem.textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
+        lastUpdatedP.style.display = 'flex';
+    }
+
+    // --- Helper: Show Error State ---
+    function showError(message) {
+        calendarTablesWrapper.innerHTML = `<div style="padding: 2rem; text-align: center; color: #4b5563;">${message}</div>`;
+    }
+
+    // --- Function to show a placeholder page ---
+    function renderPlaceholder(title) {
+        calendarTablesWrapper.innerHTML = `<div style="padding: 2rem; text-align: center; color: #4b5563;">Content for "${title}" is not yet available.</div>`;
+        buildCalendarDropdown();
+    }
+
+    // --- Checkmark SVG ---
+    const checkIconSvg = `<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"></path></svg>`;
+
+    // --- Functions to build dropdowns ---
+
+    function buildCalendarDropdown() {
+        calendarDropdown.innerHTML = '';
+        const menuItems = [
+            { id: 'academic', text: 'Academic Calendar' },
+            { id: 'scheduling', text: 'Centralized Classroom Scheduling Dates' },
+            { id: 'registration', text: 'Registration Dates' },
+            { id: 'payment', text: 'Payment Dates' },
+            { id: 'exam', text: 'Final Exam Schedule' },
+            { id: 'term', text: 'Parts of Term' },
+            { id: 'keyDates', text: 'Key Dates for Semester' },
+            { id: 'facultyDates', text: 'Important Dates for Faculty/Staff' }
+        ];
+
+        menuItems.forEach(item => {
+            const btn = document.createElement('button');
+            btn.className = 'dropdown-item';
+            btn.setAttribute('role', 'menuitem');
+            if (item.id === currentState.calendar) {
+                btn.classList.add('selected');
+            }
+            btn.innerHTML = `<span>${item.text}</span> ${checkIconSvg}`;
+
+            btn.onclick = () => {
+                // Update URL hash, which will trigger hashchange event
+                window.location.hash = item.id;
+                calendarDropdown.classList.remove('show');
+                calendarBtn.setAttribute('aria-expanded', 'false');
+            };
+            calendarDropdown.appendChild(btn);
+        });
+    }
+
+    function buildYearDropdown() {
+        yearDropdown.innerHTML = '';
+        const years = Object.keys(allCalendars).sort((a, b) => {
+            const yearA = parseInt(a.split('-')[1], 10);
+            const yearB = parseInt(b.split('-')[1], 10);
+            return yearB - yearA;
+        });
+
+        years.forEach(year => {
+            const btn = document.createElement('button');
+            btn.className = 'dropdown-item';
+            btn.setAttribute('role', 'menuitem');
+            if (year === currentState.year) {
+                btn.classList.add('selected');
+            }
+            btn.innerHTML = `<span>${year}</span> ${checkIconSvg}`;
+
+            btn.onclick = () => {
+                currentState.year = year;
+                yearDropdown.classList.remove('show');
+                yearBtn.setAttribute('aria-expanded', 'false');
+
+                updateWidgetHeaderTitle();
+                renderCalendar(currentState.year, currentState.term);
+            };
+            yearDropdown.appendChild(btn);
+        });
+    }
+
+    // Function to build save dropdown
+    function buildSaveDropdown() {
+        saveDropdown.innerHTML = '';
+        const saveOptions = [
+            { id: 'excel', text: 'Excel', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>' },
+            { id: 'csv', text: 'CSV', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>' },
+            { id: 'pdf', text: 'PDF', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>' },
+            { id: 'print', text: 'Print', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>' },
+            { id: 'calendar', text: 'Add to Calendar', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="10" y1="16" x2="14" y2="16"></line></svg>' }
+        ];
+
+        saveOptions.forEach(option => {
+            const btn = document.createElement('button');
+            btn.className = 'dropdown-item';
+            btn.setAttribute('role', 'menuitem');
+            btn.innerHTML = `${option.icon}<span>${option.text}</span>`;
+            btn.onclick = () => {
+                console.log(`${option.text} clicked`);
+                saveDropdown.classList.remove('show');
+                saveBtn.setAttribute('aria-expanded', 'false');
+                // Wire up functionality later
+            };
+            saveDropdown.appendChild(btn);
+        });
+    }
+
+    // --- Handle hash changes (browser back/forward or direct hash changes) ---
+    window.addEventListener('hashchange', () => {
+        const newCalendar = getCalendarFromHash();
+        if (newCalendar !== currentState.calendar) {
+            currentState.calendar = newCalendar;
+            updateWidgetHeaderTitle();
+
+            if (newCalendar === 'academic') {
+                yearBtnWrapper.style.display = 'block';
+                renderCalendar(currentState.year, currentState.term);
+            } else {
+                yearBtnWrapper.style.display = 'none';
+                const calendarText = getCalendarDisplayName(newCalendar);
+                renderPlaceholder(calendarText);
+            }
+
+            // Update dropdown selection
+            buildCalendarDropdown();
+        }
+    });
+
+    // --- Helper to get calendar display name ---
+    function getCalendarDisplayName(calendarId) {
+        const names = {
+            'academic': 'Academic Calendar',
+            'scheduling': 'Centralized Classroom Scheduling Dates',
+            'registration': 'Registration Dates',
+            'payment': 'Payment Dates',
+            'exam': 'Final Exam Schedule',
+            'term': 'Parts of Term',
+            'keyDates': 'Key Dates for Semester',
+            'facultyDates': 'Important Dates for Faculty/Staff'
+        };
+        return names[calendarId] || 'Academic Calendar';
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Setup dropdown toggles
+        calendarBtn.addEventListener('click', () => toggleDropdown(calendarDropdown, calendarBtn));
+        yearBtn.addEventListener('click', () => toggleDropdown(yearDropdown, yearBtn));
+        saveBtn.addEventListener('click', () => toggleDropdown(saveDropdown, saveBtn));
+
+        // Show loading state
+        widgetHeaderTitle.textContent = 'Loading calendars...';
+        calendarTablesWrapper.innerHTML = '<div style="padding: 2rem; text-align: center; color: #4b5563;">Loading data from API...</div>';
+
+        // Load calendar data from API
+        await loadCalendarsFromAPI();
+
+        // Update widget header title
+        updateWidgetHeaderTitle();
+
+        // Build all dropdowns
+        buildCalendarDropdown();
+        buildYearDropdown();
+        buildSaveDropdown();
+
+        // Render based on current state (which may be set from hash)
+        if (currentState.calendar === 'academic') {
+            yearBtnWrapper.style.display = 'block';
+            renderCalendar(currentState.year, currentState.term);
+        } else {
+            yearBtnWrapper.style.display = 'none';
+            const calendarText = getCalendarDisplayName(currentState.calendar);
+            renderPlaceholder(calendarText);
+        }
+    });
+</script>
+
+<!-- Load Navbar from Partial -->
+<script>
+  // Load navbar HTML from partial
+  fetch('partials/navbar.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('navbar-placeholder').innerHTML = html;
+
+      // Initialize navbar scripts after loading
+      initializeNavbar();
+    })
+    .catch(error => {
+      console.error('Error loading navbar:', error);
+    });
+
+  function initializeNavbar() {
+    // Set initial logo for interior pages (always use dark logo)
+    const logo = document.getElementById('uga-logo');
+    if (logo) logo.src = 'images/OfficeRegistrar_logo_Horizontal_FC.png';
+
+    // Alphabetize nav dropdown items
+    const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+    dropdownMenus.forEach(menu => {
+      const links = Array.from(menu.querySelectorAll("a"));
+      links.sort((a, b) => a.textContent.localeCompare(b.textContent));
+      menu.innerHTML = "";
+      links.forEach(link => menu.appendChild(link));
+    });
+
+    // Nav drawer script
+    const btn     = document.getElementById('navToggle');
+    const scrim   = document.getElementById('mobileScrim');
+    const drawer  = document.getElementById('mobileDrawer');
+    const close   = document.getElementById('drawerClose');
+    const dstUL   = document.getElementById('drawerLinks');
+
+    function openMenu(){ body.classList.add('menu-open'); btn?.setAttribute('aria-expanded','true'); drawer?.setAttribute('aria-hidden','false'); }
+    function closeMenu(){ body.classList.remove('menu-open'); btn?.setAttribute('aria-expanded','false'); drawer?.setAttribute('aria-hidden','true'); }
+
+    btn?.addEventListener('click', () => body.classList.contains('menu-open') ? closeMenu() : openMenu());
+    close?.addEventListener('click', closeMenu);
+    scrim?.addEventListener('click', closeMenu);
+    window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    window.matchMedia('(min-width: 981px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+
+    // Build accordion from desktop nav
+    const srcUL = document.querySelector('#navbar .nav-links');
+    if (!srcUL || !dstUL) return;
+
+    dstUL.innerHTML = '';
+
+    [...srcUL.children].forEach(li => {
+      const item = document.createElement('li');
+      const topLink = li.querySelector(':scope > a');
+      const dropdown = li.querySelector(':scope .dropdown-menu');
+
+      if (dropdown) {
+        const title = (topLink?.textContent || '').trim() || 'Menu';
+        const btnHdr = document.createElement('button');
+        btnHdr.className = 'acc-btn';
+        btnHdr.type = 'button';
+        btnHdr.setAttribute('aria-expanded', 'false');
+        btnHdr.textContent = title;
+
+        const panel = document.createElement('div');
+        panel.className = 'acc-panel';
+
+        const links = dropdown.querySelectorAll('a');
+        links.forEach(a => {
+          const cloneA = a.cloneNode(true);
+          cloneA.removeAttribute('style');
+          cloneA.className = '';
+          panel.appendChild(cloneA);
+        });
+
+        item.appendChild(btnHdr);
+        item.appendChild(panel);
+      } else if (topLink) {
+        const a = topLink.cloneNode(true);
+        a.removeAttribute('style');
+        a.className = 'toplink';
+        item.appendChild(a);
+      }
+
+      dstUL.appendChild(item);
+    });
+
+    // Toggle logic
+    dstUL.addEventListener('click', (e) => {
+      const btnHdr = e.target.closest('.acc-btn');
+      if (!btnHdr) return;
+
+      const panel = btnHdr.nextElementSibling;
+      const isOpen = btnHdr.getAttribute('aria-expanded') === 'true';
+
+      dstUL.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(b => {
+        if (b !== btnHdr) {
+          b.setAttribute('aria-expanded','false');
+          const p = b.nextElementSibling;
+          p?.classList.remove('open');
+          p?.style.removeProperty('max-height');
+        }
+      });
+
+      btnHdr.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        panel.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      } else {
+        panel.classList.remove('open');
+        panel.style.maxHeight = '0px';
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      dstUL.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(b => {
+        const p = b.nextElementSibling;
+        if (p) p.style.maxHeight = p.scrollHeight + 'px';
+      });
+    });
+  }
+</script>
+
+<!-- Link navbar styles from index.html -->
+<link rel="stylesheet" href="css/all.min.css">
+<link rel="stylesheet" href="css/uga-branding.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --uga-red: #BA0C2F;
+  --uga-grey: #4A4A4A;
+  --white: #ffffff;
+  --light-grey: #f4f4f4;
+  --dark-blue: #0A2342;
+  --dark-grey-text: #333333;
+  --dark-grey: #3e3e3e;
+  --tan: #d6d2c4;
+  --wrap-max: 1600px;
+}
+
+/* Navbar Styles - Interior pages use white background from start */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 5px 0px 5px 0px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  gap: 40px;
+  z-index: 1000;
+  box-sizing: border-box;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.navbar-left .uga-logo {
+  height: 70px;
+  width: auto;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+.nav-links li {
+  position: relative;
+  margin: 0 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 400;
+  font-size: 1.3em;
+  padding: 10px;
+  display: block;
+  text-shadow: none;
+  transition: .3s ease;
+}
+
+.nav-links a:hover,
+.nav-links li:hover > a {
+  background-color: var(--uga-red);
+  color: white;
+}
+
+.nav-links li:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-menu {
+  position: fixed;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-top: 3px solid var(--uga-red);
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  column-gap: 0rem;
+  row-gap: 0;
+}
+
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 1px;
+  background-color: #F0F0F0;
+}
+
+.nav-links li:nth-child(6) .dropdown-menu {
+  grid-template-columns: 1fr;
+}
+
+.nav-links li:nth-child(6) .dropdown-menu::before {
+  content: none;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  text-shadow: none;
+  font-size: 1em;
+  font-family: "Montserrat", sans-serif;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #F0F0F0;
+  color: black;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.search-icon {
+  font-size: 1.3em;
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.search-icon:hover {
+  color: var(--uga-red);
+}
+
+.wrap {
+  max-width: 1800px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 2vw, 32px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar > .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(12px, 3vw, 40px);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.navbar-left .uga-logo {
+  height: 70px;
+  width: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* Menu button */
+.menu-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: #BA0C2F;
+  color: #fff;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  letter-spacing: .2px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.menu-btn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.menu-btn .menu-icon {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 12px;
+  flex: 0 0 16px;
+  background: linear-gradient(#fff,#fff) center 5px / 100% 2px no-repeat;
+}
+
+.menu-btn .menu-icon::before,
+.menu-btn .menu-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #fff;
+}
+
+.menu-btn .menu-icon::before {
+  top: 0;
+}
+
+.menu-btn .menu-icon::after {
+  bottom: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 980px) {
+  .menu-btn {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    background: white;
+    border-top: 1px solid rgba(0,0,0,.08);
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 8px 0;
+    z-index: 1001;
+  }
+
+  #navbar.open .nav-links {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 0;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 1.05em;
+    background: transparent;
+    color: black;
+  }
+
+  .dropdown-menu {
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    box-shadow: none !important;
+    border-top: none !important;
+    padding: 0 !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .dropdown-menu::before {
+    content: none !important;
+  }
+}
+
+/* Slide-in drawer */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 2000;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(92vw, 420px);
+  background: #fff;
+  color: #111;
+  box-shadow: -4px 0 18px rgba(0,0,0,.25);
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.drawer-title {
+  font: 600 1.4rem/1 "Merriweather", serif;
+}
+
+.drawer-close {
+  background: transparent;
+  border: 0;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.drawer-body {
+  padding: 10px 8px 24px 8px;
+  overflow: auto;
+}
+
+.drawer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-links > li {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.drawer-links a {
+  display: block;
+  padding: 14px 14px;
+  color: #111;
+  text-decoration: none;
+  font: 400 1rem/1.3 "Montserrat", system-ui, sans-serif;
+}
+
+.drawer-links a:hover {
+  background: #f7f7f7;
+}
+
+body.menu-open .scrim {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.menu-open .drawer {
+  transform: translateX(0);
+}
+
+.drawer-links .acc-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #fff;
+  color: #111;
+  border: 0;
+  cursor: pointer;
+  font: 400 1.5rem/1.3 "Oswald", sans-serif;
+  text-align: left;
+}
+
+.drawer-links .acc-btn:focus-visible {
+  outline: 2px solid #BA0C2F;
+  outline-offset: 2px;
+}
+
+.drawer-links .acc-btn::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  transform: rotate(-45deg);
+  transition: transform .2s ease;
+}
+
+.drawer-links .acc-btn[aria-expanded="true"]::after {
+  transform: rotate(45deg);
+}
+
+.drawer-links .acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .25s ease, opacity .2s ease;
+  opacity: .0;
+}
+
+.drawer-links .acc-panel.open {
+  opacity: 1;
+}
+
+.drawer-links .acc-panel a {
+  display: block;
+  padding: 12px 16px;
+  margin-left: 1rem;
+  color: #111;
+  text-decoration: none;
+  font: 400 .9rem/1.35 "Montserrat", system-ui, sans-serif;
+}
+
+.drawer-links .acc-panel a:hover {
+  background: #cfcfcf;
+}
+
+.drawer-links .toplink {
+  display: block;
+  padding: 14px 16px;
+  color: #111;
+  text-decoration: none;
+  font: 600 1rem/1.3 "Merriweather", serif;
+}
+
+.drawer-links .toplink:hover {
+  background: #f7f7f7;
+}
+</style>
+
+</body>
+</html>

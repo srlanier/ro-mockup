@@ -1,0 +1,189 @@
+<!-- UCC Agendas and Minutes - WordPress Embed -->
+<style>
+/* Unique wrapper to avoid WPE conflicts */
+.uga-ucc-agendas-wrapper-2025 * {
+    box-sizing: border-box !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 h3 {
+    font-size: 1.75rem !important;
+    margin-top: 0 !important;
+    margin-bottom: 1rem !important;
+    color: #333 !important;
+    font-weight: 600 !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 p {
+    margin-bottom: 1rem !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+}
+
+/* Dropdown selector styles */
+.uga-ucc-agendas-wrapper-2025 .uga-year-selector-container {
+    margin-bottom: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-year-selector-label {
+    font-weight: 600 !important;
+    color: #333 !important;
+    font-size: 14px !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-year-selector-dropdown {
+    padding: 8px 12px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    background-color: #fff !important;
+    color: #333 !important;
+    min-width: 200px !important;
+    cursor: pointer !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-year-selector-dropdown:focus {
+    outline: 2px solid #ba0c2f !important;
+    outline-offset: 2px !important;
+}
+
+/* Table styles */
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table tbody tr {
+    border-bottom: 1px solid #eee !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table td {
+    padding: 20px 0 !important;
+    vertical-align: top !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table strong {
+    color: #ba0c2f !important;
+    font-weight: 600 !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table ul {
+    margin: 10px 0 !important;
+    padding-left: 20px !important;
+    list-style-type: disc !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table ul ul {
+    margin: 5px 0 !important;
+    padding-left: 25px !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table li {
+    margin-bottom: 8px !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table a {
+    color: #0066cc !important;
+    text-decoration: none !important;
+    transition: color 0.2s !important;
+}
+
+.uga-ucc-agendas-wrapper-2025 .uga-agendas-table a:hover {
+    color: #ba0c2f !important;
+    text-decoration: underline !important;
+}
+
+/* Hidden year cell */
+.uga-year-cell-hidden {
+    display: none !important;
+}
+</style>
+
+<div class="uga-ucc-agendas-wrapper-2025">
+    <h3>Agendas and Minutes</h3>
+    <p>Please select an academic year below to view the documents for meetings occurring that year.</p>
+
+    <div class="uga-year-selector-container">
+        <span class="uga-year-selector-label">Select an Academic Year:</span>
+        <select class="uga-year-selector-dropdown" id="ugaYearSelector2025">
+            <option value="">- None Selected -</option>
+            <option value="2025 - 2026">2025 - 2026</option>
+            <option value="2024 - 2025">2024 - 2025</option>
+            <option value="2023 - 2024">2023 - 2024</option>
+            <option value="2022 - 2023">2022 - 2023</option>
+            <option value="2021 - 2022">2021 - 2022</option>
+            <option value="2020 - 2021">2020 - 2021</option>
+            <option value="2019 - 2020">2019 - 2020</option>
+            <option value="2018 - 2019">2018 - 2019</option>
+            <option value="2017 - 2018">2017 - 2018</option>
+            <option value="2016 - 2017">2016 - 2017</option>
+            <option value="2015 - 2016">2015 - 2016</option>
+            <option value="2014 - 2015">2014 - 2015</option>
+            <option value="2013 - 2014">2013 - 2014</option>
+            <option value="2012 - 2013">2012 - 2013</option>
+            <option value="2011 - 2012">2011 - 2012</option>
+            <option value="2010 - 2011">2010 - 2011</option>
+            <option value="2009 - 2010">2009 - 2010</option>
+            <option value="2008 - 2009">2008 - 2009</option>
+            <option value="2007 - 2008">2007 - 2008</option>
+            <option value="2006 - 2007">2006 - 2007</option>
+            <option value="2005 - 2006">2005 - 2006</option>
+            <option value="2004 - 2005">2004 - 2005</option>
+            <option value="2003 - 2004">2003 - 2004</option>
+            <option value="2002 - 2003">2002 - 2003</option>
+            <option value="2001 - 2002">2001 - 2002</option>
+            <option value="2000 - 2001">2000 - 2001</option>
+            <option value="1999 - 2000">1999 - 2000</option>
+        </select>
+    </div>
+
+    <table class="uga-agendas-table">
+        <tbody>
+            <!-- PASTE CONTENT HERE: All the <tr> rows from the original table -->
+            <!-- Each row should have: <tr class="uga-year-row" style="display: none;"> -->
+            <!-- First cell: <td class="uga-year-cell-hidden">YEAR</td> -->
+            <!-- Second cell: <td>CONTENT</td> -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+(function() {
+    'use strict';
+
+    const dropdown = document.getElementById('ugaYearSelector2025');
+    if (!dropdown) return;
+
+    dropdown.addEventListener('change', function() {
+        const selectedYear = this.value;
+        const rows = document.querySelectorAll('.uga-ucc-agendas-wrapper-2025 .uga-year-row');
+
+        rows.forEach(function(row) {
+            const yearCell = row.querySelector('.uga-year-cell-hidden');
+            if (!yearCell) return;
+
+            const rowYear = yearCell.textContent.trim();
+
+            if (selectedYear === '' || selectedYear === '- None Selected -') {
+                row.style.display = 'none';
+            } else if (rowYear === selectedYear) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+})();
+</script>
