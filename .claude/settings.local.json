@@ -9,7 +9,8 @@
       "Bash(awk:*)",
       "Bash(ucc-preview.html)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(\"C:\\Users\\Owner\\IdeaProjects\\ro-mockup\\ucc-content-only.txt\")"
     ],
     "deny": [],
     "ask": []

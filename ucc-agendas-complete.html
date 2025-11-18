@@ -1,3 +1,4 @@
+<!--[raw]-->
 <!-- UCC Agendas and Minutes - WordPress Embed -->
 <style>
 /* Unique wrapper to avoid WPE conflicts */
@@ -105,9 +106,19 @@
     text-decoration: underline !important;
 }
 
-/* Hidden year cell */
-.uga-year-cell-hidden {
+/* Hidden year cell - multiple selectors for WordPress override */
+.uga-year-cell-hidden,
+td.uga-year-cell-hidden,
+.uga-ucc-agendas-wrapper-2025 .uga-year-cell-hidden,
+.uga-ucc-agendas-wrapper-2025 td.uga-year-cell-hidden,
+table td.uga-year-cell-hidden {
     display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
 }
 </style>
 
@@ -119,7 +130,7 @@
         <span class="uga-year-selector-label">Select an Academic Year:</span>
         <select class="uga-year-selector-dropdown" id="ugaYearSelector2025">
             <option value="">- None Selected -</option>
-            <option value="2025 - 2026">2025 - 2026</option>
+            <option value="2025 - 2026" selected>2025 - 2026</option>
             <option value="2024 - 2025">2024 - 2025</option>
             <option value="2023 - 2024">2023 - 2024</option>
             <option value="2022 - 2023">2022 - 2023</option>
@@ -148,12 +159,14 @@
             <option value="1999 - 2000">1999 - 2000</option>
         </select>
     </div>
-                                        <tbody>
+
+    <table class="uga-agendas-table">
+        <tbody>
                                         <tr class="uga-year-row" style="display: none;">
                                             <td style="display: none;">&nbsp;</td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: table-row;">
-                                            <td class="uga-year-cell-hidden">2025 - 2026</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2025 - 2026</td>
                                             <td>
                                                 <p><strong>October 17, 2025</strong></p>
                                                 <ul>
@@ -229,7 +242,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2024 - 2025</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2024 - 2025</td>
                                             <td>
                                                 <p><span style="color: #000000;"><strong>April 18, 2025</strong></span></p>
                                                 <ul>
@@ -543,7 +556,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2023 - 2024</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2023 - 2024</td>
                                             <td>
                                                 <p><strong>April 19th, 2024&nbsp;</strong></p>
                                                 <ul>
@@ -674,8 +687,8 @@
                                                             Biomedical Science (M.S.)</a><br><br></li>
                                                         <li><a href="/_resources/documents/curriculum/ucc/FINAL_AoEs_underEDAPMEd_Final.pdf">Proposal to create the following Areas of Emphasis under the major in Educational
                                                             Administration and Policy (M.Ed.):</a><ul>
-                                                            <li><span style="background-color: transparent; color: var(--cms-region--primary-black);">Area of Emphasis in Research</span></li>
-                                                            <li><span style="background-color: transparent; color: var(--cms-region--primary-black);"></span>Area of Emphasis in Tier I Leadership Certification<br><br></li>
+                                                            <li>Area of Emphasis in Research</span></li>
+                                                            <li>Area of Emphasis in Tier I Leadership Certification<br><br></li>
                                                         </ul>
                                                         </li>
                                                         <li>
@@ -932,7 +945,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2022 - 2023</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2022 - 2023</td>
                                             <td>
                                                 <p><strong>April 21, 2023</strong></p>
                                                 <ul>
@@ -1195,7 +1208,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2021 - 2022</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2021 - 2022</td>
                                             <td>
                                                 <p><strong>April 22, 2022</strong></p>
                                                 <ul>
@@ -1552,7 +1565,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2020 - 2021</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2020 - 2021</td>
                                             <td>
                                                 <p><strong>April 23, 2021</strong></p>
                                                 <ul>
@@ -1846,7 +1859,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2019 - 2020</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2019 - 2020</td>
                                             <td>
                                                 <p><strong>April 17, 2020</strong></p>
                                                 <ul>
@@ -2139,7 +2152,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2018 - 2019</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2018 - 2019</td>
                                             <td>
                                                 <p><strong>April 26, 2019</strong>&nbsp;</p>
                                                 <ul>
@@ -2617,7 +2630,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2017 - 2018</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2017 - 2018</td>
                                             <td>
                                                 <h5><span><strong>April 27, 2018</strong></span></h5>
                                                 <ul class="agp-block">
@@ -3088,7 +3101,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2016 - 2017</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2016 - 2017</td>
                                             <td>
                                                 <h5><span><strong>August 26, 2016</strong></span></h5>
                                                 <ul class="agp-block">
@@ -3586,7 +3599,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2015 - 2016</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2015 - 2016</td>
                                             <td>
                                                 <h5><span><strong>August 28, 2015</strong></span></h5>
                                                 <ul class="agp-block">
@@ -4107,7 +4120,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2014 - 2015</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2014 - 2015</td>
                                             <td>
                                                 <h5><span><strong>August 22, 2014</strong></span></h5>
                                                 <ul class="agp-block">
@@ -4417,7 +4430,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2013 - 2014</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2013 - 2014</td>
                                             <td>
                                                 <h5><span><strong>August 28, 2013</strong></span></h5>
                                                 <ul class="agp-block">
@@ -4734,7 +4747,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2012 - 2013</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2012 - 2013</td>
                                             <td>
                                                 <h5><span><strong>August 22, 2012</strong></span></h5>
                                                 <ul class="agp-block">
@@ -5121,7 +5134,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2011 - 2012</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2011 - 2012</td>
                                             <td>
                                                 <h5><span><strong>September 14, 2011</strong></span></h5>
                                                 <ul class="agp-block">
@@ -5507,7 +5520,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2010 - 2011</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2010 - 2011</td>
                                             <td>
                                                 <h5><span><strong>August 25, 2010</strong></span></h5>
                                                 <ul class="agp-block">
@@ -5772,7 +5785,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2009 - 2010</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2009 - 2010</td>
                                             <td>
                                                 <h5><span><strong>October 9, 2009</strong></span></h5>
                                                 <ul class="agp-block">
@@ -6082,7 +6095,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2008 - 2009</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2008 - 2009</td>
                                             <td>
                                                 <h5><span><strong>August 22, 2008</strong></span></h5>
                                                 <ul class="agp-block">
@@ -7733,7 +7746,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">2000 - 2001</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">2000 - 2001</td>
                                             <td>
                                                 <h5><span><strong>August 25, 2000</strong></span></h5>
                                                 <ul class="agp-block">
@@ -7782,7 +7795,7 @@
                                             </td>
                                         </tr>
                                         <tr class="uga-year-row" style="display: none;">
-                                            <td class="uga-year-cell-hidden">1999 - 2000</td>
+                                            <td class="uga-year-cell-hidden" style="display: none !important;">1999 - 2000</td>
                                             <td>
                                                 <h5><span><b>February 4, 2000</b></span></h5>
                                                 <ul class="agp-block">
@@ -7818,32 +7831,23 @@
         </tbody>
     </table>
 </div>
-
 <script>
-(function() {
-    'use strict';
-
-    const dropdown = document.getElementById('ugaYearSelector2025');
-    if (!dropdown) return;
-
-    dropdown.addEventListener('change', function() {
-        const selectedYear = this.value;
-        const rows = document.querySelectorAll('.uga-ucc-agendas-wrapper-2025 .uga-year-row');
-
-        rows.forEach(function(row) {
-            const yearCell = row.querySelector('.uga-year-cell-hidden');
-            if (!yearCell) return;
-
-            const rowYear = yearCell.textContent.trim();
-
-            if (selectedYear === '' || selectedYear === '- None Selected -') {
-                row.style.display = 'none';
-            } else if (rowYear === selectedYear) {
-                row.style.display = 'table-row';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-})();
+setTimeout(function(){
+var d=document.getElementById('ugaYearSelector2025');
+console.log('Dropdown found:',d);
+if(d){d.onchange=function(){
+var s=this.value.replace(/[\u2013\u2014\-]/g,'-');
+console.log('Selected:',s);
+var r=document.querySelectorAll('.uga-ucc-agendas-wrapper-2025 .uga-year-row');
+console.log('Rows found:',r.length);
+for(var i=0,len=r.length;i!==len;i++){
+var row=r[i];
+var c=row.querySelector('.uga-year-cell-hidden');
+if(c){
+var y=c.textContent.trim().replace(/[\u2013\u2014\-]/g,'-');
+console.log('Row year:',y,'Selected:',s,'Match:',y===s);
+row.style.display=(s===''||s==='- None Selected -'||s==='– None Selected –')?'none':(y===s?'table-row':'none');
+}}}};
+},100);
 </script>
+<!--[/raw]-->
