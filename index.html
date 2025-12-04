@@ -1272,7 +1272,7 @@
 <!-- Featured Events Script -->
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
-        const API_BASE = 'https://apps-dev.reg.uga.edu/rods_api';
+        const API_BASE = 'https://apps8.reg.uga.edu/rods_api';
         const container = document.getElementById('upcoming-events-container');
 
         // Normalize date string from TEXT field to proper ISO format
@@ -1282,28 +1282,69 @@
             return dateStr.replace(/([+-]\d{2})$/, '$1:00');
         }
 
-        // Format event for display
-        function formatEventDate(isoDate) {
-            if (!isoDate) return { month: '', day: '' };
-            const normalized = normalizeDateString(isoDate);
-            const date = new Date(normalized);
-            if (isNaN(date.getTime())) {
-                console.error('Invalid date:', isoDate);
-                return { month: 'ERR', day: '?' };
+        // Format event for display - handles single dates and date ranges
+        function formatEventDate(startIso, endIso) {
+            if (!startIso) return { month: '', day: '', isRange: false };
+
+            const startNormalized = normalizeDateString(startIso);
+            const startDate = new Date(startNormalized);
+
+            if (isNaN(startDate.getTime())) {
+                console.error('Invalid date:', startIso);
+                return { month: 'ERR', day: '?', isRange: false };
             }
-            const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-            const day = date.getDate();
-            return { month, day };
+
+            const startMonth = startDate.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+            const startDay = startDate.getDate();
+
+            // Check if there's an end date that differs from start
+            if (endIso) {
+                const endNormalized = normalizeDateString(endIso);
+                const endDate = new Date(endNormalized);
+
+                if (!isNaN(endDate.getTime())) {
+                    const endMonth = endDate.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                    const endDay = endDate.getDate();
+
+                    // Only show range if dates are different
+                    if (startDate.toDateString() !== endDate.toDateString()) {
+                        // Same month range (e.g., "Jan 12-16")
+                        if (startMonth === endMonth) {
+                            return {
+                                month: startMonth,
+                                day: `${startDay}-${endDay}`,
+                                isRange: true
+                            };
+                        }
+                        // Different month range (e.g., "Dec 30 - Jan 2")
+                        return {
+                            month: `${startMonth}-${endMonth}`,
+                            day: `${startDay}-${endDay}`,
+                            isRange: true,
+                            crossMonth: true
+                        };
+                    }
+                }
+            }
+
+            return { month: startMonth, day: startDay, isRange: false };
         }
 
         // Create event HTML
         function createEventHTML(event) {
-            const { month, day } = formatEventDate(event.start_iso);
+            const { month, day, isRange, crossMonth } = formatEventDate(event.start_iso, event.end_iso);
+
+            // Only shrink font for date ranges
+            let dayFontSize = 'text-xl';
+            if (isRange) {
+                dayFontSize = 'text-[12px]';
+            }
+
             return `
                 <div class="flex items-center gap-2">
-                    <div class="w-12 h-12 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs">
-                        <div class="uppercase text-[12px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">${month}</div>
-                        <div class="text-lg" style="color:#333333;">${day}</div>
+                    <div class="min-w-14 w-14 min-h-14 h-14 bg-white text-black shadow-inner shadow-gray-400 flex flex-col items-center justify-center font-bold leading-tight text-xs shrink-0">
+                        <div class="uppercase text-[13px] tracking-widest bg-[#BA0C2F] text-white w-full py-1 text-center">${month}</div>
+                        <div class="${dayFontSize} flex-1 flex items-center justify-center" style="color:#333333;">${day}</div>
                     </div>
                     <div class="bg-black/40 rounded-md px-2 py-1 text-base font-medium drop-shadow-sm">
                         ${event.title}
