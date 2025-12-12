@@ -55,6 +55,11 @@
             pointer-events: none;
         }
 
+        /* Custom checkbox styling - UGA red when checked */
+        input[type="checkbox"] {
+            accent-color: #ba0c2f;
+        }
+
         /* Table styles from socTest3 */
         .course-table {
             width: 100%;
@@ -201,20 +206,20 @@
 <div id="navbar-placeholder"></div>
 
 <!-- Spacer for fixed navbar -->
-<div style="height: 90px; background-color: white;"></div>
+<div style="height: 90px; background-color: #ba0c2f;"></div>
 
 <!-- Hero Section from socDemo -->
-<header class="h-[70vh] flex flex-col justify-center items-center p-4" style="position: relative; overflow: hidden; background-color: rgba(186, 12, 47, 1); background-image: url(https://www.terry.uga.edu/wp-content/uploads/stacked-peaks-haikei.svg); background-position: 50% 60%; background-blend-mode: overlay; background-repeat: no-repeat; background-size: cover;">
+<header class="h-[70vh] flex flex-col justify-center items-center p-4" style="position: relative; overflow: visible; background-color: rgba(186, 12, 47, 1); background-image: url(https://www.terry.uga.edu/wp-content/uploads/stacked-peaks-haikei.svg); background-position: 50% 60%; background-blend-mode: overlay; background-repeat: no-repeat; background-size: cover;">
 
     <p class="text-xl sm:text-3xl mb-0 text-center max-w-4xl" style="position: relative; z-index: 1; color: rgba(255, 255, 255, 0.9);">
-        Schedule of Classes
+        Spring 2026
     </p>
     <h1 class="text-5xl sm:text-7xl font-extrabold mb-8 text-center leading-tight" style="position: relative; z-index: 1; color: white; text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 4px;">
-        SPRING 2026
+        SCHEDULE OF CLASSES
     </h1>
 
     <!-- Big Search Bar & Dropdown Container -->
-    <div class="w-full max-w-4xl px-6 relative" id="search-container" style="z-index: 2;">
+    <div class="w-full max-w-4xl px-6 relative" id="search-container" style="z-index: 100;">
         <!-- Main Search Bar -->
         <div class="flex shadow-2xl rounded-2xl overflow-hidden ring-4 ring-primary-bg/50 transition-all duration-300 hover:shadow-3xl z-10 relative">
             <!-- Filter Toggle Button -->
@@ -243,32 +248,71 @@
                 class="flex-grow py-5 px-8 text-dark-text text-xl placeholder:text-dark-text/40 focus:outline-none focus:ring-0 bg-white"
             >
 
-            <!-- Search Button (Teal) -->
+            <!-- Search Button (Dark Slate) -->
             <button
+                id="hero-search-btn"
                 class="flex items-center justify-center transition-colors duration-300 px-8 sm:px-12"
-                style="background-color: #00A3AD;"
-                onmouseover="this.style.backgroundColor='#008c95'"
-                onmouseout="this.style.backgroundColor='#00A3AD'"
+                style="background-color: #4a4a4a !important;"
+                onmouseover="this.style.backgroundColor='#3a3a3a'"
+                onmouseout="this.style.backgroundColor='#4a4a4a'"
                 aria-label="Submit search"
                 onclick="applyFilters()"
             >
                 <!-- Magnifying Glass Icon (White) -->
-                <svg class="search-icon text-white w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                <svg class="w-7 h-7" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </button>
         </div>
 
-        <!-- Filter Dropdown Panel (will be populated later with proper filters) -->
-        <div id="filter-dropdown" class="dropdown-panel hidden absolute w-full mt-2 bg-white rounded-2xl shadow-2xl p-4 border border-gray-100 z-0">
-            <p class="text-dark-text text-lg font-semibold mb-3 border-b pb-2 border-gray-100">Filter Options:</p>
-            <div class="space-y-3">
-                <!-- Placeholder filters - will be enhanced later -->
-                <div class="flex items-center space-x-3">
-                    <input type="checkbox" id="hide-full-filter" class="h-5 w-5 rounded border-gray-300 text-accent-red focus:ring-accent-red">
-                    <label for="hide-full-filter" class="text-dark-text text-base cursor-pointer">
-                        Hide full classes
-                    </label>
+        <!-- Filter Dropdown Panel -->
+        <div id="filter-dropdown" class="dropdown-panel hidden absolute mt-2 bg-white rounded-2xl shadow-2xl py-3 px-4 border border-gray-100" style="z-index: 200; left: 1.5rem; right: 1.5rem;">
+            <!-- Row 1: Campus filters -->
+            <div class="flex items-center gap-3 pb-2 border-b border-gray-100">
+                <span class="text-dark-text text-sm font-semibold">Campus:</span>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-athens" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="athens">
+                    <label for="filter-athens" class="text-dark-text text-sm cursor-pointer">Athens</label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-tifton" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="tifton">
+                    <label for="filter-tifton" class="text-dark-text text-sm cursor-pointer">Tifton</label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-griffin" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="griffin">
+                    <label for="filter-griffin" class="text-dark-text text-sm cursor-pointer">Griffin</label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-online" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="online">
+                    <label for="filter-online" class="text-dark-text text-sm cursor-pointer">Online</label>
+                </div>
+            </div>
+
+            <!-- Row 2: Course Level + Course Type -->
+            <div class="flex items-center gap-3 py-2 border-b border-gray-100">
+                <span class="text-dark-text text-sm font-semibold">Level:</span>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-undergraduate" class="level-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-level="undergraduate">
+                    <label for="filter-undergraduate" class="text-dark-text text-sm cursor-pointer">Undergraduate</label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-graduate" class="level-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-level="graduate">
+                    <label for="filter-graduate" class="text-dark-text text-sm cursor-pointer">Graduate</label>
+                </div>
+                <span class="text-gray-300 mx-2">|</span>
+                <span class="text-dark-text text-sm font-semibold">Type:</span>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="filter-honors" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="honors">
+                    <label for="filter-honors" class="text-dark-text text-sm cursor-pointer">Honors</label>
+                </div>
+            </div>
+
+            <!-- Row 3: Display Options -->
+            <div class="flex items-center gap-3 pt-2">
+                <span class="text-dark-text text-sm font-semibold">Display:</span>
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="hide-full-filter" class="h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red">
+                    <label for="hide-full-filter" class="text-dark-text text-sm cursor-pointer whitespace-nowrap">Hide full classes</label>
                 </div>
             </div>
         </div>
@@ -412,17 +456,52 @@
         const paginationInfo = document.getElementById('pagination-info');
         const searchInput = document.getElementById('searchInput');
 
+        // Get selected campus/category filters
+        function getSelectedCategories() {
+            const checkboxes = document.querySelectorAll('.campus-filter:checked');
+            return Array.from(checkboxes).map(cb => cb.dataset.category);
+        }
+
+        // Get selected level filters (undergraduate/graduate)
+        function getSelectedLevels() {
+            const checkboxes = document.querySelectorAll('.level-filter:checked');
+            return Array.from(checkboxes).map(cb => cb.dataset.level);
+        }
+
+        // Check if row matches selected categories
+        function matchesCategory(row, selectedCategories) {
+            if (selectedCategories.length === 0) return true; // No filter = show all
+            return selectedCategories.some(cat => row.Category && row.Category.includes(cat));
+        }
+
+        // Check if row matches selected course level (undergraduate < 6000, graduate >= 6000)
+        function matchesLevel(row, selectedLevels) {
+            if (selectedLevels.length === 0) return true; // No filter = show all
+            const courseNum = row['COURSE NUMBER'] || '';
+            const match = courseNum.match(/(\d{4})/); // Extract 4-digit course number
+            if (!match) return true; // If no number found, include it
+            const num = parseInt(match[1], 10);
+
+            if (selectedLevels.includes('undergraduate') && num < 6000) return true;
+            if (selectedLevels.includes('graduate') && num >= 6000) return true;
+            return false;
+        }
+
         // Define applyFilters early so it can be called from fetch
         function applyFilters() {
             console.log('applyFilters called, courseData.length:', courseData.length);
             const query = searchInput.value.trim().toLowerCase();
             const normalizedQ = query.replace(/\s+/g, '');
             const hideFull = document.getElementById('hide-full-filter').checked;
+            const selectedCategories = getSelectedCategories();
+            const selectedLevels = getSelectedLevels();
 
             const prefixMatches = courseData.filter(r => {
                 const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
                 const seats = parseInt(r['SEATS AVAILABLE']);
                 if (hideFull && (!isNaN(seats) && seats === 0)) return false;
+                if (!matchesCategory(r, selectedCategories)) return false;
+                if (!matchesLevel(r, selectedLevels)) return false;
                 return courseNum.startsWith(normalizedQ);
             });
 
@@ -430,6 +509,8 @@
                 const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
                 const seats = parseInt(r['SEATS AVAILABLE']);
                 if (hideFull && (!isNaN(seats) && seats === 0)) return false;
+                if (!matchesCategory(r, selectedCategories)) return false;
+                if (!matchesLevel(r, selectedLevels)) return false;
                 if (courseNum.startsWith(normalizedQ)) return false;
 
                 const searchableKeys = [
@@ -468,6 +549,19 @@
             renderTable();
             renderPagination();
         }
+
+        // Add event listeners to campus filter checkboxes
+        document.querySelectorAll('.campus-filter').forEach(cb => {
+            cb.addEventListener('change', applyFilters);
+        });
+
+        // Add event listeners to level filter checkboxes
+        document.querySelectorAll('.level-filter').forEach(cb => {
+            cb.addEventListener('change', applyFilters);
+        });
+
+        // Add event listener to hide-full checkbox
+        document.getElementById('hide-full-filter').addEventListener('change', applyFilters);
 
         // Fetch and parse CSV data
         fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
