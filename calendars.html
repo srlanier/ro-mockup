@@ -784,7 +784,7 @@
 
 <script>
     // --- API Configuration ---
-    const API_BASE = 'https://apps-dev.reg.uga.edu/rods_api';
+    const API_BASE = 'https://apps8.reg.uga.edu/rods_api';
 
     // --- Data Storage ---
     let allCalendars = {}; // Will be populated from API
@@ -895,8 +895,18 @@
             return 'Invalid Date Range';
         }
 
-        // Same month
-        if (startDate.getMonth() === endDate.getMonth()) {
+        // Compare dates only (ignore time)
+        const sameDay = startDate.getFullYear() === endDate.getFullYear() &&
+                        startDate.getMonth() === endDate.getMonth() &&
+                        startDate.getDate() === endDate.getDate();
+
+        // If same day, just show single date
+        if (sameDay) {
+            return formatDate(startIso);
+        }
+
+        // Same month but different days
+        if (startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
             const month = startDate.toLocaleDateString('en-US', { month: 'short' });
             return `${month}. ${startDate.getDate()}-${endDate.getDate()}`;
         } else {
@@ -934,19 +944,52 @@
         }
     }
 
+    // Store raw API data for filtering
+    let rawApiData = [];
+
     // Load calendars from API
-    async function loadCalendarsFromAPI() {
+    async function loadCalendarsFromAPI(calendarFilter = null) {
         try {
-            const response = await fetch(`${API_BASE}/calendars?order=start_iso.asc`);
+            // Build query - if filter provided, use 'like' operator for partial match
+            let url = `${API_BASE}/calendars?order=start_iso.asc`;
+            if (calendarFilter) {
+                url += `&calendar_id=like.*${calendarFilter}*`;
+            }
+
+            console.log('🔍 Fetching:', url);
+            const response = await fetch(url);
             if (!response.ok) throw new Error('Failed to fetch calendars');
 
             const apiData = await response.json();
+            console.log('✅ Got', apiData.length, 'events');
+
+            // Store raw data if no filter (initial load)
+            if (!calendarFilter) {
+                rawApiData = apiData;
+            }
+
+            // Clear existing calendars for rebuild
+            allCalendars = {};
+
+            // Helper: Determine event priority (lower = higher priority)
+            const getEventPriority = (title) => {
+                const titleLower = title.toLowerCase();
+                if (titleLower.includes('classes begin')) return 1;
+                if (titleLower.includes('classes end')) return 2;
+                if (titleLower.includes('drop/add')) return 3;
+                if (titleLower.includes('withdrawal')) return 4;
+                return 5; // Default priority for other events
+            };
 
             // Group by academic year and term
             apiData.forEach(event => {
                 const { year, term } = parseTermCode(event.term_code);
                 const academicYear = buildAcademicYear(year, term);
-                const sessionCode = event.session_code || 'main';
+
+                // Handle comma-separated session codes (e.g., "SSI,THRU" or "EXT,MAY")
+                // Split into array, default to ['main'] if empty
+                const sessionCodeRaw = event.session_code || 'main';
+                const sessionCodes = sessionCodeRaw.split(',').map(s => s.trim()).filter(s => s);
 
                 // Initialize structure
                 if (!allCalendars[academicYear]) {
@@ -958,26 +1001,34 @@
                         sessions: {}
                     };
                 }
-                if (!allCalendars[academicYear][term].sessions[sessionCode]) {
-                    // Map session code to display name
-                    const sessionName = getSessionDisplayName(sessionCode);
-                    allCalendars[academicYear][term].sessions[sessionCode] = {
-                        sessionName: sessionName,
-                        sortOrder: getSessionSortOrder(sessionCode),
-                        data: []
-                    };
-                }
 
-                // Transform API event to widget format
+                // Transform API event to widget format (once, shared across sessions)
                 const widgetEvent = {
                     event: event.title,
                     date: formatDateRange(event.start_iso, event.end_iso),
                     day: getDayRange(event.start_iso, event.end_iso),
                     status: getEventStatus(event.title),
-                    history: [] // No revisions for now
+                    history: [], // No revisions for now
+                    // Keep original dates and priority for sorting
+                    _start_iso: event.start_iso,
+                    _end_iso: event.end_iso,
+                    _priority: getEventPriority(event.title)
                 };
 
-                allCalendars[academicYear][term].sessions[sessionCode].data.push(widgetEvent);
+                // Add event to EACH session it belongs to
+                sessionCodes.forEach(sessionCode => {
+                    if (!allCalendars[academicYear][term].sessions[sessionCode]) {
+                        // Map session code to display name
+                        const sessionName = getSessionDisplayName(sessionCode);
+                        allCalendars[academicYear][term].sessions[sessionCode] = {
+                            sessionName: sessionName,
+                            sortOrder: getSessionSortOrder(sessionCode),
+                            data: []
+                        };
+                    }
+                    // Clone the event object to avoid shared references
+                    allCalendars[academicYear][term].sessions[sessionCode].data.push({...widgetEvent});
+                });
             });
 
         } catch (error) {
@@ -1164,9 +1215,37 @@
                         calendarTablesWrapper.appendChild(tableSection);
                     });
                 } else {
-                    // For fall/spring, use the main session
-                    const mainSession = sessions['main'] || sessions[sessionKeys[0]];
-                    if (!mainSession || !mainSession.data || mainSession.data.length === 0) return;
+                    // For fall/spring, combine all sessions into one view
+                    const combinedData = [];
+                    sessionKeys.forEach(sessionKey => {
+                        const sessionData = sessions[sessionKey];
+                        if (sessionData && sessionData.data) {
+                            combinedData.push(...sessionData.data);
+                        }
+                    });
+
+                    if (combinedData.length === 0) return;
+
+                    // Sort combined data by start date, then priority, then end date
+                    combinedData.sort((a, b) => {
+                        const startA = new Date(normalizeDateString(a._start_iso));
+                        const startB = new Date(normalizeDateString(b._start_iso));
+
+                        // First: sort by start date
+                        if (startA.getTime() !== startB.getTime()) {
+                            return startA - startB;
+                        }
+
+                        // Second: if same start date, sort by priority
+                        if (a._priority !== b._priority) {
+                            return a._priority - b._priority;
+                        }
+
+                        // Third: if same priority, single-day events come before multi-day
+                        const hasEndA = a._end_iso ? 1 : 0;
+                        const hasEndB = b._end_iso ? 1 : 0;
+                        return hasEndA - hasEndB;
+                    });
 
                     // Create table section wrapper
                     const tableSection = document.createElement('div');
@@ -1199,7 +1278,7 @@
 
                     // Add tbody with data
                     const tbody = document.createElement('tbody');
-                    mainSession.data.forEach((item, index) => {
+                    combinedData.forEach((item, index) => {
                         const row = createCalendarRow(item, index);
                         tbody.appendChild(row);
                     });
@@ -1492,18 +1571,48 @@
         });
     }
 
+    // --- Map dropdown IDs to database calendar_id values ---
+    const calendarIdMap = {
+        'academic': 'Academic',
+        'keyDates': 'KeyDates',
+        'scheduling': 'Scheduling',
+        'registration': 'Registration',
+        'payment': 'Payment',
+        'exam': 'Exam',
+        'term': 'Term',
+        'facultyDates': 'FacultyDates'
+    };
+
     // --- Handle hash changes (browser back/forward or direct hash changes) ---
-    window.addEventListener('hashchange', () => {
+    window.addEventListener('hashchange', async () => {
         const newCalendar = getCalendarFromHash();
         if (newCalendar !== currentState.calendar) {
             currentState.calendar = newCalendar;
             updateWidgetHeaderTitle();
 
-            if (newCalendar === 'academic') {
-                yearBtnWrapper.style.display = 'block';
+            // Get the database calendar_id for this selection
+            const dbCalendarId = calendarIdMap[newCalendar];
+
+            // Show loading state
+            calendarTablesWrapper.innerHTML = '<div style="padding: 2rem; text-align: center; color: #4b5563;">Loading...</div>';
+
+            // Reload data with filter
+            await loadCalendarsFromAPI(dbCalendarId);
+
+            // Show year dropdown for calendars that have data
+            const hasData = Object.keys(allCalendars).length > 0;
+            yearBtnWrapper.style.display = hasData ? 'block' : 'none';
+
+            if (hasData) {
+                // Update year dropdown and render
+                buildYearDropdown();
+                // Select most recent year if current year not available
+                if (!allCalendars[currentState.year]) {
+                    const years = Object.keys(allCalendars).sort().reverse();
+                    currentState.year = years[0] || '2025-2026';
+                }
                 renderCalendar(currentState.year, currentState.term);
             } else {
-                yearBtnWrapper.style.display = 'none';
                 const calendarText = getCalendarDisplayName(newCalendar);
                 renderPlaceholder(calendarText);
             }
@@ -1539,8 +1648,11 @@
         widgetHeaderTitle.textContent = 'Loading calendars...';
         calendarTablesWrapper.innerHTML = '<div style="padding: 2rem; text-align: center; color: #4b5563;">Loading data from API...</div>';
 
-        // Load calendar data from API
-        await loadCalendarsFromAPI();
+        // Get the database calendar_id for the initial selection
+        const dbCalendarId = calendarIdMap[currentState.calendar];
+
+        // Load calendar data from API with filter
+        await loadCalendarsFromAPI(dbCalendarId);
 
         // Update widget header title
         updateWidgetHeaderTitle();
@@ -1550,12 +1662,18 @@
         buildYearDropdown();
         buildSaveDropdown();
 
-        // Render based on current state (which may be set from hash)
-        if (currentState.calendar === 'academic') {
-            yearBtnWrapper.style.display = 'block';
+        // Check if we have data for the selected calendar
+        const hasData = Object.keys(allCalendars).length > 0;
+        yearBtnWrapper.style.display = hasData ? 'block' : 'none';
+
+        if (hasData) {
+            // Select most recent year if current year not available
+            if (!allCalendars[currentState.year]) {
+                const years = Object.keys(allCalendars).sort().reverse();
+                currentState.year = years[0] || '2025-2026';
+            }
             renderCalendar(currentState.year, currentState.term);
         } else {
-            yearBtnWrapper.style.display = 'none';
             const calendarText = getCalendarDisplayName(currentState.calendar);
             renderPlaceholder(calendarText);
         }
