@@ -370,19 +370,13 @@
             margin-top: 0;
         }
 
-        /* Session label for summer terms */
+        /* Session label for summer terms (em dash style) */
         .session-label {
             font-family: 'Merriweather', serif;
             text-transform: none;
             font-weight: 400;
-            font-size: 1.6rem;
-            color: #4b5563;
-            border-left: 3px dotted #BA0C2F;
-            padding-left: 0.75rem;
-            margin-left: 0.75rem;
-            display: inline-block;
-            vertical-align: baseline;
-            line-height: 1;
+            font-size: 1.1rem;
+            color: #6b7280;
         }
 
         /* Triangle bookend after term label */
@@ -690,6 +684,244 @@
             width: 13px;
             height: 13px;
         }
+
+        /* Calendar Tags/Pills for Master View */
+        .calendar-tags {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            align-items: flex-start;
+        }
+
+        .calendar-tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        /* Parts of Term Tags - horizontal wrapping */
+        .pot-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            align-items: flex-start;
+        }
+
+        .pot-tag {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+        }
+
+        /* Event title with POT description */
+        .event-title-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.35rem;
+        }
+
+        .event-title {
+            font-weight: 500;
+        }
+
+        .event-pot-desc {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        /* Parts of Term Filter Bar */
+        .pot-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 0;
+        }
+
+        .pot-filter-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #6b7280;
+            margin-right: 0.25rem;
+        }
+
+        .pot-filter-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .pot-filter-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            transition: opacity 0.15s ease, transform 0.1s ease;
+            user-select: none;
+        }
+
+        .pot-filter-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .pot-filter-badge.inactive {
+            opacity: 0.3;
+        }
+
+        /* View Toggle Buttons */
+        .pot-view-toggle {
+            display: flex;
+            gap: 0.25rem;
+            margin-right: 0.75rem;
+            padding-right: 0.75rem;
+            border-right: 1px solid #d1d5db;
+        }
+
+        .view-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 28px;
+            padding: 0;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .view-toggle-btn:hover {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+
+        .view-toggle-btn.active {
+            background-color: #BA0C2F;
+            border-color: #BA0C2F;
+            color: white;
+        }
+
+        /* Grid View Table Styles */
+        .pot-grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .pot-grid-table th,
+        .pot-grid-table td {
+            padding: 0.5rem 0.6rem;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .pot-grid-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .pot-grid-table th.col-code {
+            width: 60px;
+            text-align: center;
+        }
+
+        .pot-grid-table th.col-description {
+            width: 180px;
+            text-align: left;
+        }
+
+        .pot-grid-table td.cell-code {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .pot-grid-table td.cell-description {
+            text-align: left;
+            font-size: 0.8rem;
+            color: #4b5563;
+        }
+
+        .pot-grid-table td.cell-date {
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .pot-grid-table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .pot-grid-table tbody tr:hover {
+            background-color: #fef2f2;
+        }
+
+        .pot-grid-table .code-badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Standardized column widths */
+        .calendar-table th.col-event,
+        .calendar-table td.event-cell {
+            text-align: left;
+        }
+
+        .calendar-table th.col-date,
+        .calendar-table td.date-cell {
+            width: 120px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .calendar-table th.col-day,
+        .calendar-table td.day-cell {
+            width: 120px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .calendar-table th.col-pot,
+        .calendar-table td.pot-cell {
+            width: 180px;
+            min-width: 180px;
+        }
+
+        .calendar-table th.col-calendars,
+        .calendar-table td.calendar-cell {
+            width: 130px;
+            min-width: 130px;
+        }
     </style>
 </head>
 <body class="bg-gray-200 text-gray-900">
@@ -772,6 +1004,37 @@
             <!-- Last Updated -->
             <p id="last-updated-p" class="last-updated-subtitle">Last Updated: <span id="last-updated"></span></p>
 
+            <!-- Parts of Term Filter Bar (hidden by default, shown for POT calendars) -->
+            <div id="pot-filter-bar" class="pot-filter-bar" style="display: none;">
+                <!-- View Toggle -->
+                <div class="pot-view-toggle">
+                    <button id="view-sequential" class="view-toggle-btn active" title="Sequential View">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <rect x="1" y="2" width="14" height="2" rx="0.5"/>
+                            <rect x="1" y="7" width="14" height="2" rx="0.5"/>
+                            <rect x="1" y="12" width="14" height="2" rx="0.5"/>
+                        </svg>
+                    </button>
+                    <button id="view-grid" class="view-toggle-btn" title="Grid View">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <rect x="1" y="1" width="4" height="4" rx="0.5"/>
+                            <rect x="6" y="1" width="4" height="4" rx="0.5"/>
+                            <rect x="11" y="1" width="4" height="4" rx="0.5"/>
+                            <rect x="1" y="6" width="4" height="4" rx="0.5"/>
+                            <rect x="6" y="6" width="4" height="4" rx="0.5"/>
+                            <rect x="11" y="6" width="4" height="4" rx="0.5"/>
+                            <rect x="1" y="11" width="4" height="4" rx="0.5"/>
+                            <rect x="6" y="11" width="4" height="4" rx="0.5"/>
+                            <rect x="11" y="11" width="4" height="4" rx="0.5"/>
+                        </svg>
+                    </button>
+                </div>
+                <span class="pot-filter-label">Filter:</span>
+                <div id="pot-filter-badges" class="pot-filter-badges">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
             <!-- Calendar Table Container -->
             <div id="calendar-tables-wrapper">
                 <!-- Will be populated with one or more tables by JavaScript -->
@@ -785,6 +1048,100 @@
 <script>
     // --- API Configuration ---
     const API_BASE = 'https://apps8.reg.uga.edu/rods_api';
+
+    // --- Calendar Tag Colors (matching RODS Admin) ---
+    const CALENDAR_TAG_COLORS = {
+        'Academic': '#BA0C2F',
+        'KeyDates': '#00A3AD',
+        'PartsOfTerm': '#7B5AA6',
+        'Scheduling': '#E87722',
+        'Registration': '#4CAF50',
+        'Payment': '#2196F3',
+        'Exam': '#607D8B',
+        'FacultyDates': '#9C27B0'
+    };
+
+    // --- Part of Term Tag Colors (matching RODS Admin) ---
+    const PART_OF_TERM_TAG_COLORS = {
+        '1': '#1565C0',
+        'S1': '#00897B',
+        'S2': '#43A047',
+        'E': '#8E24AA',
+        'M': '#D81B60',
+        'LW': '#5D4037',
+        'VM': '#F4511E',
+        'VM2': '#FB8C00',
+        'VM3': '#FFB300',
+        'P1': '#039BE5',
+        'P2': '#00ACC1',
+        'EM1': '#7CB342',
+        'EM2': '#9CCC65',
+        'EM3': '#C0CA33',
+        'PM1': '#26A69A',
+        'PM2': '#4DB6AC',
+        'PC1': '#AB47BC',
+        'PC2': '#BA68C8',
+        'PC3': '#CE93D8',
+        'PC4': '#E1BEE7',
+        'VC1': '#EF5350',
+        'VC2': '#E57373',
+        'VC3': '#EF9A9A',
+        'VC4': '#FFCDD2',
+        'VC5': '#FFAB91',
+        'VC6': '#FF8A65',
+        'VC7': '#FF7043',
+        'VC8': '#FF5722',
+        'VC9': '#F4511E',
+        'V10': '#E64A19',
+        'V11': '#D84315',
+        'V12': '#BF360C',
+        'V13': '#EF5350',
+        'V14': '#E57373',
+        'V15': '#EF9A9A',
+        'V16': '#FFCDD2',
+        'V17': '#FFAB91'
+    };
+
+    // --- Part of Term Labels (code -> full description) ---
+    const PART_OF_TERM_LABELS = {
+        '1': 'Full Term',
+        'S1': '1st Short Session',
+        'S2': '2nd Short Session',
+        'E': 'Extended Session',
+        'M': 'May Session',
+        'LW': 'Law',
+        'VM': 'Vet Med',
+        'VM2': 'VM Core',
+        'VM3': 'VM Elective',
+        'P1': 'Pharmacy',
+        'P2': 'Pharmacy 10wk',
+        'PC1': 'Pharmacy Clinical 1',
+        'PC2': 'Pharmacy Clinical 2',
+        'PC3': 'Pharmacy Clinical 3',
+        'PC4': 'Pharmacy Clinical 4',
+        'EM1': 'EMBA Term 1',
+        'EM2': 'EMBA Term 2',
+        'EM3': 'EMBA Term 3',
+        'PM1': 'PMBA Term 1',
+        'PM2': 'PMBA Term 2',
+        'VC1': 'VM Clinical 1',
+        'VC2': 'VM Clinical 2',
+        'VC3': 'VM Clinical 3',
+        'VC4': 'VM Clinical 4',
+        'VC5': 'VM Clinical 5',
+        'VC6': 'VM Clinical 6',
+        'VC7': 'VM Clinical 7',
+        'VC8': 'VM Clinical 8',
+        'VC9': 'VM Clinical 9',
+        'V10': 'VM Clinical 10',
+        'V11': 'VM Clinical 11',
+        'V12': 'VM Clinical 12',
+        'V13': 'VM Clinical 13',
+        'V14': 'VM Clinical 14',
+        'V15': 'VM Clinical 15',
+        'V16': 'VM Clinical 16',
+        'V17': 'VM Clinical 17'
+    };
 
     // --- Data Storage ---
     let allCalendars = {}; // Will be populated from API
@@ -1012,7 +1369,9 @@
                     // Keep original dates and priority for sorting
                     _start_iso: event.start_iso,
                     _end_iso: event.end_iso,
-                    _priority: getEventPriority(event.title)
+                    _priority: getEventPriority(event.title),
+                    _calendar_id: event.calendar_id,  // Store which calendar(s) this event belongs to
+                    _part_of_term_codes: event.part_of_term_codes  // Store part of term codes
                 };
 
                 // Add event to EACH session it belongs to
@@ -1040,11 +1399,14 @@
     // --- Function to read calendar type from URL hash ---
     function getCalendarFromHash() {
         const hash = window.location.hash.substring(1); // Remove the '#'
-        const validCalendars = ['academic', 'scheduling', 'registration', 'payment', 'exam', 'term', 'keyDates', 'facultyDates'];
+        const validCalendars = ['academic', 'scheduling', 'registration', 'payment', 'exam', 'term', 'keyDates', 'facultyDates', 'master'];
         return validCalendars.includes(hash) ? hash : 'academic';
     }
 
     // --- App State ---
+    let selectedPotFilters = new Set(); // Empty = ALL selected; non-empty = only these codes shown
+    let potViewMode = 'sequential'; // 'sequential' or 'grid'
+
     let currentState = {
         calendar: getCalendarFromHash(),
         year: '2025-2026',
@@ -1063,10 +1425,355 @@
     const lastUpdatedElem = document.getElementById('last-updated');
     const lastUpdatedP = document.getElementById('last-updated-p');
     const calendarTablesWrapper = document.getElementById('calendar-tables-wrapper');
+    const potFilterBar = document.getElementById('pot-filter-bar');
+    const potFilterBadges = document.getElementById('pot-filter-badges');
+    const viewSequentialBtn = document.getElementById('view-sequential');
+    const viewGridBtn = document.getElementById('view-grid');
+
+    // --- View Toggle Event Listeners ---
+    viewSequentialBtn.addEventListener('click', () => {
+        if (potViewMode !== 'sequential') {
+            potViewMode = 'sequential';
+            viewSequentialBtn.classList.add('active');
+            viewGridBtn.classList.remove('active');
+            renderCalendar(currentState.year, currentState.term);
+        }
+    });
+
+    viewGridBtn.addEventListener('click', () => {
+        if (potViewMode !== 'grid') {
+            potViewMode = 'grid';
+            viewGridBtn.classList.add('active');
+            viewSequentialBtn.classList.remove('active');
+            renderCalendar(currentState.year, currentState.term);
+        }
+    });
+
+    // --- POT Filter Bar Functions ---
+    const POT_FILTER_ORDER = ['1', 'S1', 'S2', 'E', 'M', 'LW', 'VM', 'VM2', 'VM3', 'P1', 'P2',
+        'PC1', 'PC2', 'PC3', 'PC4', 'EM1', 'EM2', 'EM3', 'PM1', 'PM2',
+        'VC1', 'VC2', 'VC3', 'VC4', 'VC5', 'VC6', 'VC7', 'VC8', 'VC9',
+        'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17'];
+
+    function buildPotFilterBar() {
+        const isSpecialView = currentState.calendar === 'term';
+
+        if (!isSpecialView) {
+            potFilterBar.style.display = 'none';
+            return;
+        }
+
+        potFilterBar.style.display = 'flex';
+        potFilterBadges.innerHTML = '';
+
+        // Add "ALL" badge first
+        const allBadge = document.createElement('span');
+        allBadge.className = 'pot-filter-badge';
+        allBadge.textContent = 'ALL';
+        allBadge.style.backgroundColor = '#374151'; // dark gray/black
+        allBadge.title = 'Show all parts of term';
+        allBadge.dataset.code = 'ALL';
+
+        // ALL is active when no specific filters are selected
+        if (selectedPotFilters.size === 0) {
+            allBadge.classList.add('active');
+        } else {
+            allBadge.classList.add('inactive');
+        }
+
+        allBadge.addEventListener('click', () => {
+            selectedPotFilters.clear(); // Reset to show all
+            buildPotFilterBar();
+            renderCalendar(currentState.year, currentState.term);
+        });
+        potFilterBadges.appendChild(allBadge);
+
+        // Add individual POT badges
+        POT_FILTER_ORDER.forEach(code => {
+            const badge = document.createElement('span');
+            badge.className = 'pot-filter-badge';
+            badge.textContent = code;
+            badge.style.backgroundColor = PART_OF_TERM_TAG_COLORS[code] || '#666';
+            badge.title = PART_OF_TERM_LABELS[code] || code;
+            badge.dataset.code = code;
+
+            // If in selection mode, show selected as active, others as inactive
+            if (selectedPotFilters.size === 0) {
+                // ALL mode - all badges look active
+                badge.classList.add('active');
+            } else if (selectedPotFilters.has(code)) {
+                badge.classList.add('active');
+            } else {
+                badge.classList.add('inactive');
+            }
+
+            badge.addEventListener('click', () => togglePotFilter(code));
+            potFilterBadges.appendChild(badge);
+        });
+    }
+
+    function togglePotFilter(code) {
+        if (selectedPotFilters.size === 0) {
+            // Currently in ALL mode - switch to selection mode with just this code
+            selectedPotFilters.add(code);
+        } else if (selectedPotFilters.has(code)) {
+            // Already selected - remove it
+            selectedPotFilters.delete(code);
+            // If nothing left selected, stay in selection mode with nothing (will show empty)
+            // Actually, if they deselect the last one, go back to ALL
+            // No wait - let's allow empty selection to show nothing, they can click ALL to reset
+        } else {
+            // Not selected - add it
+            selectedPotFilters.add(code);
+        }
+
+        // Update the badge visuals
+        buildPotFilterBar();
+
+        // Re-render the calendar with filters applied
+        renderCalendar(currentState.year, currentState.term);
+    }
+
+    function filterByPot(events) {
+        if (selectedPotFilters.size === 0) {
+            return events; // ALL mode - show everything
+        }
+
+        return events.filter(event => {
+            if (!event._part_of_term_codes) return false; // No codes = hide when filtering
+            const eventCodes = event._part_of_term_codes.split(',').map(c => c.trim());
+            // Show if ANY of the event's codes are selected
+            return eventCodes.some(code => selectedPotFilters.has(code));
+        });
+    }
+
+    // --- Grid View Rendering ---
+    // Event types to show as columns in grid view (in order)
+    const GRID_EVENT_COLUMNS = [
+        { key: 'classes_begin', label: 'Classes Begin', match: /classes begin/i },
+        { key: 'drop_add', label: 'Drop/Add Ends', match: /drop.*add/i },
+        { key: 'census', label: 'Census Date', match: /census/i },
+        { key: 'withdrawal', label: 'Withdrawal Deadline', match: /withdrawal/i },
+        { key: 'classes_end', label: 'Classes End', match: /classes end/i },
+        { key: 'finals', label: 'Finals End', match: /finals/i }
+    ];
+
+    function renderGridView(allEvents, termLabel, termYear) {
+        // Build a map: potCode -> { classes_begin: date, drop_add: date, ... }
+        const potDataMap = {};
+
+        allEvents.forEach(event => {
+            if (!event._part_of_term_codes) return;
+
+            const codes = event._part_of_term_codes.split(',').map(c => c.trim());
+            const eventTitle = event.event || '';
+
+            // Determine which column this event belongs to
+            let matchedColumn = null;
+            for (const col of GRID_EVENT_COLUMNS) {
+                if (col.match.test(eventTitle)) {
+                    matchedColumn = col.key;
+                    break;
+                }
+            }
+
+            if (!matchedColumn) return; // Event doesn't match any column
+
+            // For each POT code in this event, record the date
+            codes.forEach(code => {
+                if (!potDataMap[code]) {
+                    potDataMap[code] = {};
+                }
+                // Use the date (formatted) or the raw _start_iso
+                potDataMap[code][matchedColumn] = event.date || formatDateShort(event._start_iso);
+            });
+        });
+
+        // Get list of POT codes that have data, in our preferred order
+        const codesWithData = POT_FILTER_ORDER.filter(code => potDataMap[code]);
+
+        // Apply filter if any
+        const filteredCodes = selectedPotFilters.size === 0
+            ? codesWithData
+            : codesWithData.filter(code => selectedPotFilters.has(code));
+
+        if (filteredCodes.length === 0) {
+            return null; // No data to show
+        }
+
+        // Create table section
+        const tableSection = document.createElement('div');
+        tableSection.className = 'table-section';
+
+        // Term label
+        const termLabelDiv = document.createElement('div');
+        termLabelDiv.className = 'term-label';
+        termLabelDiv.textContent = `${termLabel} ${termYear}`;
+        tableSection.appendChild(termLabelDiv);
+
+        // Table container
+        const tableContainer = document.createElement('div');
+        tableContainer.className = 'table-container';
+
+        // Create table
+        const table = document.createElement('table');
+        table.className = 'pot-grid-table';
+
+        // Header row
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+
+        // Code column header
+        const thCode = document.createElement('th');
+        thCode.className = 'col-code';
+        thCode.textContent = 'Code';
+        headerRow.appendChild(thCode);
+
+        // Description column header
+        const thDesc = document.createElement('th');
+        thDesc.className = 'col-description';
+        thDesc.textContent = 'Description';
+        headerRow.appendChild(thDesc);
+
+        // Event type column headers
+        GRID_EVENT_COLUMNS.forEach(col => {
+            const th = document.createElement('th');
+            th.textContent = col.label;
+            headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Body rows - one per POT code
+        const tbody = document.createElement('tbody');
+
+        filteredCodes.forEach(code => {
+            const row = document.createElement('tr');
+
+            // Code cell with colored badge
+            const tdCode = document.createElement('td');
+            tdCode.className = 'cell-code';
+            const badge = document.createElement('span');
+            badge.className = 'code-badge';
+            badge.textContent = code;
+            badge.style.backgroundColor = PART_OF_TERM_TAG_COLORS[code] || '#666';
+            tdCode.appendChild(badge);
+            row.appendChild(tdCode);
+
+            // Description cell
+            const tdDesc = document.createElement('td');
+            tdDesc.className = 'cell-description';
+            tdDesc.textContent = PART_OF_TERM_LABELS[code] || code;
+            row.appendChild(tdDesc);
+
+            // Date cells for each event type
+            const data = potDataMap[code] || {};
+            GRID_EVENT_COLUMNS.forEach(col => {
+                const td = document.createElement('td');
+                td.className = 'cell-date';
+                td.textContent = data[col.key] || '—';
+                row.appendChild(td);
+            });
+
+            tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        tableContainer.appendChild(table);
+        tableSection.appendChild(tableContainer);
+
+        return tableSection;
+    }
+
+    // Helper to format date for grid view
+    function formatDateShort(isoDate) {
+        if (!isoDate) return '—';
+        const date = new Date(isoDate);
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = String(date.getFullYear()).slice(-2);
+        return `${month}/${day}/${year}`;
+    }
+
+    // Render Parts of Term in grid mode (one grid per term)
+    function renderPartsOfTermGrid(year) {
+        const years = year.split('-');
+
+        // Define terms to render in order
+        const termsToRender = [
+            { key: 'fall', label: 'Fall', yearIndex: 0 },
+            { key: 'spring', label: 'Spring', yearIndex: 1 },
+            { key: 'summer', label: 'Summer', yearIndex: 1 }
+        ];
+
+        let hasEvents = false;
+
+        termsToRender.forEach(termInfo => {
+            const calendar = allCalendars[year]?.[termInfo.key];
+            if (!calendar) return;
+
+            const sessions = calendar.sessions || {};
+            const sessionKeys = Object.keys(sessions);
+
+            // For summer, render each session as a separate grid
+            if (termInfo.key === 'summer' && sessionKeys.length > 0) {
+                const sortedSessionKeys = sessionKeys.sort((a, b) => {
+                    const orderA = sessions[a].sortOrder || 999;
+                    const orderB = sessions[b].sortOrder || 999;
+                    return orderA - orderB;
+                });
+
+                sortedSessionKeys.forEach(sessionKey => {
+                    const sessionData = sessions[sessionKey];
+                    if (!sessionData || !sessionData.data || sessionData.data.length === 0) return;
+
+                    const sessionName = sessionData.sessionName || sessionKey;
+                    const gridSection = renderGridView(
+                        sessionData.data,
+                        `${termInfo.label}`,
+                        `${years[termInfo.yearIndex]} — ${sessionName}`
+                    );
+
+                    if (gridSection) {
+                        calendarTablesWrapper.appendChild(gridSection);
+                        hasEvents = true;
+                    }
+                });
+            } else {
+                // For fall/spring, combine all session data
+                const allTermEvents = [];
+                sessionKeys.forEach(sessionKey => {
+                    const sessionData = sessions[sessionKey];
+                    if (sessionData && sessionData.data) {
+                        allTermEvents.push(...sessionData.data);
+                    }
+                });
+
+                if (allTermEvents.length === 0) return;
+
+                const gridSection = renderGridView(
+                    allTermEvents,
+                    termInfo.label,
+                    years[termInfo.yearIndex]
+                );
+
+                if (gridSection) {
+                    calendarTablesWrapper.appendChild(gridSection);
+                    hasEvents = true;
+                }
+            }
+        });
+
+        if (!hasEvents) {
+            showError("Sorry, we couldn't find any Parts of Term data for the " + year + " academic year.");
+        }
+    }
 
     // Function to update the widget header title
     function updateWidgetHeaderTitle() {
-        const calendarText = currentState.calendar === 'academic' ? 'Academic Calendar' :
+        const calendarText = currentState.calendar === 'master' ? 'Master Calendar' :
+                           currentState.calendar === 'academic' ? 'Academic Calendar' :
                            currentState.calendar === 'scheduling' ? 'Centralized Classroom Scheduling Dates' :
                            currentState.calendar === 'registration' ? 'Registration Dates' :
                            currentState.calendar === 'payment' ? 'Payment Dates' :
@@ -1126,6 +1833,41 @@
     function renderCalendar(year, term) {
         calendarTablesWrapper.innerHTML = '';
 
+        // Build or hide the POT filter bar
+        buildPotFilterBar();
+
+        // If Parts of Term view in grid mode, use grid rendering
+        if (currentState.calendar === 'term' && potViewMode === 'grid') {
+            renderPartsOfTermGrid(year);
+            updateLastUpdated();
+            buildCalendarDropdown();
+            buildYearDropdown();
+            return;
+        }
+
+        // Check if we're in master or parts of term view (different layout)
+        const isMasterView = currentState.calendar === 'master';
+        const isSpecialView = currentState.calendar === 'master' || currentState.calendar === 'term';
+        const calendarColumnHeader = isMasterView ? '<th class="text-left col-calendars">Calendars</th>' : '';
+        const partsOfTermColumnHeader = isSpecialView ? '<th class="text-left col-pot">Parts of Term</th>' : '';
+
+        // Should we apply POT filter? Only for Parts of Term calendar
+        const shouldFilterPot = currentState.calendar === 'term';
+
+        // Different header order for special views
+        const standardHeaders = `
+            <th class="text-left col-event" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
+            <th class="text-center col-date">Date</th>
+            <th class="text-center col-day hidden sm-table-cell">Day</th>
+        `;
+        const specialHeaders = `
+            <th class="text-center col-date" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Date</th>
+            <th class="text-left col-event">Event</th>
+            ${partsOfTermColumnHeader}
+            ${calendarColumnHeader}
+        `;
+        const tableHeaders = isSpecialView ? specialHeaders : standardHeaders;
+
         // --- ANNUAL VIEW LOGIC ---
         if (term === 'annual') {
             const termsToRender = ['fall', 'spring', 'summer'];
@@ -1164,6 +1906,10 @@
                         const sessionData = sessions[sessionKey];
                         if (!sessionData || !sessionData.data || sessionData.data.length === 0) return;
 
+                        // Apply filter and skip if no results
+                        const filteredData = shouldFilterPot ? filterByPot(sessionData.data) : sessionData.data;
+                        if (filteredData.length === 0) return;
+
                         // Create table section wrapper
                         const tableSection = document.createElement('div');
                         tableSection.className = 'table-section';
@@ -1171,14 +1917,11 @@
                         // Create term label with session
                         const termLabel = document.createElement('div');
                         termLabel.className = 'term-label';
-                        termLabel.textContent = `${termText} ${termYear}`;
-
-                        // Add session label if session name exists
+                        // Include session name in the label (em dash style)
                         if (sessionData.sessionName) {
-                            const sessionSpan = document.createElement('span');
-                            sessionSpan.className = 'session-label';
-                            sessionSpan.textContent = sessionData.sessionName;
-                            termLabel.appendChild(sessionSpan);
+                            termLabel.textContent = `${termText} ${termYear} — ${sessionData.sessionName}`;
+                        } else {
+                            termLabel.textContent = `${termText} ${termYear}`;
                         }
 
                         tableSection.appendChild(termLabel);
@@ -1193,19 +1936,13 @@
 
                         // Add thead
                         const thead = document.createElement('thead');
-                        thead.innerHTML = `
-                            <tr>
-                                <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
-                                <th class="text-center w-48">Date</th>
-                                <th class="text-center w-48 hidden sm-table-cell">Day</th>
-                            </tr>
-                        `;
+                        thead.innerHTML = `<tr>${tableHeaders}</tr>`;
                         table.appendChild(thead);
 
                         // Add tbody with data
                         const tbody = document.createElement('tbody');
-                        sessionData.data.forEach((item, index) => {
-                            const row = createCalendarRow(item, index);
+                        filteredData.forEach((item, index) => {
+                            const row = createCalendarRow(item, index, isMasterView);
                             tbody.appendChild(row);
                         });
                         table.appendChild(tbody);
@@ -1267,19 +2004,16 @@
 
                     // Add thead
                     const thead = document.createElement('thead');
-                    thead.innerHTML = `
-                        <tr>
-                            <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
-                            <th class="text-center w-48">Date</th>
-                            <th class="text-center w-48 hidden sm-table-cell">Day</th>
-                        </tr>
-                    `;
+                    thead.innerHTML = `<tr>${tableHeaders}</tr>`;
                     table.appendChild(thead);
 
-                    // Add tbody with data
+                    // Add tbody with data - apply filter and skip if empty
+                    const filteredCombinedData = shouldFilterPot ? filterByPot(combinedData) : combinedData;
+                    if (filteredCombinedData.length === 0) return;
+
                     const tbody = document.createElement('tbody');
-                    combinedData.forEach((item, index) => {
-                        const row = createCalendarRow(item, index);
+                    filteredCombinedData.forEach((item, index) => {
+                        const row = createCalendarRow(item, index, isMasterView);
                         tbody.appendChild(row);
                     });
                     table.appendChild(tbody);
@@ -1331,17 +2065,18 @@
                     const sessionData = sessions[sessionKey];
                     if (!sessionData || !sessionData.data || sessionData.data.length === 0) return;
 
+                    // Apply filter and skip if empty
+                    const filteredSessionData = shouldFilterPot ? filterByPot(sessionData.data) : sessionData.data;
+                    if (filteredSessionData.length === 0) return;
+
                     // Create header with session
                     const termLabel = document.createElement('div');
                     termLabel.className = 'term-label';
-                    termLabel.textContent = `${termText} ${termYear}`;
-
-                    // Add session label if session name exists
+                    // Include session name in the label (em dash style)
                     if (sessionData.sessionName) {
-                        const sessionSpan = document.createElement('span');
-                        sessionSpan.className = 'session-label';
-                        sessionSpan.textContent = sessionData.sessionName;
-                        termLabel.appendChild(sessionSpan);
+                        termLabel.textContent = `${termText} ${termYear} — ${sessionData.sessionName}`;
+                    } else {
+                        termLabel.textContent = `${termText} ${termYear}`;
                     }
 
                     calendarTablesWrapper.appendChild(termLabel);
@@ -1355,19 +2090,13 @@
 
                     // Add thead
                     const thead = document.createElement('thead');
-                    thead.innerHTML = `
-                        <tr>
-                            <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
-                            <th class="text-center w-48">Date</th>
-                            <th class="text-center w-48 hidden sm-table-cell">Day</th>
-                        </tr>
-                    `;
+                    thead.innerHTML = `<tr>${tableHeaders}</tr>`;
                     table.appendChild(thead);
 
-                    // Add tbody with data
+                    // Add tbody with data (use pre-filtered data)
                     const tbody = document.createElement('tbody');
-                    sessionData.data.forEach((item, index) => {
-                        const row = createCalendarRow(item, index);
+                    filteredSessionData.forEach((item, index) => {
+                        const row = createCalendarRow(item, index, isMasterView);
                         tbody.appendChild(row);
                     });
                     table.appendChild(tbody);
@@ -1380,6 +2109,13 @@
                 const mainSession = sessions['main'] || sessions[sessionKeys[0]];
                 if (!mainSession || !mainSession.data || mainSession.data.length === 0) {
                     showError("Sorry, we couldn't find data for " + termText + " " + year + ".");
+                    return;
+                }
+
+                // Apply filter and skip if empty
+                const filteredMainData = shouldFilterPot ? filterByPot(mainSession.data) : mainSession.data;
+                if (filteredMainData.length === 0) {
+                    showError("No events match the selected filters.");
                     return;
                 }
 
@@ -1398,19 +2134,13 @@
 
                 // Add thead
                 const thead = document.createElement('thead');
-                thead.innerHTML = `
-                    <tr>
-                        <th class="text-left" style="box-shadow: inset 7px 0 0 0 #F3F4F6;">Event</th>
-                        <th class="text-center w-48">Date</th>
-                        <th class="text-center w-48 hidden sm-table-cell">Day</th>
-                    </tr>
-                `;
+                thead.innerHTML = `<tr>${tableHeaders}</tr>`;
                 table.appendChild(thead);
 
-                // Add tbody with data
+                // Add tbody with data (use pre-filtered data)
                 const tbody = document.createElement('tbody');
-                mainSession.data.forEach((item, index) => {
-                    const row = createCalendarRow(item, index);
+                filteredMainData.forEach((item, index) => {
+                    const row = createCalendarRow(item, index, isMasterView);
                     tbody.appendChild(row);
                 });
                 table.appendChild(tbody);
@@ -1427,36 +2157,118 @@
     }
 
     // --- Helper: Create Single Calendar Row ---
-    function createCalendarRow(item, index) {
+    function createCalendarRow(item, index, showCalendarColumn = false) {
         const row = document.createElement('tr');
         row.className = index % 2 === 0 ? 'row-white' : 'row-gray';
 
-        // 1. Event Cell
-        const eventCell = document.createElement('td');
-        eventCell.className = 'event-cell';
-        eventCell.appendChild(document.createTextNode(item.event));
-        if (item.status === 'success') eventCell.style.boxShadow = 'inset 7px 0 0 0 #00A3AD';
-        else if (item.status === 'warning') eventCell.style.boxShadow = 'inset 7px 0 0 0 #E4002B';
-        else eventCell.style.boxShadow = 'inset 7px 0 0 0 transparent';
-        row.appendChild(eventCell);
+        // Check if we're in Master or Parts of Term view (different layout)
+        const isSpecialView = currentState.calendar === 'master' || currentState.calendar === 'term';
 
-        // 2. Date Cell
-        const dateCell = document.createElement('td');
-        dateCell.className = 'date-cell';
-        const wrapper = document.createElement('div');
-        wrapper.className = 'date-wrapper';
-        const dateText = document.createElement('span');
-        dateText.textContent = item.date;
-        wrapper.appendChild(dateText);
+        // For Master/PartsOfTerm: Date | Event | Parts of Term | Calendars
+        if (isSpecialView) {
+            // 1. Date Cell (first for special views)
+            const dateCell = document.createElement('td');
+            dateCell.className = 'date-cell';
+            dateCell.style.boxShadow = 'inset 7px 0 0 0 #F3F4F6';
+            dateCell.textContent = item.date;
+            row.appendChild(dateCell);
 
-        // 3. Day Cell
-        const dayCell = document.createElement('td');
-        dayCell.className = 'day-cell hidden sm-table-cell';
-        dayCell.textContent = item.day;
+            // 2. Event Cell with descriptive POT subtitle
+            const eventCell = document.createElement('td');
+            eventCell.className = 'event-cell';
 
-        dateCell.appendChild(wrapper);
-        row.appendChild(dateCell);
-        row.appendChild(dayCell);
+            if (item._part_of_term_codes) {
+                // Build descriptive title: "Classes Begin -- Full Term, Law, Pharmacy"
+                const wrapper = document.createElement('div');
+                wrapper.className = 'event-title-wrapper';
+
+                const titleSpan = document.createElement('span');
+                titleSpan.className = 'event-title';
+                titleSpan.textContent = item.event;
+                wrapper.appendChild(titleSpan);
+
+                const potCodes = item._part_of_term_codes.split(',').map(c => c.trim());
+                const potLabels = potCodes.map(code => PART_OF_TERM_LABELS[code] || code);
+
+                const descSpan = document.createElement('span');
+                descSpan.className = 'event-pot-desc';
+                descSpan.textContent = '— ' + potLabels.join(', ');
+                wrapper.appendChild(descSpan);
+
+                eventCell.appendChild(wrapper);
+            } else {
+                eventCell.textContent = item.event;
+            }
+            row.appendChild(eventCell);
+
+            // 3. Parts of Term Cell (badges)
+            const potCell = document.createElement('td');
+            potCell.className = 'pot-cell';
+            if (item._part_of_term_codes) {
+                const tagsContainer = document.createElement('div');
+                tagsContainer.className = 'pot-tags';
+
+                const potCodes = item._part_of_term_codes.split(',').map(c => c.trim());
+                potCodes.forEach(code => {
+                    const pill = document.createElement('span');
+                    pill.className = 'pot-tag';
+                    pill.textContent = code;
+                    pill.style.backgroundColor = PART_OF_TERM_TAG_COLORS[code] || '#666';
+                    tagsContainer.appendChild(pill);
+                });
+
+                potCell.appendChild(tagsContainer);
+            }
+            row.appendChild(potCell);
+
+            // 4. Calendars Cell (only for master view)
+            if (showCalendarColumn) {
+                const calendarCell = document.createElement('td');
+                calendarCell.className = 'calendar-cell';
+                if (item._calendar_id) {
+                    const tagsContainer = document.createElement('div');
+                    tagsContainer.className = 'calendar-tags';
+
+                    const calendarIds = item._calendar_id.split(',').map(id => id.trim());
+                    calendarIds.forEach(calId => {
+                        const pill = document.createElement('span');
+                        pill.className = 'calendar-tag';
+                        pill.textContent = calId;
+                        pill.style.backgroundColor = CALENDAR_TAG_COLORS[calId] || '#666';
+                        tagsContainer.appendChild(pill);
+                    });
+
+                    calendarCell.appendChild(tagsContainer);
+                }
+                row.appendChild(calendarCell);
+            }
+
+        } else {
+            // Standard layout: Event | Date | Day
+
+            // 1. Event Cell
+            const eventCell = document.createElement('td');
+            eventCell.className = 'event-cell';
+            eventCell.textContent = item.event;
+
+            if (item.status === 'success') eventCell.style.boxShadow = 'inset 7px 0 0 0 #00A3AD';
+            else if (item.status === 'warning') eventCell.style.boxShadow = 'inset 7px 0 0 0 #E4002B';
+            else eventCell.style.boxShadow = 'inset 7px 0 0 0 transparent';
+            row.appendChild(eventCell);
+
+            // 2. Date Cell
+            const dateCell = document.createElement('td');
+            dateCell.className = 'date-cell';
+            dateCell.textContent = item.date;
+            row.appendChild(dateCell);
+
+            // 3. Day Cell
+            const dayCell = document.createElement('td');
+            dayCell.className = 'day-cell hidden sm-table-cell';
+            dayCell.textContent = item.day;
+            row.appendChild(dayCell);
+        }
+
         return row;
     }
 
@@ -1487,6 +2299,7 @@
     function buildCalendarDropdown() {
         calendarDropdown.innerHTML = '';
         const menuItems = [
+            { id: 'master', text: 'Master Calendar' },
             { id: 'academic', text: 'Academic Calendar' },
             { id: 'scheduling', text: 'Centralized Classroom Scheduling Dates' },
             { id: 'registration', text: 'Registration Dates' },
@@ -1573,13 +2386,14 @@
 
     // --- Map dropdown IDs to database calendar_id values ---
     const calendarIdMap = {
+        'master': null,  // null = fetch all calendars (no filter)
         'academic': 'Academic',
         'keyDates': 'KeyDates',
         'scheduling': 'Scheduling',
         'registration': 'Registration',
         'payment': 'Payment',
         'exam': 'Exam',
-        'term': 'Term',
+        'term': 'PartsOfTerm',
         'facultyDates': 'FacultyDates'
     };
 
@@ -1588,6 +2402,10 @@
         const newCalendar = getCalendarFromHash();
         if (newCalendar !== currentState.calendar) {
             currentState.calendar = newCalendar;
+            selectedPotFilters.clear(); // Reset filters when switching calendars
+            potViewMode = 'sequential'; // Reset to sequential view
+            viewSequentialBtn.classList.add('active');
+            viewGridBtn.classList.remove('active');
             updateWidgetHeaderTitle();
 
             // Get the database calendar_id for this selection
@@ -1625,6 +2443,7 @@
     // --- Helper to get calendar display name ---
     function getCalendarDisplayName(calendarId) {
         const names = {
+            'master': 'Master Calendar',
             'academic': 'Academic Calendar',
             'scheduling': 'Centralized Classroom Scheduling Dates',
             'registration': 'Registration Dates',
