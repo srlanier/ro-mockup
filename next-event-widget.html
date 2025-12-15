@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Event Widget - Embeddable Calendar Dates</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles */
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        .font-merriweather { font-family: 'Merriweather', serif; }
+
+        /* Calendar Leaf - Tear-off style */
+        .calendar-leaf {
+            display: inline-flex;
+            flex-direction: column;
+            width: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            background: white;
+            margin: 0 8px;
+            vertical-align: middle;
+            cursor: default;
+            user-select: none;
+        }
+
+        .calendar-leaf-month {
+            background-color: #ba0c2f;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 4px 0;
+            letter-spacing: 0.1em;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .calendar-leaf-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .calendar-leaf-day {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            line-height: 1;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .calendar-leaf-weekday {
+            font-size: 0.625rem;
+            color: #9ca3af;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-top: 4px;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* Event Card Container */
+        .calendar-event-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 24px auto;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .calendar-event-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .calendar-event-card .leaf-wrapper {
+            flex-shrink: 0;
+            margin-left: -8px;
+        }
+
+        .calendar-event-card .content-wrapper {
+            margin-left: 16px;
+            flex: 1;
+            border-left: 2px solid #f3f4f6;
+            padding-left: 24px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .calendar-event-card .event-title {
+            font-weight: 700;
+            color: #111827;
+            font-size: 1.25rem;
+            line-height: 1.3;
+            font-family: 'Merriweather', serif;
+            margin: 0;
+        }
+
+        .calendar-event-card .event-subtext {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-top: 8px;
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+        }
+
+        /* Inline date mention */
+        .inline-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .inline-date .calendar-leaf {
+            width: 50px;
+            margin: 0 4px;
+        }
+
+        .inline-date .calendar-leaf .calendar-leaf-month {
+            font-size: 0.625rem;
+            padding: 2px 0;
+        }
+
+        .inline-date .calendar-leaf .calendar-leaf-body {
+            padding: 6px;
+        }
+
+        .inline-date .calendar-leaf .calendar-leaf-day {
+            font-size: 1.25rem;
+        }
+
+        .inline-date .calendar-leaf .calendar-leaf-weekday {
+            font-size: 0.5rem;
+        }
+
+        /* Loading state */
+        .loading {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        /* Error state */
+        .error {
+            color: #dc2626;
+            font-style: italic;
+        }
+
+        /* Demo page styles */
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: 48px;
+        }
+
+        .demo-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ba0c2f;
+        }
+
+        .demo-description {
+            color: #6b7280;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .demo-code {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin-top: 12px;
+        }
+
+        .inline-example {
+            font-size: 1.125rem;
+            line-height: 2.5;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+
+<div class="demo-container">
+
+    <h1 style="font-family: 'Oswald', sans-serif; text-align: center; color: #1f2937; margin-bottom: 8px;">
+        Next Event Widget
+    </h1>
+    <p style="text-align: center; color: #6b7280; margin-bottom: 48px;">
+        Embeddable calendar date components for WordPress
+    </p>
+
+    <!-- SECTION 1: Card Style - Clean (No Subtext) -->
+    <div class="demo-section">
+        <h2 class="demo-title">Card Style - Clean</h2>
+        <p class="demo-description">
+            Shows "Fall 2025 Grades Due (12 PM)" with no subtext line.
+        </p>
+
+        <!-- Dynamic card with no subtext -->
+        <div data-next-event="grades-due" data-subtext=""></div>
+
+        <div class="demo-code">
+&lt;!-- HTML embed (no subtext) --&gt;
+&lt;div data-next-event="grades-due" data-subtext=""&gt;&lt;/div&gt;
+
+&lt;!-- WordPress Shortcode --&gt;
+[next_event type="grades-due" subtext=""]
+        </div>
+    </div>
+
+    <!-- SECTION 1b: Card Style - With Custom Subtext -->
+    <div class="demo-section">
+        <h2 class="demo-title">Card Style - Custom Subtext</h2>
+        <p class="demo-description">
+            Card with custom subtext message.
+        </p>
+
+        <!-- Dynamic card with custom subtext -->
+        <div data-next-event="classes-begin" data-subtext="All students should check Athena for their schedule."></div>
+
+        <div class="demo-code">
+&lt;!-- HTML embed (custom subtext) --&gt;
+&lt;div data-next-event="classes-begin" data-subtext="All students should check Athena for their schedule."&gt;&lt;/div&gt;
+
+&lt;!-- WordPress Shortcode --&gt;
+[next_event type="classes-begin" subtext="All students should check Athena for their schedule."]
+        </div>
+    </div>
+
+    <!-- SECTION 1c: Filter by Session -->
+    <div class="demo-section">
+        <h2 class="demo-title">Filter by Session</h2>
+        <p class="demo-description">
+            Get the next event for a specific session (FALL, SPRING, SSI, SSII, MAY, EXT, THRU).
+        </p>
+
+        <!-- Dynamic card filtered by session -->
+        <div data-next-event="withdrawal-deadline" data-session="FALL" data-subtext=""></div>
+
+        <div class="demo-code">
+&lt;!-- HTML embed (FALL session only) --&gt;
+&lt;div data-next-event="withdrawal-deadline" data-session="FALL" data-subtext=""&gt;&lt;/div&gt;
+
+&lt;!-- WordPress Shortcode --&gt;
+[next_event type="withdrawal-deadline" session="FALL" subtext=""]
+        </div>
+    </div>
+
+    <!-- SECTION 2: Inline Style -->
+    <div class="demo-section">
+        <h2 class="demo-title">Inline Style</h2>
+        <p class="demo-description">
+            Compact leaf that fits within a sentence. Perfect for body text.
+        </p>
+
+        <p class="inline-example">
+            Fall 2025 grades are due
+            <span id="grades-due-inline" class="inline-date">
+                <span class="calendar-leaf">
+                    <div class="calendar-leaf-month loading">...</div>
+                    <div class="calendar-leaf-body">
+                        <span class="calendar-leaf-day">--</span>
+                        <span class="calendar-leaf-weekday">---</span>
+                    </div>
+                </span>
+            </span>
+            at 12:00 PM.
+        </p>
+
+        <p class="inline-example">
+            Spring 2026 classes begin on
+            <span id="classes-begin-inline" class="inline-date">
+                <span class="calendar-leaf">
+                    <div class="calendar-leaf-month loading">...</div>
+                    <div class="calendar-leaf-body">
+                        <span class="calendar-leaf-day">--</span>
+                        <span class="calendar-leaf-weekday">---</span>
+                    </div>
+                </span>
+            </span>
+            for all students.
+        </p>
+
+        <div class="demo-code">
+&lt;!-- WordPress Shortcode --&gt;
+Fall 2025 grades are due [next_event type="grades-due" style="inline"] at 12:00 PM.
+
+&lt;!-- Or HTML embed --&gt;
+Fall 2025 grades are due &lt;span data-next-event="grades-due" data-style="inline"&gt;&lt;/span&gt; at 12:00 PM.
+        </div>
+    </div>
+
+    <!-- SECTION 3: Multiple Events -->
+    <div class="demo-section">
+        <h2 class="demo-title">Multiple Events</h2>
+        <p class="demo-description">
+            Display several upcoming events together.
+        </p>
+
+        <div id="multi-events">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <div class="demo-code">
+&lt;!-- WordPress Shortcode --&gt;
+[next_events types="classes-begin,withdrawal-deadline,final-exams" style="card"]
+        </div>
+    </div>
+
+    <!-- SECTION 4: Available Event Types -->
+    <div class="demo-section">
+        <h2 class="demo-title">Available Event Types</h2>
+        <p class="demo-description">
+            Use these slugs in the <code>type</code> parameter:
+        </p>
+        <div id="event-types-list" style="column-count: 2; column-gap: 24px; font-family: monospace; font-size: 0.875rem; color: #4b5563;">
+            Loading...
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- API Configuration ---
+    const API_BASE = 'https://apps8.reg.uga.edu/rods_api';
+
+    // --- Helper: Normalize date string ---
+    function normalizeDateString(dateStr) {
+        if (!dateStr) return '';
+        return dateStr.replace(/([+-]\d{2})$/, '$1:00');
+    }
+
+    // --- Helper: Format date parts ---
+    function formatDateParts(isoDate) {
+        const normalized = normalizeDateString(isoDate);
+        const d = new Date(normalized);
+        if (isNaN(d.getTime())) {
+            return { month: 'ERR', day: '--', weekday: '---' };
+        }
+        return {
+            month: d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+            day: d.getDate(),
+            weekday: d.toLocaleDateString('en-US', { weekday: 'short' })
+        };
+    }
+
+    // --- Helper: Get term display name ---
+    function getTermName(termCode) {
+        if (!termCode) return '';
+        const year = termCode.substring(0, 4);
+        const termNum = termCode.substring(4, 6);
+        if (termNum === '08') return `Fall ${year}`;
+        if (termNum === '02') return `Spring ${year}`;
+        if (termNum === '05') return `Summer ${year}`;
+        return year;
+    }
+
+    // --- Fetch next event from API ---
+    async function fetchNextEvent(eventType, sessionCode = null) {
+        try {
+            let url = `${API_BASE}/rpc/next_event?p_event_type=${encodeURIComponent(eventType)}`;
+            // Add session filter if provided
+            if (sessionCode) {
+                url += `&p_session_code=${encodeURIComponent(sessionCode)}`;
+            }
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API error');
+            const data = await response.json();
+            return data[0] || null;
+        } catch (error) {
+            console.error(`Failed to fetch ${eventType}:`, error);
+            return null;
+        }
+    }
+
+    // --- Render calendar leaf ---
+    function renderLeaf(container, dateParts, isInline = false) {
+        const leaf = container.querySelector('.calendar-leaf');
+        if (!leaf) return;
+
+        const monthEl = leaf.querySelector('.calendar-leaf-month');
+        const dayEl = leaf.querySelector('.calendar-leaf-day');
+        const weekdayEl = leaf.querySelector('.calendar-leaf-weekday');
+
+        monthEl.textContent = dateParts.month;
+        monthEl.classList.remove('loading');
+        dayEl.textContent = dateParts.day;
+        weekdayEl.textContent = dateParts.weekday;
+    }
+
+    // --- Render card style ---
+    function renderCard(container, event) {
+        if (!event) {
+            container.innerHTML = '<p class="error">Event not found</p>';
+            return;
+        }
+
+        const dateParts = formatDateParts(event.start_iso);
+        const termName = getTermName(event.term_code);
+
+        renderLeaf(container, dateParts);
+
+        const titleEl = container.querySelector('.event-title');
+        const subtextEl = container.querySelector('.event-subtext');
+
+        if (titleEl) {
+            titleEl.textContent = event.title;
+            titleEl.classList.remove('loading');
+        }
+        if (subtextEl && event.description) {
+            subtextEl.textContent = event.description;
+        } else if (subtextEl) {
+            subtextEl.textContent = termName;
+        }
+    }
+
+    // --- Render inline style ---
+    function renderInline(container, event) {
+        if (!event) {
+            container.innerHTML = '<span class="error">[date unavailable]</span>';
+            return;
+        }
+
+        const dateParts = formatDateParts(event.start_iso);
+        renderLeaf(container, dateParts, true);
+    }
+
+    // --- Create a new card element ---
+    // Options:
+    //   title: custom title (null = use API title, with term prefix)
+    //   subtext: custom subtext (null = use description, '' = no subtext)
+    //   showTerm: prefix title with term name (default true)
+    function createCardElement(event, options = {}) {
+        const card = document.createElement('div');
+        card.className = 'calendar-event-card';
+
+        const dateParts = formatDateParts(event.start_iso);
+        const termName = getTermName(event.term_code);
+
+        // Build title: custom title OR "Term Name + API Title"
+        let displayTitle;
+        if (options.title !== undefined && options.title !== null) {
+            displayTitle = options.title;
+        } else if (options.showTerm !== false) {
+            displayTitle = `${termName} ${event.title}`;
+        } else {
+            displayTitle = event.title;
+        }
+
+        // Build subtext: custom subtext, empty string = hide, null/undefined = use description
+        let displaySubtext = '';
+        let showSubtext = true;
+        if (options.subtext !== undefined) {
+            if (options.subtext === '' || options.subtext === null) {
+                showSubtext = false;
+            } else {
+                displaySubtext = options.subtext;
+            }
+        } else if (event.description) {
+            displaySubtext = event.description;
+        } else {
+            showSubtext = false;
+        }
+
+        card.innerHTML = `
+            <div class="leaf-wrapper">
+                <div class="calendar-leaf">
+                    <div class="calendar-leaf-month">${dateParts.month}</div>
+                    <div class="calendar-leaf-body">
+                        <span class="calendar-leaf-day">${dateParts.day}</span>
+                        <span class="calendar-leaf-weekday">${dateParts.weekday}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <h3 class="event-title">${displayTitle}</h3>
+                ${showSubtext ? `<p class="event-subtext">${displaySubtext}</p>` : ''}
+            </div>
+        `;
+
+        return card;
+    }
+
+    // --- Initialize widgets on page load ---
+    document.addEventListener('DOMContentLoaded', async () => {
+
+        // 1. Grades Due Card
+        const gradesDueCard = document.getElementById('grades-due-card');
+        if (gradesDueCard) {
+            const event = await fetchNextEvent('grades-due');
+            renderCard(gradesDueCard, event);
+        }
+
+        // 2. Grades Due Inline
+        const gradesDueInline = document.getElementById('grades-due-inline');
+        if (gradesDueInline) {
+            const event = await fetchNextEvent('grades-due');
+            renderInline(gradesDueInline, event);
+        }
+
+        // 3. Classes Begin Inline
+        const classesBeginInline = document.getElementById('classes-begin-inline');
+        if (classesBeginInline) {
+            const event = await fetchNextEvent('classes-begin');
+            renderInline(classesBeginInline, event);
+        }
+
+        // 4. Multiple Events
+        const multiEvents = document.getElementById('multi-events');
+        if (multiEvents) {
+            const types = ['classes-begin', 'withdrawal-deadline', 'final-exams'];
+            for (const type of types) {
+                const event = await fetchNextEvent(type);
+                if (event) {
+                    multiEvents.appendChild(createCardElement(event));
+                }
+            }
+        }
+
+        // 5. List all event types
+        const eventTypesList = document.getElementById('event-types-list');
+        if (eventTypesList) {
+            try {
+                const response = await fetch(`${API_BASE}/calendars?select=event_type&order=event_type`);
+                const data = await response.json();
+                const types = [...new Set(data.map(e => e.event_type).filter(Boolean))].sort();
+                eventTypesList.innerHTML = types.map(t => `<div style="padding: 4px 0;">${t}</div>`).join('');
+            } catch (error) {
+                eventTypesList.innerHTML = '<span class="error">Failed to load</span>';
+            }
+        }
+    });
+
+    // --- Auto-initialize data-next-event elements ---
+    // Supported data attributes:
+    //   data-next-event="grades-due"     - event type (required)
+    //   data-style="card"                - card or inline (default: card)
+    //   data-session="FALL"              - filter by session code (optional)
+    //   data-title="Custom Title"        - override title (optional)
+    //   data-subtext="Custom text"       - override subtext (optional, empty string hides it)
+    //   data-show-term="false"           - hide term prefix in auto-title (optional)
+    //
+    // Example: <div data-next-event="grades-due" data-subtext=""></div>
+    //   Shows: "Fall 2025 Grades Due (12 PM)" with no subtext line
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('[data-next-event]').forEach(async (el) => {
+            const eventType = el.dataset.nextEvent;
+            const style = el.dataset.style || 'card';
+            const sessionCode = el.dataset.session || null;
+            const customTitle = el.dataset.title;
+            const customSubtext = el.dataset.subtext;
+            const showTerm = el.dataset.showTerm !== 'false';
+
+            if (!eventType) return;
+
+            const event = await fetchNextEvent(eventType, sessionCode);
+
+            if (!event) {
+                el.innerHTML = '<span class="error">Event not found</span>';
+                return;
+            }
+
+            if (style === 'card') {
+                // Build options object
+                const options = { showTerm };
+                if (customTitle !== undefined) options.title = customTitle;
+                if (customSubtext !== undefined) options.subtext = customSubtext;
+
+                // Replace element with full card
+                const card = createCardElement(event, options);
+                el.replaceWith(card);
+            } else {
+                // Inline: just render the leaf
+                el.innerHTML = `
+                    <span class="calendar-leaf">
+                        <div class="calendar-leaf-month">...</div>
+                        <div class="calendar-leaf-body">
+                            <span class="calendar-leaf-day">--</span>
+                            <span class="calendar-leaf-weekday">---</span>
+                        </div>
+                    </span>
+                `;
+                el.classList.add('inline-date');
+                renderInline(el, event);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

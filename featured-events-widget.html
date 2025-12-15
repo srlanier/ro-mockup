@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Featured Events Widget</title>
+    <style>
+        /* Widget Container */
+        .featured-events-widget {
+            width: 100%;
+            max-width: 350px;
+            font-family: 'Merriweather Sans', 'Helvetica Neue', Arial, sans-serif;
+            color: white;
+        }
+
+        /* Widget Title */
+        .featured-events-widget h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Events Container */
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Individual Event */
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Calendar Icon/Date */
+        .event-date {
+            width: 48px;
+            height: 48px;
+            background-color: white;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            font-weight: 700;
+            line-height: 1;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .event-month {
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background-color: #BA0C2F;
+            color: white;
+            width: 100%;
+            padding: 4px 0;
+            text-align: center;
+        }
+
+        .event-day {
+            font-size: 18px;
+            color: #333333;
+            padding: 6px 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: -0.03em;
+        }
+
+        /* Event Title */
+        .event-title {
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            font-size: 16px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        /* Loading/Error States */
+        .widget-message {
+            text-align: center;
+            padding: 1rem;
+            font-size: 14px;
+            opacity: 0.75;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .featured-events-widget {
+                max-width: 100%;
+            }
+
+            .featured-events-widget h2 {
+                font-size: 24px;
+                margin-bottom: 0.75rem;
+            }
+
+            .events-list {
+                gap: 0.75rem;
+            }
+
+            .event-date {
+                width: 44px;
+                height: 44px;
+            }
+
+            .event-month {
+                font-size: 11px;
+                padding: 3px 0;
+            }
+
+            .event-day {
+                font-size: 15px;
+                letter-spacing: -0.05em;
+            }
+
+            .event-title {
+                font-size: 14px;
+                padding: 0.25rem 0.375rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .featured-events-widget h2 {
+                font-size: 22px;
+            }
+
+            .event-date {
+                width: 40px;
+                height: 40px;
+            }
+
+            .event-month {
+                font-size: 10px;
+            }
+
+            .event-day {
+                font-size: 13px;
+                letter-spacing: -0.06em;
+            }
+
+            .event-title {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!--
+    FEATURED EVENTS WIDGET
+
+    USAGE IN WORDPRESS:
+    1. Copy everything between the START and END comments below
+    2. Paste into a "Custom HTML" widget in WordPress
+    3. Adjust MAX_EVENTS constant if you want more/fewer events
+    4. Widget will auto-update when new featured events are added to the database
+-->
+
+<!-- START WIDGET HTML -->
+<aside class="featured-events-widget">
+    <h2>Upcoming Events</h2>
+    <div id="featured-events-list" class="events-list">
+        <div class="widget-message">Loading events...</div>
+    </div>
+</aside>
+
+<script>
+(function() {
+    'use strict';
+
+    // === CONFIGURATION ===
+    const CONFIG = {
+        API_BASE: 'https://apps8.reg.uga.edu/rods_api',
+        MAX_EVENTS: 5,  // Change this to show more/fewer events (recommend 3-7)
+        CONTAINER_ID: 'featured-events-list'
+    };
+
+    // === UTILITY FUNCTIONS ===
+
+    /**
+     * Normalize date string from PostgreSQL TEXT field
+     * Handles: "2025-08-13T00:00:00+00" → "2025-08-13T00:00:00+00:00"
+     */
+    function normalizeDateString(dateStr) {
+        if (!dateStr) return '';
+        return dateStr.replace(/([+-]\d{2})$/, '$1:00');
+    }
+
+    /**
+     * Format event date for display
+     * Returns: { month: 'AUG', day: 13 }
+     */
+    function formatEventDate(isoDate) {
+        if (!isoDate) return { month: '', day: '' };
+
+        const normalized = normalizeDateString(isoDate);
+        const date = new Date(normalized);
+
+        if (isNaN(date.getTime())) {
+            console.error('Featured Events Widget: Invalid date -', isoDate);
+            return { month: 'ERR', day: '?' };
+        }
+
+        const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+        const day = date.getDate();
+
+        return { month, day };
+    }
+
+    /**
+     * Format date range for display
+     * Returns string like "13-16" or just "13" for single day
+     */
+    function formatDateRange(startIso, endIso) {
+        if (!endIso) return formatEventDate(startIso).day;
+
+        const startDate = new Date(normalizeDateString(startIso));
+        const endDate = new Date(normalizeDateString(endIso));
+
+        // Check if same day (ignore time)
+        const sameDay = startDate.getFullYear() === endDate.getFullYear() &&
+                        startDate.getMonth() === endDate.getMonth() &&
+                        startDate.getDate() === endDate.getDate();
+
+        if (sameDay) {
+            return startDate.getDate();
+        }
+
+        // Different days - show range
+        return `${startDate.getDate()}-${endDate.getDate()}`;
+    }
+
+    /**
+     * Create HTML for a single event
+     */
+    function createEventHTML(event) {
+        const { month } = formatEventDate(event.start_iso);
+        const dateRange = formatDateRange(event.start_iso, event.end_iso);
+
+        return `
+            <div class="event-item">
+                <div class="event-date">
+                    <div class="event-month">${month}</div>
+                    <div class="event-day">${dateRange}</div>
+                </div>
+                <div class="event-title">${escapeHtml(event.title)}</div>
+            </div>
+        `;
+    }
+
+    /**
+     * Escape HTML to prevent XSS
+     */
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    /**
+     * Show message in widget
+     */
+    function showMessage(message) {
+        const container = document.getElementById(CONFIG.CONTAINER_ID);
+        if (container) {
+            container.innerHTML = `<div class="widget-message">${escapeHtml(message)}</div>`;
+        }
+    }
+
+    /**
+     * Render events to the widget
+     */
+    function renderEvents(events) {
+        const container = document.getElementById(CONFIG.CONTAINER_ID);
+        if (!container) return;
+
+        if (events.length === 0) {
+            showMessage('No upcoming featured events');
+            return;
+        }
+
+        container.innerHTML = events.map(createEventHTML).join('');
+    }
+
+    /**
+     * Load and display featured events
+     */
+    async function loadFeaturedEvents() {
+        try {
+            // Fetch featured events from API, ordered by start date ascending
+            const url = `${CONFIG.API_BASE}/calendars?is_featured=eq.true&order=start_iso.asc`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`API returned ${response.status}`);
+            }
+
+            const allEvents = await response.json();
+            console.log(`📅 Featured Events Widget: Loaded ${allEvents.length} featured event(s)`);
+
+            // Filter to future events only
+            const now = new Date();
+            const upcomingEvents = allEvents.filter(event => {
+                const eventDate = new Date(normalizeDateString(event.start_iso));
+                return eventDate >= now;
+            });
+
+            // Take the next N upcoming events
+            const nextEvents = upcomingEvents.slice(0, CONFIG.MAX_EVENTS);
+
+            // Render to widget
+            renderEvents(nextEvents);
+
+        } catch (error) {
+            console.error('❌ Featured Events Widget Error:', error);
+            showMessage('Unable to load events');
+        }
+    }
+
+    // === INITIALIZE ===
+
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadFeaturedEvents);
+    } else {
+        loadFeaturedEvents();
+    }
+
+})();
+</script>
+<!-- END WIDGET HTML -->
+
+<!--
+    WORDPRESS INTEGRATION NOTES:
+
+    1. BASIC USAGE:
+       - Go to Appearance > Widgets in WordPress
+       - Add "Custom HTML" widget
+       - Copy/paste code between START and END comments
+       - Save
+
+    2. CONFIGURATION:
+       - MAX_EVENTS: Number of events to display (default: 5)
+       - If you want 3 events, change line 173 to: MAX_EVENTS: 3
+
+    3. STYLING:
+       - Widget assumes white text on dark background
+       - To use on light background, modify color values in <style> section
+       - Adjust max-width (line 142) to fit your sidebar width
+
+    4. DATABASE REQUIREMENTS:
+       - Events must have is_featured = true in the calendars table
+       - Only future events (start_iso >= today) will show
+       - Events are sorted by start date (earliest first)
+
+    5. TROUBLESHOOTING:
+       - Open browser console (F12) to see debug messages
+       - Look for "📅 Featured Events Widget" log entries
+       - Check that API URL is accessible from your WordPress site
+       - Verify database has events with is_featured = true
+
+    6. PERFORMANCE:
+       - Widget fetches data on page load only (no auto-refresh)
+       - API call is lightweight (only fetches featured events)
+       - Consider caching if WordPress site gets high traffic
+
+    7. ACCESSIBILITY:
+       - Widget uses semantic HTML
+       - Date icons have proper text fallback
+       - Works without JavaScript (shows "Loading events..." message)
+-->
+
+</body>
+</html>
