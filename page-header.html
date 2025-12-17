@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Header</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        .page-header {
+            position: relative;
+            width: 100%;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .page-header__background {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            z-index: 1;
+            will-change: transform;
+        }
+
+        .page-header__background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 60%;
+        }
+
+        /* Color overlay using mix-blend-mode for the red tint effect */
+        .page-header__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ba0c2f;
+            mix-blend-mode: multiply;
+            z-index: 2;
+        }
+
+        /* Additional overlay to add the red tint via color addition simulation */
+        .page-header__color-add {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ba0c2f;
+            mix-blend-mode: screen;
+            opacity: 0.2;
+            z-index: 3;
+        }
+
+        .page-header__content {
+            position: relative;
+            z-index: 4;
+            padding: 40px 60px;
+            color: white;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumbs a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumbs a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .breadcrumbs__separator {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .breadcrumbs__current {
+            color: white;
+            font-weight: 500;
+        }
+
+        .page-header__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 64px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow:
+                1px 1px 0 rgba(0, 0, 0, 0.2),
+                2px 2px 0 rgba(0, 0, 0, 0.15),
+                3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .page-header__content {
+                padding: 30px 20px;
+            }
+
+            .page-header__title {
+                font-size: 42px;
+            }
+
+            .breadcrumbs {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="page-header__background">
+            <img src="images/Spring_Undergraduate-32732-442.jpg" alt="">
+        </div>
+        <div class="page-header__overlay"></div>
+        <div class="page-header__color-add"></div>
+
+        <div class="page-header__content">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="#">Home</a>
+                <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+                <a href="#">Section</a>
+                <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+                <span class="breadcrumbs__current" aria-current="page">Current Page</span>
+            </nav>
+            <h1 class="page-header__title">Page Title</h1>
+        </div>
+    </header>
+
+    <!-- Demo content below header -->
+    <main style="padding: 40px 60px; max-width: 1200px;">
+        <p>This is sample content below the page header.</p>
+        <p style="margin-top: 20px;">Scroll down to see the parallax effect on the header image.</p>
+
+        <div style="margin-top: 40px;">
+            <h2 style="font-family: 'Oswald', sans-serif; margin-bottom: 20px;">Lorem Ipsum Content</h2>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+            <p style="line-height: 1.8; margin-bottom: 20px;">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+        </div>
+    </main>
+
+    <script>
+        // Parallax scroll effect
+        const parallaxBackground = document.querySelector('.page-header__background');
+        const pageHeader = document.querySelector('.page-header');
+
+        function updateParallax() {
+            const scrollPosition = window.pageYOffset;
+            const headerHeight = pageHeader.offsetHeight;
+
+            // Only apply parallax when header is in view
+            if (scrollPosition <= headerHeight * 2) {
+                // Move the background at 70% of scroll speed for more pronounced parallax effect
+                const parallaxOffset = scrollPosition * 0.7;
+                parallaxBackground.style.transform = `translateY(${parallaxOffset}px)`;
+            }
+        }
+
+        // Use requestAnimationFrame for smooth performance
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    updateParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Initial call
+        updateParallax();
+    </script>
+</body>
+</html>
