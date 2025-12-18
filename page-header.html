@@ -228,18 +228,31 @@
         }
 
         .site-nav__logo {
-            font-family: 'Oswald', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
         }
 
-        .site-nav.scrolled .site-nav__logo {
-            color: #ba0c2f;
+        .site-nav__logo img {
+            height: 60px;
+            width: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        .site-nav__logo-white {
+            display: block;
+        }
+
+        .site-nav__logo-color {
+            display: none;
+        }
+
+        .site-nav.scrolled .site-nav__logo-white {
+            display: none;
+        }
+
+        .site-nav.scrolled .site-nav__logo-color {
+            display: block;
         }
 
         .site-nav__links {
@@ -778,7 +791,10 @@
 </head>
 <body>
     <nav class="site-nav">
-        <a href="#" class="site-nav__logo">Registrar's Office</a>
+        <a href="#" class="site-nav__logo">
+            <img src="images/OfficeRegistrar_logo_Horizontal_1C.png" alt="Registrar's Office" class="site-nav__logo-white">
+            <img src="images/OfficeRegistrar_logo_Horizontal_FC.png" alt="Registrar's Office" class="site-nav__logo-color">
+        </a>
         <div class="site-nav__links">
             <span class="site-nav__link" data-menu="registration">Registration</span>
             <span class="site-nav__link" data-menu="records">Student Records</span>
