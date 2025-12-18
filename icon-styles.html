@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Style Options</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .option-card h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            color: #ba0c2f;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .option-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* ========================================
+           SHARED ITEM STYLES
+        ======================================== */
+        .menu-item {
+            display: flex;
+            gap: 14px;
+            padding: 12px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background: #f8f8f8;
+        }
+
+        .menu-item:hover .item-title {
+            color: #ba0c2f;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .item-desc {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.4;
+        }
+
+        /* ========================================
+           OPTION 1: Light BG / Red Icon (Inverts on hover)
+        ======================================== */
+        .style-1 .item-icon {
+            width: 44px;
+            height: 44px;
+            background: #fef2f4;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+        }
+
+        .style-1 .item-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: #ba0c2f;
+            transition: fill 0.25s ease;
+        }
+
+        .style-1 .menu-item:hover .item-icon {
+            background: #ba0c2f;
+            transform: scale(1.05);
+        }
+
+        .style-1 .menu-item:hover .item-icon svg {
+            fill: white;
+        }
+
+        /* ========================================
+           OPTION 2: Gradient + Shadow
+        ======================================== */
+        .style-2 .item-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #d4102f 0%, #9a0a24 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(186, 12, 47, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .style-2 .item-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .style-2 .menu-item:hover .item-icon {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(186, 12, 47, 0.4);
+        }
+
+        /* ========================================
+           OPTION 3: Outlined / Bordered
+        ======================================== */
+        .style-3 .item-icon {
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: 2px solid #ba0c2f;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+        }
+
+        .style-3 .item-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #ba0c2f;
+            transition: fill 0.25s ease;
+        }
+
+        .style-3 .menu-item:hover .item-icon {
+            background: #ba0c2f;
+            border-color: #ba0c2f;
+        }
+
+        .style-3 .menu-item:hover .item-icon svg {
+            fill: white;
+        }
+
+        /* ========================================
+           OPTION 4: Circular with Glow
+        ======================================== */
+        .style-4 .item-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(145deg, #cc1035 0%, #a00b28 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow:
+                0 2px 8px rgba(186, 12, 47, 0.25),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+            transition: all 0.25s ease;
+        }
+
+        .style-4 .item-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .style-4 .menu-item:hover .item-icon {
+            transform: scale(1.1);
+            box-shadow:
+                0 4px 16px rgba(186, 12, 47, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+    </style>
+</head>
+<body>
+    <h1>Icon Style Options — Hover to see effects</h1>
+
+    <div class="options-grid">
+        <!-- Option 1 -->
+        <div class="option-card style-1">
+            <h2>Option 1: Light BG / Invert on Hover</h2>
+            <p>Soft pink background with red icon. Inverts to red bg/white icon on hover.</p>
+            <div class="menu-items">
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Academic Calendar</div>
+                        <div class="item-desc">Full calendar with all important dates</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Key Dates</div>
+                        <div class="item-desc">Critical deadlines at a glance</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Parts of Term</div>
+                        <div class="item-desc">Program-specific dates and sessions</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="option-card style-2">
+            <h2>Option 2: Gradient + Shadow</h2>
+            <p>Rich gradient with drop shadow. Lifts up on hover with enhanced shadow.</p>
+            <div class="menu-items">
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Academic Calendar</div>
+                        <div class="item-desc">Full calendar with all important dates</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Key Dates</div>
+                        <div class="item-desc">Critical deadlines at a glance</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Parts of Term</div>
+                        <div class="item-desc">Program-specific dates and sessions</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Option 3 -->
+        <div class="option-card style-3">
+            <h2>Option 3: Outlined / Bordered</h2>
+            <p>Clean border style with red icon. Fills solid on hover.</p>
+            <div class="menu-items">
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Academic Calendar</div>
+                        <div class="item-desc">Full calendar with all important dates</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Key Dates</div>
+                        <div class="item-desc">Critical deadlines at a glance</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Parts of Term</div>
+                        <div class="item-desc">Program-specific dates and sessions</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Option 4 -->
+        <div class="option-card style-4">
+            <h2>Option 4: Circular with Glow</h2>
+            <p>Round icons with gradient and inner highlight. Scales up with glow on hover.</p>
+            <div class="menu-items">
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Academic Calendar</div>
+                        <div class="item-desc">Full calendar with all important dates</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Key Dates</div>
+                        <div class="item-desc">Critical deadlines at a glance</div>
+                    </div>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Parts of Term</div>
+                        <div class="item-desc">Program-specific dates and sessions</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
