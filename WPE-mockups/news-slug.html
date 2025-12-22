@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Header</title>
+    <title>DegreeWorks - UGA Registrar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
@@ -786,14 +786,59 @@
             .main-content {
                 padding: 20px;
             }
+
+            .child-pages-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Child Page Cards */
+        .child-page-card {
+            position: relative;
+        }
+
+        .child-page-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: #ba0c2f;
+            transition: height 0.25s ease;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .child-page-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border-color: transparent;
+            background: #fff;
+        }
+
+        .child-page-card:hover::before {
+            height: 100%;
+        }
+
+        .child-page-card:hover h3 {
+            color: #ba0c2f;
+        }
+
+        /* News Card Hover */
+        .news-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .news-card h3 a:hover {
+            color: #ba0c2f;
         }
     </style>
 </head>
 <body>
     <nav class="site-nav">
         <a href="#" class="site-nav__logo">
-            <img src="images/OfficeRegistrar_logo_Horizontal_1C.png" alt="Registrar's Office" class="site-nav__logo-white">
-            <img src="images/OfficeRegistrar_logo_Horizontal_FC.png" alt="Registrar's Office" class="site-nav__logo-color">
+            <img src="../images/OfficeRegistrar_logo_Horizontal_1C.png" alt="Registrar's Office" class="site-nav__logo-white">
+            <img src="../images/OfficeRegistrar_logo_Horizontal_FC.png" alt="Registrar's Office" class="site-nav__logo-color">
         </a>
         <div class="site-nav__links">
             <span class="site-nav__link" data-menu="registration">Registration</span>
@@ -1361,7 +1406,7 @@
 
     <header class="page-header">
         <div class="page-header__background">
-            <img src="images/img.png" alt="">
+            <img src="../images/img.png" alt="">
         </div>
         <div class="page-header__overlay"></div>
 
@@ -1369,44 +1414,146 @@
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <a href="#">Home</a>
                 <span class="breadcrumbs__separator" aria-hidden="true">/</span>
-                <a href="#">Section</a>
+                <a href="#">Academics</a>
                 <span class="breadcrumbs__separator" aria-hidden="true">/</span>
-                <span class="breadcrumbs__current" aria-current="page">Current Page</span>
+                <span class="breadcrumbs__current" aria-current="page">DegreeWorks</span>
             </nav>
-            <h1 class="page-header__title">Page Title</h1>
+            <h1 class="page-header__title">DegreeWorks</h1>
         </div>
     </header>
 
-    <!-- Demo content below header -->
+    <!-- DegreeWorks content -->
     <div class="content-wrapper">
         <main class="main-content">
-            <p>This is sample content below the page header.</p>
+            <!-- Intro paragraph -->
+            <p class="lead-text" style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
+                DegreeWorks is a web-based tool to help students and advisors monitor a student's progress toward degree completion.
+            </p>
 
-            <div style="margin-top: 40px;">
-                <h2 style="font-family: 'Oswald', sans-serif; margin-bottom: 20px;">Lorem Ipsum Content</h2>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
-                <p style="line-height: 1.8; margin-bottom: 20px;">Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+            <!-- Main content -->
+            <div class="content-body" style="line-height: 1.8;">
+                <p style="margin-bottom: 20px;">
+                    DegreeWorks combines the University of Georgia's degree requirements and the coursework completed into an easy-to-read worksheet that helps see how courses completed count toward degree requirements, and that helps to see what courses and requirements still need to be completed. This system is designed to aid and facilitate academic advising, but is not intended to replace face-to-face advising sessions. DegreeWorks may be accessed at <a href="https://degreeworks.uga.edu" style="color: #ba0c2f;">https://degreeworks.uga.edu</a>.
+                </p>
+
+                <p style="margin-bottom: 20px;">
+                    The degree compliance audits produced by DegreeWorks are dependent on a student's major/concentration. Data is extracted from the Student Information System into DegreeWorks on a nightly basis. Any change to the student's record in the Student Information System will not be reflected in DegreeWorks until the next day.
+                </p>
+
+                <p style="margin-bottom: 20px;">
+                    Students who have not specified a major must use the "What-If option" and select an anticipated major from the drop-down list to view a full degree audit.
+                </p>
+
+                <p style="margin-bottom: 30px;">
+                    Review the FAQs and Tutorials available on this site or the instructions available under the Help tab on each page in DegreeWorks. If further assistance is needed, send an email from your UGA student email address containing your name, UGA ID # and question to <a href="mailto:degreewk@uga.edu" style="color: #ba0c2f;">degreewk@uga.edu</a>.
+                </p>
+
+                <!-- CTA Button -->
+                <a href="https://degreeworks.uga.edu" class="cta-button" style="display: inline-block; background: #ba0c2f; color: white; padding: 14px 28px; font-family: 'Oswald', sans-serif; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; border-radius: 4px; transition: background 0.2s ease;">
+                    Launch DegreeWorks
+                </a>
             </div>
+
+            <!-- Child Pages Section -->
+            <section class="child-pages" style="margin-top: 50px;">
+                <h2 style="font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #999; margin-bottom: 16px;">
+                    Related Pages
+                </h2>
+                <div class="child-pages-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+
+                    <a href="#" class="child-page-card" style="display: block; background: #f9f8f6; border-radius: 6px; padding: 20px 24px; text-decoration: none; border: 1px solid #eee; transition: all 0.25s ease; position: relative; overflow: hidden;">
+                        <h3 style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 500; color: #333; margin: 0; transition: color 0.2s ease;">
+                            DegreeWorks FAQs
+                        </h3>
+                    </a>
+
+                    <a href="#" class="child-page-card" style="display: block; background: #f9f8f6; border-radius: 6px; padding: 20px 24px; text-decoration: none; border: 1px solid #eee; transition: all 0.25s ease; position: relative; overflow: hidden;">
+                        <h3 style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 500; color: #333; margin: 0; transition: color 0.2s ease;">
+                            Tutorials & Resources
+                        </h3>
+                    </a>
+
+                    <a href="#" class="child-page-card" style="display: block; background: #f9f8f6; border-radius: 6px; padding: 20px 24px; text-decoration: none; border: 1px solid #eee; transition: all 0.25s ease; position: relative; overflow: hidden;">
+                        <h3 style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 500; color: #333; margin: 0; transition: color 0.2s ease;">
+                            User Access
+                        </h3>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- Related News Section -->
+            <section class="related-news" style="margin-top: 60px; padding-top: 40px; border-top: 1px solid #eee;">
+                <h2 style="font-family: 'Oswald', sans-serif; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; color: #333; margin-bottom: 8px;">
+                    Related News
+                </h2>
+                <p style="font-size: 13px; color: #888; margin-bottom: 24px;">
+                    <!-- This section pulls posts tagged "DegreeWorks" from WordPress -->
+                    Latest updates and announcements
+                </p>
+
+                <div class="news-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                    <!-- News Card 1 -->
+                    <article class="news-card" style="background: #f9f8f6; border-radius: 8px; overflow: hidden; transition: box-shadow 0.2s ease;">
+                        <div style="padding: 24px;">
+                            <span style="font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #ba0c2f; font-weight: 500;">Training</span>
+                            <h3 style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 500; margin: 8px 0 12px; color: #333;">
+                                <a href="#" style="color: inherit; text-decoration: none;">Fall 2025 Refresher Webinar</a>
+                            </h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.5; margin-bottom: 16px;">
+                                Join us for a DegreeWorks refresher session covering new features and best practices for advisors.
+                            </p>
+                            <span style="font-size: 12px; color: #999;">December 15, 2025</span>
+                        </div>
+                    </article>
+
+                    <!-- News Card 2 -->
+                    <article class="news-card" style="background: #f9f8f6; border-radius: 8px; overflow: hidden; transition: box-shadow 0.2s ease;">
+                        <div style="padding: 24px;">
+                            <span style="font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #ba0c2f; font-weight: 500;">Resources</span>
+                            <h3 style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 500; margin: 8px 0 12px; color: #333;">
+                                <a href="#" style="color: inherit; text-decoration: none;">DegreeWorks Refresher Webinar Presentation</a>
+                            </h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.5; margin-bottom: 16px;">
+                                Download the presentation slides from the Fall 2025 DegreeWorks Refresher Webinar.
+                            </p>
+                            <span style="font-size: 12px; color: #999;">December 16, 2025</span>
+                        </div>
+                    </article>
+
+                    <!-- News Card 3 -->
+                    <article class="news-card" style="background: #f9f8f6; border-radius: 8px; overflow: hidden; transition: box-shadow 0.2s ease;">
+                        <div style="padding: 24px;">
+                            <span style="font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #ba0c2f; font-weight: 500;">Update</span>
+                            <h3 style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 500; margin: 8px 0 12px; color: #333;">
+                                <a href="#" style="color: inherit; text-decoration: none;">New What-If Feature Available</a>
+                            </h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.5; margin-bottom: 16px;">
+                                Explore the enhanced What-If feature allowing students to plan course selections for future terms.
+                            </p>
+                            <span style="font-size: 12px; color: #999;">November 20, 2025</span>
+                        </div>
+                    </article>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <a href="#" style="font-family: 'Oswald', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #ba0c2f; text-decoration: none;">
+                        View All DegreeWorks News &rarr;
+                    </a>
+                </div>
+            </section>
         </main>
 
         <aside class="sidebar">
             <nav class="sidebar-nav">
-                <h3 class="sidebar-nav__title">In This Section</h3>
+                <h3 class="sidebar-nav__title">DegreeWorks</h3>
                 <ul class="sidebar-nav__list">
-                    <li><a href="#" class="active">Current Page</a></li>
-                    <li><a href="#">Related Topic One</a></li>
-                    <li><a href="#">Related Topic Two</a></li>
-                    <li><a href="#">Related Topic Three</a></li>
-                    <li><a href="#">Related Topic Four</a></li>
-                    <li><a href="#">Related Topic Five</a></li>
+                    <li><a href="#" class="active">Overview</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">What-If Instructions</a></li>
+                    <li><a href="#">GPA Calculator</a></li>
+                    <li><a href="#">Contact Support</a></li>
                 </ul>
             </nav>
         </aside>

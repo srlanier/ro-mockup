@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Header</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .site-nav.scrolled {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .site-nav.menu-open:not(.scrolled) {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .site-nav__search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            margin-left: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .site-nav__search-btn svg {
+            fill: white;
+            display: block;
+            transition: fill 0.3s ease;
+        }
+
+        .site-nav__search-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .site-nav.scrolled .site-nav__search-btn svg {
+            fill: #333;
+        }
+
+        .site-nav.scrolled .site-nav__search-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Search Panel - same style as mega menu */
+        .search-panel {
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            width: calc(100% - 120px);
+            max-width: 700px;
+            background: linear-gradient(to bottom, #ffffff 0%, #faf9f7 100%);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 99;
+            overflow: hidden;
+        }
+
+        .search-panel.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .search-panel__header {
+            padding: 24px 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-panel__input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-panel__input-wrapper:focus-within {
+            border-color: #ba0c2f;
+        }
+
+        .search-panel__input-wrapper svg {
+            fill: #999;
+            flex-shrink: 0;
+        }
+
+        .search-panel__input {
+            flex: 1;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+
+        .search-panel__input::placeholder {
+            color: #999;
+        }
+
+        .search-panel__results {
+            padding: 20px 30px 24px;
+        }
+
+        .search-panel__section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .search-panel__suggestions {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .search-panel__suggestions li {
+            margin-bottom: 4px;
+        }
+
+        .search-panel__suggestions a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .search-panel__suggestions a:hover {
+            background: #f5f5f5;
+        }
+
+        .search-panel__suggestions a:hover .search-panel__suggestion-title {
+            color: #ba0c2f;
+        }
+
+        .search-panel__suggestion-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(145deg, #cc1035 0%, #a00b28 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .search-panel__suggestion-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .search-panel__suggestion-content {
+            flex: 1;
+        }
+
+        .search-panel__suggestion-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+
+        .search-panel__suggestion-meta {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .search-panel__quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .search-panel__quick-link {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #f0f0f0;
+            color: #555;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 16px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .search-panel__quick-link:hover {
+            background: #ba0c2f;
+            color: white;
+        }
+
+        .site-nav__logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .site-nav__logo img {
+            height: 60px;
+            width: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        .site-nav__logo-white {
+            display: block;
+        }
+
+        .site-nav__logo-color {
+            display: none;
+        }
+
+        .site-nav.scrolled .site-nav__logo-white {
+            display: none;
+        }
+
+        .site-nav.scrolled .site-nav__logo-color {
+            display: block;
+        }
+
+        .site-nav__links {
+            display: flex;
+            gap: 32px;
+            margin-left: auto;
+        }
+
+        .site-nav__link {
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .site-nav__link::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .site-nav__link:hover::after,
+        .site-nav__link.active::after {
+            width: 100%;
+        }
+
+        .site-nav.scrolled .site-nav__link {
+            color: #333;
+        }
+
+        .site-nav.scrolled .site-nav__link::after {
+            background-color: #ba0c2f;
+        }
+
+        /* ========================================
+           MEGA MENU PANEL
+        ======================================== */
+        .mega-menu {
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            width: calc(100% - 120px);
+            max-width: 1200px;
+            background: linear-gradient(to bottom, #ffffff 0%, #faf9f7 100%);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 99;
+            max-height: calc(100vh - 140px);
+            overflow: hidden;
+        }
+
+        .mega-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mega-menu__inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 60px;
+        }
+
+        .mega-menu__header {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .mega-menu__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #ba0c2f;
+        }
+
+        .mega-menu__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .mega-menu__section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .mega-menu__item {
+            display: flex;
+            gap: 14px;
+            padding: 12px 0;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            margin: 0 -10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .mega-menu__item:hover {
+            background: #f9f8f6;
+        }
+
+        .mega-menu__item:hover .mega-menu__item-title {
+            color: #ba0c2f;
+        }
+
+        .mega-menu__item-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(145deg, #cc1035 0%, #a00b28 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow:
+                0 2px 8px rgba(186, 12, 47, 0.25),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+            transition: all 0.25s ease;
+        }
+
+        .mega-menu__item:hover .mega-menu__item-icon {
+            transform: scale(1.1);
+            box-shadow:
+                0 4px 16px rgba(186, 12, 47, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+
+        .mega-menu__item-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .mega-menu__item-content {
+            flex: 1;
+        }
+
+        .mega-menu__item-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .mega-menu__item-desc {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.4;
+        }
+
+        .mega-menu__links {
+            list-style: none;
+        }
+
+        .mega-menu__links li {
+            margin-bottom: 10px;
+        }
+
+        .mega-menu__links a {
+            color: #444;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            display: inline-block;
+            position: relative;
+        }
+
+        .mega-menu__links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #ba0c2f;
+            transition: width 0.2s ease;
+        }
+
+        .mega-menu__links a:hover {
+            color: #ba0c2f;
+        }
+
+        .mega-menu__links a:hover::after {
+            width: 100%;
+        }
+
+        .mega-menu__featured {
+            background: linear-gradient(135deg, #ba0c2f 0%, #8a0922 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .mega-menu__featured-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .mega-menu__featured-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .mega-menu__featured-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .mega-menu__featured-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .mega-menu__featured-link:hover {
+            text-decoration: underline;
+        }
+
+        .mega-menu__footer {
+            background: #f7f6f4;
+            padding: 20px 60px;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .mega-menu__footer-label {
+            font-size: 13px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mega-menu__footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .mega-menu__footer-links a {
+            color: #ba0c2f;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .mega-menu__footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .mega-menu-overlay {
+            position: fixed;
+            top: 110px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 110px);
+            background: rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 98;
+        }
+
+        .mega-menu-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .page-header {
+            position: relative;
+            width: 100%;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .page-header__background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: #ba0c2f;
+        }
+
+        .page-header__background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 15%;
+            /* filter: grayscale(100%); — uncomment to restore grayscale */
+            /* opacity: 0.7; — uncomment to restore dimming */
+        }
+
+        /* Dark shade overlay */
+        .page-header__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0.45;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Red tint overlay - swap above for this to restore:
+        .page-header__overlay {
+            background-color: #ba0c2f;
+            opacity: 0.5;
+        }
+        */
+
+        .page-header__content {
+            position: relative;
+            z-index: 4;
+            padding: 40px 60px;
+            color: white;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumbs a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumbs a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .breadcrumbs__separator {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .breadcrumbs__current {
+            color: white;
+            font-weight: 500;
+        }
+
+        .page-header__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 70px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow:
+                1px 1px 0 rgba(0, 0, 0, 0.2),
+                2px 2px 0 rgba(0, 0, 0, 0.15),
+                3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-wrapper {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px 60px;
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            padding: 40px 20px 40px 0;
+        }
+
+        .sidebar-nav {
+            position: sticky;
+            top: 130px;
+        }
+
+        /* Background panel that emerges from top */
+        .sidebar-nav::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: opacity 0.4s ease, transform 0.5s ease;
+        }
+
+        .sidebar-nav.bg-visible::before {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sidebar-nav__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ba0c2f;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ba0c2f;
+        }
+
+        .sidebar-nav__list {
+            list-style: none;
+        }
+
+        .sidebar-nav__list li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav__list a {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            display: block;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .sidebar-nav__list a:hover {
+            color: #ba0c2f;
+            padding-left: 8px;
+        }
+
+        .sidebar-nav__list a.active {
+            color: #ba0c2f;
+            font-weight: 600;
+            border-left: 3px solid #ba0c2f;
+            padding-left: 12px;
+            margin-left: -3px;
+        }
+
+        @media (max-width: 968px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .sidebar-nav {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header__content {
+                padding: 30px 20px;
+            }
+
+            .page-header__title {
+                font-size: 42px;
+            }
+
+            .breadcrumbs {
+                font-size: 12px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="site-nav">
+        <a href="#" class="site-nav__logo">
+            <img src="../images/OfficeRegistrar_logo_Horizontal_1C.png" alt="Registrar's Office" class="site-nav__logo-white">
+            <img src="../images/OfficeRegistrar_logo_Horizontal_FC.png" alt="Registrar's Office" class="site-nav__logo-color">
+        </a>
+        <div class="site-nav__links">
+            <span class="site-nav__link" data-menu="registration">Registration</span>
+            <span class="site-nav__link" data-menu="records">Student Records</span>
+            <span class="site-nav__link" data-menu="calendars">Calendars</span>
+            <span class="site-nav__link" data-menu="faculty-staff">Faculty & Staff</span>
+            <span class="site-nav__link" data-menu="academics">Academics</span>
+            <span class="site-nav__link" data-menu="governance">Faculty Governance</span>
+            <button class="site-nav__search-btn" aria-label="Open search">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Search Panel -->
+    <div class="search-panel">
+        <div class="search-panel__header">
+            <div class="search-panel__input-wrapper">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" class="search-panel__input" placeholder="Search the Registrar's Office..." value="transcript">
+            </div>
+        </div>
+        <div class="search-panel__results">
+            <div class="search-panel__section-title">Suggested Results</div>
+            <ul class="search-panel__suggestions">
+                <li>
+                    <a href="#">
+                        <div class="search-panel__suggestion-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        </div>
+                        <div class="search-panel__suggestion-content">
+                            <div class="search-panel__suggestion-title">Order Official Transcript</div>
+                            <div class="search-panel__suggestion-meta">Student Records › Transcripts</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="search-panel__suggestion-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        </div>
+                        <div class="search-panel__suggestion-content">
+                            <div class="search-panel__suggestion-title">Unofficial Transcript (Free)</div>
+                            <div class="search-panel__suggestion-meta">Student Records › Transcripts</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="search-panel__suggestion-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </div>
+                        <div class="search-panel__suggestion-content">
+                            <div class="search-panel__suggestion-title">Transcript FAQs</div>
+                            <div class="search-panel__suggestion-meta">Help › Frequently Asked Questions</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="search-panel__suggestion-icon">
+                            <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                        </div>
+                        <div class="search-panel__suggestion-content">
+                            <div class="search-panel__suggestion-title">Transcript Fees & Payment</div>
+                            <div class="search-panel__suggestion-meta">Student Records › Fees</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="search-panel__section-title">Popular Searches</div>
+            <div class="search-panel__quick-links">
+                <a href="#" class="search-panel__quick-link">Registration dates</a>
+                <a href="#" class="search-panel__quick-link">Academic calendar</a>
+                <a href="#" class="search-panel__quick-link">Drop/add</a>
+                <a href="#" class="search-panel__quick-link">Graduation</a>
+                <a href="#" class="search-panel__quick-link">Enrollment verification</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mega-menu-overlay"></div>
+
+    <!-- CALENDARS MEGA MENU -->
+    <div class="mega-menu" data-menu="calendars">
+        <div class="mega-menu__inner">
+            <div class="mega-menu__header">
+                <h2 class="mega-menu__title">Calendars</h2>
+            </div>
+            <div class="mega-menu__grid">
+                <div class="mega-menu__section">
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Academic Calendar</div>
+                            <div class="mega-menu__item-desc">Full calendar with all important dates</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Key Dates</div>
+                            <div class="mega-menu__item-desc">Critical deadlines at a glance</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Parts of Term</div>
+                            <div class="mega-menu__item-desc">Program-specific dates and sessions</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Registration</div>
+                            <div class="mega-menu__item-desc">Registration windows and deadlines</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Payment</div>
+                            <div class="mega-menu__item-desc">Tuition and fee deadlines</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Exam Schedule</div>
+                            <div class="mega-menu__item-desc">Final exam times and locations</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Faculty Dates</div>
+                            <div class="mega-menu__item-desc">Faculty-specific deadlines and dates</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Scheduling</div>
+                            <div class="mega-menu__item-desc">Banner scheduling periods</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Master Calendar</div>
+                            <div class="mega-menu__item-desc">Combined view of all calendars</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <div class="mega-menu__featured">
+                        <div class="mega-menu__featured-label">Important</div>
+                        <div class="mega-menu__featured-title">Spring 2026 Registration Opens Nov 4</div>
+                        <div class="mega-menu__featured-desc">Check your registration window and prepare your schedule.</div>
+                        <a href="#" class="mega-menu__featured-link">
+                            Learn more
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu__footer">
+            <span class="mega-menu__footer-label">Popular:</span>
+            <div class="mega-menu__footer-links">
+                <a href="#">Fall 2025 Calendar</a>
+                <a href="#">Registration Dates</a>
+                <a href="#">Final Exam Schedule</a>
+                <a href="#">Add to Google Calendar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- REGISTRATION MEGA MENU -->
+    <div class="mega-menu" data-menu="registration">
+        <div class="mega-menu__inner">
+            <div class="mega-menu__header">
+                <h2 class="mega-menu__title">Registration</h2>
+            </div>
+            <div class="mega-menu__grid">
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Get Started</h3>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Registration Steps</div>
+                            <div class="mega-menu__item-desc">Step-by-step registration guide</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Course Search</div>
+                            <div class="mega-menu__item-desc">Find and plan your courses</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Schedule of Classes</div>
+                            <div class="mega-menu__item-desc">Browse available sections</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Services</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Holds & Restrictions</a></li>
+                        <li><a href="#">Permits & Overrides</a></li>
+                        <li><a href="#">Waitlists</a></li>
+                        <li><a href="#">Daily Class Schedule</a></li>
+                    </ul>
+                    <h3 class="mega-menu__section-title" style="margin-top: 24px;">Forms</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Late Add Request</a></li>
+                        <li><a href="#">Section Change</a></li>
+                        <li><a href="#">Pass/Fail Request</a></li>
+                        <li><a href="#">View All Forms</a></li>
+                    </ul>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Help</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Registration FAQ</a></li>
+                        <li><a href="#">Video Tutorials</a></li>
+                        <li><a href="#">Contact an Advisor</a></li>
+                        <li><a href="#">Troubleshooting</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu__footer">
+            <span class="mega-menu__footer-label">Quick Links:</span>
+            <div class="mega-menu__footer-links">
+                <a href="#">Athena</a>
+                <a href="#">DegreeWorks</a>
+                <a href="#">Registration Dates</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECORDS MEGA MENU -->
+    <div class="mega-menu" data-menu="records">
+        <div class="mega-menu__inner">
+            <div class="mega-menu__header">
+                <h2 class="mega-menu__title">Student Records</h2>
+            </div>
+            <div class="mega-menu__grid">
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Services</h3>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Transcripts</div>
+                            <div class="mega-menu__item-desc">Official and unofficial transcripts</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Enrollment Verification</div>
+                            <div class="mega-menu__item-desc">Proof of enrollment letters</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Diplomas</div>
+                            <div class="mega-menu__item-desc">Printed, electronic, and replacements</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Academic</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Grades</a></li>
+                        <li><a href="#">Academic Standing</a></li>
+                        <li><a href="#">Graduation</a></li>
+                        <li><a href="#">Credit From Testing</a></li>
+                    </ul>
+                    <h3 class="mega-menu__section-title" style="margin-top: 24px;">Forms & Policies</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Name Change</a></li>
+                        <li><a href="#">Address Update</a></li>
+                        <li><a href="#">FERPA</a></li>
+                        <li><a href="#">View All Forms</a></li>
+                    </ul>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Testing & Credit</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">AP Credit</a></li>
+                        <li><a href="#">IB Credit</a></li>
+                        <li><a href="#">CLEP</a></li>
+                        <li><a href="#">Credit by Exam</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu__footer">
+            <span class="mega-menu__footer-label">Quick Links:</span>
+            <div class="mega-menu__footer-links">
+                <a href="#">Order Transcript</a>
+                <a href="#">Enrollment Verification</a>
+                <a href="#">FERPA</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FACULTY & STAFF MEGA MENU -->
+    <div class="mega-menu" data-menu="faculty-staff">
+        <div class="mega-menu__inner">
+            <div class="mega-menu__header">
+                <h2 class="mega-menu__title">Faculty & Staff</h2>
+            </div>
+            <div class="mega-menu__grid">
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">For Faculty</h3>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Grade Submission</div>
+                            <div class="mega-menu__item-desc">Submit and manage student grades</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Class Rosters</div>
+                            <div class="mega-menu__item-desc">View enrolled students</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Attendance Reporting</div>
+                            <div class="mega-menu__item-desc">Report student attendance</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Resources</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Faculty Calendar</a></li>
+                        <li><a href="#">Syllabus Guidelines</a></li>
+                        <li><a href="#">Final Exam Scheduling</a></li>
+                        <li><a href="#">Academic Policies</a></li>
+                    </ul>
+                    <h3 class="mega-menu__section-title" style="margin-top: 24px;">Staff Tools</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Banner Access</a></li>
+                        <li><a href="#">DegreeWorks Admin</a></li>
+                        <li><a href="#">Reporting Tools</a></li>
+                    </ul>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Training</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Banner Training</a></li>
+                        <li><a href="#">FERPA Training</a></li>
+                        <li><a href="#">Grade Entry Guide</a></li>
+                        <li><a href="#">Request Access</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu__footer">
+            <span class="mega-menu__footer-label">Quick Links:</span>
+            <div class="mega-menu__footer-links">
+                <a href="#">Grade Submission</a>
+                <a href="#">Faculty Calendar</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACADEMICS MEGA MENU -->
+    <div class="mega-menu" data-menu="academics">
+        <div class="mega-menu__inner">
+            <div class="mega-menu__header">
+                <h2 class="mega-menu__title">Academics</h2>
+            </div>
+            <div class="mega-menu__grid">
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Curriculum</h3>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Course Catalog</div>
+                            <div class="mega-menu__item-desc">Browse all courses</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Degree Programs</div>
+                            <div class="mega-menu__item-desc">Explore majors and minors</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Bulletin</div>
+                            <div class="mega-menu__item-desc">Academic bulletin archive</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Policies</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Academic Honesty</a></li>
+                        <li><a href="#">Grading System</a></li>
+                        <li><a href="#">Academic Standing</a></li>
+                        <li><a href="#">Course Withdrawal</a></li>
+                    </ul>
+                    <h3 class="mega-menu__section-title" style="margin-top: 24px;">Requirements</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Core Curriculum</a></li>
+                        <li><a href="#">Graduation Requirements</a></li>
+                        <li><a href="#">Residency Requirements</a></li>
+                    </ul>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Resources</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Academic Advisement</a></li>
+                        <li><a href="#">Transfer Credit</a></li>
+                        <li><a href="#">Study Abroad</a></li>
+                        <li><a href="#">Honors Program</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu__footer">
+            <span class="mega-menu__footer-label">Quick Links:</span>
+            <div class="mega-menu__footer-links">
+                <a href="#">Course Catalog</a>
+                <a href="#">Bulletin</a>
+                <a href="#">Core Curriculum</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FACULTY GOVERNANCE MEGA MENU -->
+    <div class="mega-menu" data-menu="governance">
+        <div class="mega-menu__inner">
+            <div class="mega-menu__header">
+                <h2 class="mega-menu__title">Faculty Governance</h2>
+            </div>
+            <div class="mega-menu__grid">
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Committees</h3>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">University Council</div>
+                            <div class="mega-menu__item-desc">Council meetings and minutes</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Curriculum Committee</div>
+                            <div class="mega-menu__item-desc">Course and program approvals</div>
+                        </div>
+                    </a>
+                    <a href="#" class="mega-menu__item">
+                        <div class="mega-menu__item-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        </div>
+                        <div class="mega-menu__item-content">
+                            <div class="mega-menu__item-title">Educational Affairs</div>
+                            <div class="mega-menu__item-desc">Academic policy oversight</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Resources</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Meeting Schedule</a></li>
+                        <li><a href="#">Meeting Minutes</a></li>
+                        <li><a href="#">Committee Rosters</a></li>
+                        <li><a href="#">Bylaws & Policies</a></li>
+                    </ul>
+                    <h3 class="mega-menu__section-title" style="margin-top: 24px;">Proposals</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Submit Proposal</a></li>
+                        <li><a href="#">Proposal Status</a></li>
+                        <li><a href="#">Approved Changes</a></li>
+                    </ul>
+                </div>
+                <div class="mega-menu__section">
+                    <h3 class="mega-menu__section-title">Contact</h3>
+                    <ul class="mega-menu__links">
+                        <li><a href="#">Committee Chairs</a></li>
+                        <li><a href="#">Staff Directory</a></li>
+                        <li><a href="#">Office Hours</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu__footer">
+            <span class="mega-menu__footer-label">Quick Links:</span>
+            <div class="mega-menu__footer-links">
+                <a href="#">University Council</a>
+                <a href="#">Submit Proposal</a>
+                <a href="#">Meeting Minutes</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="page-header">
+        <div class="page-header__background">
+            <img src="../images/img.png" alt="">
+        </div>
+        <div class="page-header__overlay"></div>
+
+        <div class="page-header__content">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="#">Home</a>
+                <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+                <a href="#">Section</a>
+                <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+                <span class="breadcrumbs__current" aria-current="page">Current Page</span>
+            </nav>
+            <h1 class="page-header__title">Page Title</h1>
+        </div>
+    </header>
+
+    <!-- Demo content below header -->
+    <div class="content-wrapper">
+        <main class="main-content">
+            <p>This is sample content below the page header.</p>
+
+            <div style="margin-top: 40px;">
+                <h2 style="font-family: 'Oswald', sans-serif; margin-bottom: 20px;">Lorem Ipsum Content</h2>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+                <p style="line-height: 1.8; margin-bottom: 20px;">Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <h3 class="sidebar-nav__title">In This Section</h3>
+                <ul class="sidebar-nav__list">
+                    <li><a href="#" class="active">Current Page</a></li>
+                    <li><a href="#">Related Topic One</a></li>
+                    <li><a href="#">Related Topic Two</a></li>
+                    <li><a href="#">Related Topic Three</a></li>
+                    <li><a href="#">Related Topic Four</a></li>
+                    <li><a href="#">Related Topic Five</a></li>
+                </ul>
+            </nav>
+        </aside>
+    </div>
+
+    <script>
+        // Nav scroll effect
+        const siteNav = document.querySelector('.site-nav');
+        const sidebarNav = document.querySelector('.sidebar-nav');
+        const pageHeader = document.querySelector('.page-header');
+        const megaMenus = document.querySelectorAll('.mega-menu');
+        const navLinks = document.querySelectorAll('.site-nav__link[data-menu]');
+        const overlay = document.querySelector('.mega-menu-overlay');
+        const searchBtn = document.querySelector('.site-nav__search-btn');
+        const searchPanel = document.querySelector('.search-panel');
+        const searchInput = document.querySelector('.search-panel__input');
+
+        function updateNav() {
+            if (window.pageYOffset > 50) {
+                siteNav.classList.add('scrolled');
+            } else {
+                siteNav.classList.remove('scrolled');
+            }
+
+            // Show sidebar background after header scrolls out of view
+            const headerBottom = pageHeader.offsetTop + pageHeader.offsetHeight;
+            if (window.pageYOffset > headerBottom - 100) {
+                sidebarNav.classList.add('bg-visible');
+            } else {
+                sidebarNav.classList.remove('bg-visible');
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+            requestAnimationFrame(updateNav);
+        });
+
+        updateNav();
+
+        // Mega menu toggle
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                const menuId = link.dataset.menu;
+
+                // Close search if open
+                searchPanel.classList.remove('open');
+
+                // Close all menus first
+                megaMenus.forEach(menu => menu.classList.remove('open'));
+                navLinks.forEach(l => l.classList.remove('active'));
+
+                // Open the target menu
+                const targetMenu = document.querySelector(`.mega-menu[data-menu="${menuId}"]`);
+                if (targetMenu) {
+                    targetMenu.classList.add('open');
+                    link.classList.add('active');
+                    overlay.classList.add('open');
+                    siteNav.classList.add('menu-open');
+                }
+            });
+        });
+
+        // Close menu when leaving nav area
+        siteNav.addEventListener('mouseleave', (e) => {
+            const toElement = e.relatedTarget;
+            if (toElement && (toElement.closest('.mega-menu') || toElement.closest('.site-nav'))) {
+                return;
+            }
+            closeAllMenus();
+        });
+
+        megaMenus.forEach(menu => {
+            menu.addEventListener('mouseleave', (e) => {
+                const toElement = e.relatedTarget;
+                if (toElement && (toElement.closest('.mega-menu') || toElement.closest('.site-nav'))) {
+                    return;
+                }
+                closeAllMenus();
+            });
+        });
+
+        overlay.addEventListener('mouseenter', closeAllMenus);
+
+        function closeAllMenus() {
+            megaMenus.forEach(menu => menu.classList.remove('open'));
+            navLinks.forEach(l => l.classList.remove('active'));
+            overlay.classList.remove('open');
+            siteNav.classList.remove('menu-open');
+        }
+
+        // Search panel toggle
+        searchBtn.addEventListener('click', () => {
+            closeAllMenus();
+            searchPanel.classList.add('open');
+            overlay.classList.add('open');
+            siteNav.classList.add('menu-open');
+            setTimeout(() => searchInput.focus(), 300);
+        });
+
+        // Close search when clicking overlay
+        overlay.addEventListener('click', () => {
+            searchPanel.classList.remove('open');
+            closeAllMenus();
+        });
+
+        // Close search on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchPanel.classList.remove('open');
+                closeAllMenus();
+            }
+        });
+    </script>
+</body>
+</html>

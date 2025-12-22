@@ -184,6 +184,101 @@
                 transform: scale(1.0);
             }
         }
+
+        /* Term Selector Pills */
+        .term-pill {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .term-pill:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+        }
+
+        .term-pill.active {
+            background: white;
+            color: #ba0c2f;
+            border-color: white;
+            font-weight: 500;
+        }
+
+        .archive-pill {
+            border-style: dashed;
+            text-decoration: none;
+        }
+
+        .archive-pill:hover {
+            border-style: solid;
+        }
+
+        /* Filter Panel Styles */
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .filter-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #888;
+            min-width: 70px;
+            flex-shrink: 0;
+        }
+
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-pill {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px;
+            border: 1.5px solid #ddd;
+            background: #fafafa;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .filter-pill:hover {
+            border-color: #ba0c2f;
+            color: #ba0c2f;
+            background: #fff;
+        }
+
+        .filter-pill.active {
+            background: #ba0c2f;
+            border-color: #ba0c2f;
+            color: white;
+        }
+
+        .filter-pill.active:hover {
+            background: #9a0a27;
+            border-color: #9a0a27;
+            color: white;
+        }
     </style>
 
     <script>
@@ -211,12 +306,17 @@
 <!-- Hero Section from socDemo -->
 <header class="h-[70vh] flex flex-col justify-center items-center p-4" style="position: relative; overflow: visible; background-color: rgba(186, 12, 47, 1); background-image: url(https://www.terry.uga.edu/wp-content/uploads/stacked-peaks-haikei.svg); background-position: 50% 60%; background-blend-mode: overlay; background-repeat: no-repeat; background-size: cover;">
 
-    <p class="text-xl sm:text-3xl mb-0 text-center max-w-4xl" style="position: relative; z-index: 1; color: rgba(255, 255, 255, 0.9);">
-        Spring 2026
-    </p>
-    <h1 class="text-5xl sm:text-7xl font-extrabold mb-8 text-center leading-tight" style="position: relative; z-index: 1; color: white; text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 4px;">
+    <h1 class="text-5xl sm:text-7xl font-extrabold mb-4 text-center leading-tight" style="position: relative; z-index: 1; color: white; text-shadow: rgba(0, 0, 0, 0.8) 0px 1px 4px;">
         SCHEDULE OF CLASSES
     </h1>
+
+    <!-- Term Selector Pills -->
+    <div class="flex flex-wrap justify-center gap-2 mb-8" style="position: relative; z-index: 1;" id="term-selector">
+        <button class="term-pill active" data-term="spring2026">Spring 2026</button>
+        <button class="term-pill" data-term="summer2026">Summer 2026</button>
+        <button class="term-pill" data-term="fall2026">Fall 2026</button>
+        <a href="schedule-archives.html" class="term-pill archive-pill">Archives</a>
+    </div>
 
     <!-- Big Search Bar & Dropdown Container -->
     <div class="w-full max-w-4xl px-6 relative" id="search-container" style="z-index: 100;">
@@ -266,53 +366,40 @@
         </div>
 
         <!-- Filter Dropdown Panel -->
-        <div id="filter-dropdown" class="dropdown-panel hidden absolute mt-2 bg-white rounded-2xl shadow-2xl py-3 px-4 border border-gray-100" style="z-index: 200; left: 1.5rem; right: 1.5rem;">
+        <div id="filter-dropdown" class="dropdown-panel hidden absolute mt-2 bg-white rounded-2xl shadow-2xl py-4 px-5 border border-gray-100" style="z-index: 200; left: 1.5rem; right: 1.5rem;">
             <!-- Row 1: Campus filters -->
-            <div class="flex items-center gap-3 pb-2 border-b border-gray-100">
-                <span class="text-dark-text text-sm font-semibold">Campus:</span>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-athens" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="athens">
-                    <label for="filter-athens" class="text-dark-text text-sm cursor-pointer">Athens</label>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-tifton" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="tifton">
-                    <label for="filter-tifton" class="text-dark-text text-sm cursor-pointer">Tifton</label>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-griffin" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="griffin">
-                    <label for="filter-griffin" class="text-dark-text text-sm cursor-pointer">Griffin</label>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-online" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="online">
-                    <label for="filter-online" class="text-dark-text text-sm cursor-pointer">Online</label>
+            <div class="filter-row">
+                <span class="filter-label">Campus</span>
+                <div class="filter-pills">
+                    <button type="button" class="filter-pill campus-filter" data-category="athens">Athens</button>
+                    <button type="button" class="filter-pill campus-filter" data-category="tifton">Tifton</button>
+                    <button type="button" class="filter-pill campus-filter" data-category="griffin">Griffin</button>
+                    <button type="button" class="filter-pill campus-filter" data-category="online">Online</button>
                 </div>
             </div>
 
-            <!-- Row 2: Course Level + Course Type -->
-            <div class="flex items-center gap-3 py-2 border-b border-gray-100">
-                <span class="text-dark-text text-sm font-semibold">Level:</span>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-undergraduate" class="level-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-level="undergraduate">
-                    <label for="filter-undergraduate" class="text-dark-text text-sm cursor-pointer">Undergraduate</label>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-graduate" class="level-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-level="graduate">
-                    <label for="filter-graduate" class="text-dark-text text-sm cursor-pointer">Graduate</label>
-                </div>
-                <span class="text-gray-300 mx-2">|</span>
-                <span class="text-dark-text text-sm font-semibold">Type:</span>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="filter-honors" class="campus-filter h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red" data-category="honors">
-                    <label for="filter-honors" class="text-dark-text text-sm cursor-pointer">Honors</label>
+            <!-- Row 2: Course Level -->
+            <div class="filter-row">
+                <span class="filter-label">Level</span>
+                <div class="filter-pills">
+                    <button type="button" class="filter-pill level-filter" data-level="undergraduate">Undergraduate</button>
+                    <button type="button" class="filter-pill level-filter" data-level="graduate">Graduate</button>
                 </div>
             </div>
 
-            <!-- Row 3: Display Options -->
-            <div class="flex items-center gap-3 pt-2">
-                <span class="text-dark-text text-sm font-semibold">Display:</span>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="hide-full-filter" class="h-4 w-4 rounded border-gray-300 text-accent-red focus:ring-accent-red">
-                    <label for="hide-full-filter" class="text-dark-text text-sm cursor-pointer whitespace-nowrap">Hide full classes</label>
+            <!-- Row 3: Course Type (AND filter) -->
+            <div class="filter-row">
+                <span class="filter-label">Type</span>
+                <div class="filter-pills">
+                    <button type="button" class="filter-pill" id="honors-filter">Honors</button>
+                </div>
+            </div>
+
+            <!-- Row 4: Display Options -->
+            <div class="filter-row" style="border-bottom: none;">
+                <span class="filter-label">Display</span>
+                <div class="filter-pills">
+                    <button type="button" class="filter-pill" id="hide-full-filter">Hide Full Classes</button>
                 </div>
             </div>
         </div>
@@ -445,6 +532,26 @@
         }
     });
 
+    // Term selector pill functionality
+    let currentTerm = 'spring2026';
+
+    document.getElementById('term-selector').addEventListener('click', function(event) {
+        const pill = event.target.closest('button.term-pill');
+        if (!pill) return;
+
+        const term = pill.dataset.term;
+
+        // Update active state
+        document.querySelectorAll('.term-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        // Update current term and reload data
+        currentTerm = term;
+        console.log('Switched to term:', term);
+
+        // TODO: Wire up to load different term data
+    });
+
     // Main table functionality
     document.addEventListener('DOMContentLoaded', () => {
         let courseData = [], filteredData = [];
@@ -458,14 +565,14 @@
 
         // Get selected campus/category filters
         function getSelectedCategories() {
-            const checkboxes = document.querySelectorAll('.campus-filter:checked');
-            return Array.from(checkboxes).map(cb => cb.dataset.category);
+            const activePills = document.querySelectorAll('.campus-filter.active');
+            return Array.from(activePills).map(pill => pill.dataset.category);
         }
 
         // Get selected level filters (undergraduate/graduate)
         function getSelectedLevels() {
-            const checkboxes = document.querySelectorAll('.level-filter:checked');
-            return Array.from(checkboxes).map(cb => cb.dataset.level);
+            const activePills = document.querySelectorAll('.level-filter.active');
+            return Array.from(activePills).map(pill => pill.dataset.level);
         }
 
         // Check if row matches selected categories
@@ -492,7 +599,8 @@
             console.log('applyFilters called, courseData.length:', courseData.length);
             const query = searchInput.value.trim().toLowerCase();
             const normalizedQ = query.replace(/\s+/g, '');
-            const hideFull = document.getElementById('hide-full-filter').checked;
+            const hideFull = document.getElementById('hide-full-filter').classList.contains('active');
+            const honorsOnly = document.getElementById('honors-filter').classList.contains('active');
             const selectedCategories = getSelectedCategories();
             const selectedLevels = getSelectedLevels();
 
@@ -502,6 +610,8 @@
                 if (hideFull && (!isNaN(seats) && seats === 0)) return false;
                 if (!matchesCategory(r, selectedCategories)) return false;
                 if (!matchesLevel(r, selectedLevels)) return false;
+                // Honors is an AND filter - if active, row must be honors
+                if (honorsOnly && (!r.Category || !r.Category.includes('honors'))) return false;
                 return courseNum.startsWith(normalizedQ);
             });
 
@@ -511,6 +621,8 @@
                 if (hideFull && (!isNaN(seats) && seats === 0)) return false;
                 if (!matchesCategory(r, selectedCategories)) return false;
                 if (!matchesLevel(r, selectedLevels)) return false;
+                // Honors is an AND filter - if active, row must be honors
+                if (honorsOnly && (!r.Category || !r.Category.includes('honors'))) return false;
                 if (courseNum.startsWith(normalizedQ)) return false;
 
                 const searchableKeys = [
@@ -550,18 +662,13 @@
             renderPagination();
         }
 
-        // Add event listeners to campus filter checkboxes
-        document.querySelectorAll('.campus-filter').forEach(cb => {
-            cb.addEventListener('change', applyFilters);
+        // Add click handlers to filter pills (toggle active state)
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                this.classList.toggle('active');
+                applyFilters();
+            });
         });
-
-        // Add event listeners to level filter checkboxes
-        document.querySelectorAll('.level-filter').forEach(cb => {
-            cb.addEventListener('change', applyFilters);
-        });
-
-        // Add event listener to hide-full checkbox
-        document.getElementById('hide-full-filter').addEventListener('change', applyFilters);
 
         // Fetch and parse CSV data
         fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
@@ -706,7 +813,7 @@
 
 <!-- Load Navbar from Partial -->
 <script>
-    fetch('partials/navbar.html')
+    fetch('../partials/navbar.html')
         .then(response => response.text())
         .then(html => {
             document.getElementById('navbar-placeholder').innerHTML = html;
@@ -718,7 +825,7 @@
 
     function initializeNavbar() {
         const logo = document.getElementById('uga-logo');
-        if (logo) logo.src = 'images/OfficeRegistrar_logo_Horizontal_FC.png';
+        if (logo) logo.src = '../images/OfficeRegistrar_logo_Horizontal_FC.png';
 
         const dropdownMenus = document.querySelectorAll(".dropdown-menu");
         dropdownMenus.forEach(menu => {
@@ -820,8 +927,8 @@
 </script>
 
 <!-- Link navbar styles -->
-<link rel="stylesheet" href="css/all.min.css">
-<link rel="stylesheet" href="css/uga-branding.css">
+<link rel="stylesheet" href="../css/all.min.css">
+<link rel="stylesheet" href="../css/uga-branding.css">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;600&display=swap');
 

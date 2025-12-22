@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - UGA Registrar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f9f8f6;
+            min-height: 100vh;
+        }
+
+        /* Simplified Nav - always white background for 404 */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .site-nav__logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .site-nav__links {
+            display: flex;
+            gap: 32px;
+            margin-left: auto;
+        }
+
+        .site-nav__link {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #333;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 10px 0;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .site-nav__link:hover {
+            color: #ba0c2f;
+        }
+
+        /* Main 404 Content */
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 60px;
+        }
+
+        .error-content {
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .error-code {
+            font-family: 'Oswald', sans-serif;
+            font-size: 140px;
+            font-weight: 700;
+            color: #ba0c2f;
+            line-height: 1;
+            margin-bottom: 10px;
+            letter-spacing: -4px;
+        }
+
+        .error-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 32px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .error-message {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .error-url {
+            font-family: monospace;
+            font-size: 14px;
+            color: #999;
+            background: #eee;
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 40px;
+            word-break: break-all;
+        }
+
+        /* Search Box */
+        .search-box {
+            margin-bottom: 50px;
+        }
+
+        .search-box__wrapper {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-box__wrapper:focus-within {
+            border-color: #ba0c2f;
+        }
+
+        .search-box__input {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-box__input::placeholder {
+            color: #999;
+        }
+
+        .search-box__btn {
+            background: #ba0c2f;
+            border: none;
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .search-box__btn:hover {
+            background: #9a0a27;
+        }
+
+        .search-box__btn svg {
+            fill: white;
+            display: block;
+        }
+
+        /* Suggestions */
+        .suggestions {
+            text-align: left;
+        }
+
+        .suggestions__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .suggestions__list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .suggestion-card {
+            display: block;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 16px 20px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .suggestion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: #ba0c2f;
+            transition: height 0.2s ease;
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: transparent;
+        }
+
+        .suggestion-card:hover::before {
+            height: 100%;
+        }
+
+        .suggestion-card__title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            transition: color 0.2s ease;
+        }
+
+        .suggestion-card:hover .suggestion-card__title {
+            color: #ba0c2f;
+        }
+
+        .suggestion-card__path {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* Back link */
+        .back-home {
+            margin-top: 40px;
+        }
+
+        .back-home a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #ba0c2f;
+            text-decoration: none;
+        }
+
+        .back-home a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .site-nav {
+                padding: 0 20px;
+            }
+
+            .site-nav__links {
+                display: none;
+            }
+
+            .error-code {
+                font-size: 100px;
+            }
+
+            .error-title {
+                font-size: 24px;
+            }
+
+            .error-page {
+                padding: 100px 20px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Simplified Nav -->
+    <nav class="site-nav">
+        <a href="#" class="site-nav__logo">
+            <img src="../images/OfficeRegistrar_logo_Horizontal_FC.png" alt="Registrar's Office">
+        </a>
+        <div class="site-nav__links">
+            <a href="#" class="site-nav__link">Registration</a>
+            <a href="#" class="site-nav__link">Records</a>
+            <a href="#" class="site-nav__link">Academics</a>
+            <a href="#" class="site-nav__link">Calendars</a>
+        </div>
+    </nav>
+
+    <!-- 404 Content -->
+    <main class="error-page">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                The page you're looking for doesn't exist or may have moved.
+            </p>
+            <div class="error-url" id="attempted-url">/academics/degreeworks/old-page</div>
+
+            <!-- Search -->
+            <div class="search-box">
+                <div class="search-box__wrapper">
+                    <input type="text" class="search-box__input" placeholder="Search the Registrar's site..." id="search-input">
+                    <button class="search-box__btn" aria-label="Search">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Suggested Pages -->
+            <div class="suggestions">
+                <h2 class="suggestions__title">Did you mean one of these?</h2>
+                <div class="suggestions__list" id="suggestions-list">
+                    <!-- Suggestions populated by JS based on URL -->
+                    <a href="#" class="suggestion-card">
+                        <div class="suggestion-card__title">DegreeWorks</div>
+                        <div class="suggestion-card__path">/academics/degreeworks</div>
+                    </a>
+                    <a href="#" class="suggestion-card">
+                        <div class="suggestion-card__title">DegreeWorks FAQs</div>
+                        <div class="suggestion-card__path">/academics/degreeworks/faqs</div>
+                    </a>
+                    <a href="#" class="suggestion-card">
+                        <div class="suggestion-card__title">Tutorials & Resources</div>
+                        <div class="suggestion-card__path">/academics/degreeworks/tutorials</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="back-home">
+                <a href="#">&larr; Return to Homepage</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Display the attempted URL (in real implementation, would use window.location)
+        // For demo, we'll just show a sample path
+        const urlDisplay = document.getElementById('attempted-url');
+
+        // In production, this would be:
+        // urlDisplay.textContent = window.location.pathname;
+
+        // Pre-fill search with keywords from URL
+        const searchInput = document.getElementById('search-input');
+        const pathParts = urlDisplay.textContent.split('/').filter(p => p);
+        if (pathParts.length > 0) {
+            // Use the last meaningful part of the URL as search suggestion
+            const lastPart = pathParts[pathParts.length - 1].replace(/-/g, ' ');
+            searchInput.value = lastPart;
+        }
+    </script>
+</body>
+</html>
