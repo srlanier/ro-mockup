@@ -60,48 +60,197 @@
             accent-color: #ba0c2f;
         }
 
-        /* Table styles from socTest3 */
-        .course-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: "Open Sans", sans-serif;
+        /* Course card layout */
+        .course-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
-        .course-table thead {
-            background-color: #4a4a4a;
-            color: #FFFFFF;
+        .course-card {
+            background: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.04), 3px 4px 8px rgba(0,0,0,0.12);
         }
 
-        .course-table th, .course-table td {
-            padding: 0.75rem 0.9rem;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.9rem 1.25rem 0.1rem;
+        }
+
+        .card-header-left {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            min-width: 0;
+        }
+
+        .card-course-num {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ba0c2f;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #444;
             white-space: nowrap;
-            border-bottom: 1px solid #f7f7f7;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
         }
 
-        /* Allow course name to wrap */
-        .course-table td:nth-child(2) {
-            white-space: normal;
-            max-width: 250px;
-            word-wrap: break-word;
-        }
-
-        .course-table th {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-            text-align: left;
+        .section-count {
+            font-family: 'Inter', sans-serif;
             font-size: 0.65rem;
             font-weight: 500;
-            color: #FFFFFF;
+            color: #999;
+            background: #f3f3f3;
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+        }
+
+        /* Section rows */
+        .section-rows {
+            padding: 0 1.25rem 0.5rem;
+        }
+
+        .section-row {
+            display: grid;
+            grid-template-columns: 60px 1.3fr 1.1fr 1.1fr 0.7fr 0.7fr 130px;
+            gap: 0 0.75rem;
+            align-items: center;
+            padding: 0.55rem 0;
+            border-top: 1px solid #f2f2f2;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .section-row.section-full {
+            opacity: 0.5;
+        }
+
+        .section-crn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #aaa;
+            letter-spacing: 0.01em;
+        }
+
+        /* Column headers for section rows */
+        .section-header {
+            display: grid;
+            grid-template-columns: 60px 1.3fr 1.1fr 1.1fr 0.7fr 0.7fr 130px;
+            gap: 0 0.75rem;
+            padding: 0.4rem 0 0.25rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
+            color: #aaa;
         }
 
-        .course-table td {
-            font-size: 0.9rem;
+        .section-header span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .full-course {
-            background-color: #d5d5d5;
+        .header-icon {
+            width: 11px;
+            height: 11px;
+            flex-shrink: 0;
+            color: #bbb;
+        }
+
+        .section-cell {
+            line-height: 1.4;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .section-seats {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: #555;
+        }
+
+        .seats-text {
+            white-space: nowrap;
+        }
+
+        .seats-text.seats-low {
+            color: #d97706;
+            font-weight: 600;
+        }
+
+        .seats-text.seats-none {
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        .full-badge {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: #fff;
+            background: #c0392b;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 1000px) {
+            .section-header {
+                display: none;
+            }
+            .section-row {
+                grid-template-columns: 55px 1fr 1fr;
+                gap: 0.25rem 0.6rem;
+            }
+            .section-crn {
+                grid-row: span 2;
+                align-self: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card-header-left {
+                flex-wrap: wrap;
+            }
+            .section-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.2rem 0.6rem;
+            }
+            .section-crn {
+                grid-column: 1 / -1;
+                grid-row: auto;
+                justify-self: start;
+            }
+            .section-seats {
+                grid-column: 1 / -1;
+            }
         }
 
         /* Pagination styles */
@@ -224,60 +373,57 @@
         }
 
         /* Filter Panel Styles */
-        .filter-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #f0f0f0;
+        .filter-columns {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0 2rem;
         }
 
-        .filter-label {
+        .filter-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .filter-col-header {
             font-family: 'Oswald', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             color: #888;
-            min-width: 70px;
-            flex-shrink: 0;
+            padding-bottom: 0.35rem;
+            margin-bottom: 0.2rem;
+            border-bottom: 1px solid #eee;
         }
 
-        .filter-pills {
+        .filter-cb {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .filter-pill {
+            align-items: center;
+            gap: 0.45rem;
             font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
-            font-weight: 500;
-            padding: 0.4rem 0.9rem;
-            border-radius: 9999px;
-            border: 1.5px solid #ddd;
-            background: #fafafa;
             color: #555;
             cursor: pointer;
-            transition: all 0.15s ease;
+            padding: 0.2rem 0;
         }
 
-        .filter-pill:hover {
-            border-color: #ba0c2f;
-            color: #ba0c2f;
-            background: #fff;
+        .filter-cb:hover {
+            color: #333;
         }
 
-        .filter-pill.active {
-            background: #ba0c2f;
-            border-color: #ba0c2f;
-            color: white;
+        .filter-cb input[type="checkbox"] {
+            accent-color: #ba0c2f;
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
         }
 
-        .filter-pill.active:hover {
-            background: #9a0a27;
-            border-color: #9a0a27;
-            color: white;
+        @media (max-width: 640px) {
+            .filter-columns {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
         }
     </style>
 
@@ -366,72 +512,49 @@
         </div>
 
         <!-- Filter Dropdown Panel -->
-        <div id="filter-dropdown" class="dropdown-panel hidden absolute mt-2 bg-white rounded-2xl shadow-2xl py-4 px-5 border border-gray-100" style="z-index: 200; left: 1.5rem; right: 1.5rem;">
-            <!-- Row 1: Campus filters -->
-            <div class="filter-row">
-                <span class="filter-label">Campus</span>
-                <div class="filter-pills">
-                    <button type="button" class="filter-pill campus-filter" data-category="athens">Athens</button>
-                    <button type="button" class="filter-pill campus-filter" data-category="tifton">Tifton</button>
-                    <button type="button" class="filter-pill campus-filter" data-category="griffin">Griffin</button>
-                    <button type="button" class="filter-pill campus-filter" data-category="online">Online</button>
+        <div id="filter-dropdown" class="dropdown-panel hidden absolute mt-2 bg-white rounded-2xl shadow-2xl py-5 px-6 border border-gray-100" style="z-index: 200; left: 1.5rem; right: 1.5rem;">
+            <div class="filter-columns">
+                <!-- Days -->
+                <div class="filter-column">
+                    <div class="filter-col-header">Days</div>
+                    <label class="filter-cb"><input type="checkbox" class="day-cb" value="M"> Monday</label>
+                    <label class="filter-cb"><input type="checkbox" class="day-cb" value="T"> Tuesday</label>
+                    <label class="filter-cb"><input type="checkbox" class="day-cb" value="W"> Wednesday</label>
+                    <label class="filter-cb"><input type="checkbox" class="day-cb" value="R"> Thursday</label>
+                    <label class="filter-cb"><input type="checkbox" class="day-cb" value="F"> Friday</label>
+                    <label class="filter-cb"><input type="checkbox" class="day-cb" value="S"> Saturday</label>
                 </div>
-            </div>
-
-            <!-- Row 2: Course Level -->
-            <div class="filter-row">
-                <span class="filter-label">Level</span>
-                <div class="filter-pills">
-                    <button type="button" class="filter-pill level-filter" data-level="undergraduate">Undergraduate</button>
-                    <button type="button" class="filter-pill level-filter" data-level="graduate">Graduate</button>
+                <!-- Campus -->
+                <div class="filter-column">
+                    <div class="filter-col-header">Campus</div>
+                    <label class="filter-cb"><input type="checkbox" class="campus-cb" value="athens"> Athens</label>
+                    <label class="filter-cb"><input type="checkbox" class="campus-cb" value="tifton"> Tifton</label>
+                    <label class="filter-cb"><input type="checkbox" class="campus-cb" value="griffin"> Griffin</label>
+                    <label class="filter-cb"><input type="checkbox" class="campus-cb" value="online"> Online</label>
                 </div>
-            </div>
-
-            <!-- Row 3: Course Type (AND filter) -->
-            <div class="filter-row">
-                <span class="filter-label">Type</span>
-                <div class="filter-pills">
-                    <button type="button" class="filter-pill" id="honors-filter">Honors</button>
+                <!-- Part of Term -->
+                <div class="filter-column">
+                    <div class="filter-col-header">Part of Term</div>
+                    <div id="pot-checkboxes">
+                        <span style="font-size: 0.75rem; color: #bbb;">Loading...</span>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Row 4: Display Options -->
-            <div class="filter-row" style="border-bottom: none;">
-                <span class="filter-label">Display</span>
-                <div class="filter-pills">
-                    <button type="button" class="filter-pill" id="hide-full-filter">Hide Full Classes</button>
+                <!-- Display -->
+                <div class="filter-column">
+                    <div class="filter-col-header">Display</div>
+                    <label class="filter-cb"><input type="checkbox" id="hide-full-cb"> Hide Full Classes</label>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Content Block with Table -->
-<main class="min-h-[30vh] bg-white border-t-8 border-[#4a4a4a]/10 p-8 shadow-inner">
-    <div class="w-full px-4 mx-auto" style="max-width: 98%;">
-        <!-- Course Table -->
-        <div class="overflow-x-auto shadow-lg rounded-lg bg-white">
-            <table class="course-table" id="courseTable">
-                <thead>
-                    <tr>
-                        <th>Course Number</th>
-                        <th>Course<br>Name</th>
-                        <th>CRN</th>
-                        <th>Instructor</th>
-                        <th>Campus</th>
-                        <th>Part of Term</th>
-                        <th>Days</th>
-                        <th>Time</th>
-                        <th>Building</th>
-                        <th>Room</th>
-                        <th>Max Seats</th>
-                        <th>Avail Seats</th>
-                    </tr>
-                </thead>
-                <tbody id="courseTableBody">
-                    <!-- Course data will be loaded here -->
-                </tbody>
-            </table>
+<!-- Content Block with Cards -->
+<main class="min-h-[30vh] bg-[#f2f2f2] border-t-8 border-[#4a4a4a]/10 p-8 shadow-inner">
+    <div class="w-full px-4 mx-auto" style="max-width: 1200px;">
+        <!-- Course Cards -->
+        <div id="courseCardContainer" class="course-cards">
+            <!-- Course cards will be rendered here -->
         </div>
 
         <!-- Pagination -->
@@ -558,92 +681,72 @@
         const rowsPerPage = 50;
         let currentPage = 1;
 
-        const courseTableBody = document.getElementById('courseTableBody');
+        const courseCardContainer = document.getElementById('courseCardContainer');
         const paginationContainer = document.getElementById('pagination');
         const paginationInfo = document.getElementById('pagination-info');
         const searchInput = document.getElementById('searchInput');
 
-        // Get selected campus/category filters
-        function getSelectedCategories() {
-            const activePills = document.querySelectorAll('.campus-filter.active');
-            return Array.from(activePills).map(pill => pill.dataset.category);
+        // Get checked checkbox values by class name
+        function getCheckedValues(className) {
+            return Array.from(document.querySelectorAll('.' + className + ':checked')).map(cb => cb.value);
         }
 
-        // Get selected level filters (undergraduate/graduate)
-        function getSelectedLevels() {
-            const activePills = document.querySelectorAll('.level-filter.active');
-            return Array.from(activePills).map(pill => pill.dataset.level);
+        // Filter matchers
+        function matchesCampus(row, selected) {
+            if (selected.length === 0) return true;
+            return selected.some(cat => row.Category && row.Category.includes(cat));
         }
 
-        // Check if row matches selected categories
-        function matchesCategory(row, selectedCategories) {
-            if (selectedCategories.length === 0) return true; // No filter = show all
-            return selectedCategories.some(cat => row.Category && row.Category.includes(cat));
+        function matchesDays(row, selected) {
+            if (selected.length === 0) return true;
+            const days = (row['DAYS'] || '').toUpperCase().replace(/<br>/g, '');
+            return selected.some(d => days.includes(d));
         }
 
-        // Check if row matches selected course level (undergraduate < 6000, graduate >= 6000)
-        function matchesLevel(row, selectedLevels) {
-            if (selectedLevels.length === 0) return true; // No filter = show all
-            const courseNum = row['COURSE NUMBER'] || '';
-            const match = courseNum.match(/(\d{4})/); // Extract 4-digit course number
-            if (!match) return true; // If no number found, include it
-            const num = parseInt(match[1], 10);
-
-            if (selectedLevels.includes('undergraduate') && num < 6000) return true;
-            if (selectedLevels.includes('graduate') && num >= 6000) return true;
-            return false;
+        function matchesPot(row, selected) {
+            if (selected.length === 0) return true;
+            const pot = (row['PART OF TERM'] || '').trim();
+            return selected.includes(pot);
         }
 
-        // Define applyFilters early so it can be called from fetch
+        // Define applyFilters
         function applyFilters() {
-            console.log('applyFilters called, courseData.length:', courseData.length);
             const query = searchInput.value.trim().toLowerCase();
             const normalizedQ = query.replace(/\s+/g, '');
-            const hideFull = document.getElementById('hide-full-filter').classList.contains('active');
-            const honorsOnly = document.getElementById('honors-filter').classList.contains('active');
-            const selectedCategories = getSelectedCategories();
-            const selectedLevels = getSelectedLevels();
+            const hideFull = document.getElementById('hide-full-cb').checked;
+            const selectedCampuses = getCheckedValues('campus-cb');
+            const selectedDays = getCheckedValues('day-cb');
+            const selectedPots = getCheckedValues('pot-cb');
+
+            function passesFilters(r) {
+                const seats = parseInt(r['SEATS AVAILABLE']);
+                if (hideFull && (!isNaN(seats) && seats === 0)) return false;
+                if (!matchesCampus(r, selectedCampuses)) return false;
+                if (!matchesDays(r, selectedDays)) return false;
+                if (!matchesPot(r, selectedPots)) return false;
+                return true;
+            }
 
             const prefixMatches = courseData.filter(r => {
                 const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
-                const seats = parseInt(r['SEATS AVAILABLE']);
-                if (hideFull && (!isNaN(seats) && seats === 0)) return false;
-                if (!matchesCategory(r, selectedCategories)) return false;
-                if (!matchesLevel(r, selectedLevels)) return false;
-                // Honors is an AND filter - if active, row must be honors
-                if (honorsOnly && (!r.Category || !r.Category.includes('honors'))) return false;
+                if (!passesFilters(r)) return false;
                 return courseNum.startsWith(normalizedQ);
             });
 
             const otherMatches = courseData.filter(r => {
                 const courseNum = (r['COURSE NUMBER'] || '').toLowerCase().replace(/\s+/g, '');
-                const seats = parseInt(r['SEATS AVAILABLE']);
-                if (hideFull && (!isNaN(seats) && seats === 0)) return false;
-                if (!matchesCategory(r, selectedCategories)) return false;
-                if (!matchesLevel(r, selectedLevels)) return false;
-                // Honors is an AND filter - if active, row must be honors
-                if (honorsOnly && (!r.Category || !r.Category.includes('honors'))) return false;
+                if (!passesFilters(r)) return false;
                 if (courseNum.startsWith(normalizedQ)) return false;
 
                 const searchableKeys = [
-                    'COURSE NUMBER',
-                    'COURSE NAME',
-                    'CRN',
-                    'INSTRUCTOR',
-                    'CAMPUS',
-                    'PART OF TERM',
-                    'DAYS',
-                    'TIME',
-                    'BUILDING',
-                    'CROSS LIST'
+                    'COURSE NUMBER', 'COURSE NAME', 'CRN', 'INSTRUCTOR',
+                    'CAMPUS', 'PART OF TERM', 'DAYS', 'TIME', 'BUILDING', 'CROSS LIST'
                 ];
-
                 const rawQuery = searchInput.value.trim().toLowerCase();
                 const queryWords = rawQuery.split(/\s+/);
                 const allF = searchableKeys
                     .map(k => (r[k] || '').toString().toLowerCase().replace(/\s+/g, ''))
                     .join('');
-
                 return queryWords.every(qw => allF.includes(qw));
             });
 
@@ -662,13 +765,24 @@
             renderPagination();
         }
 
-        // Add click handlers to filter pills (toggle active state)
-        document.querySelectorAll('.filter-pill').forEach(pill => {
-            pill.addEventListener('click', function() {
-                this.classList.toggle('active');
-                applyFilters();
-            });
+        // Add change handlers to filter checkboxes
+        document.querySelectorAll('.day-cb, .campus-cb, #hide-full-cb').forEach(cb => {
+            cb.addEventListener('change', applyFilters);
         });
+
+        // Populate Part of Term checkboxes dynamically after data loads
+        function populatePotFilter(data) {
+            const pots = [...new Set(data.map(r => (r['PART OF TERM'] || '').trim()).filter(Boolean))].sort();
+            const container = document.getElementById('pot-checkboxes');
+            container.innerHTML = '';
+            pots.forEach(pot => {
+                const label = document.createElement('label');
+                label.className = 'filter-cb';
+                label.innerHTML = '<input type="checkbox" class="pot-cb" value="' + pot + '"> ' + pot;
+                label.querySelector('input').addEventListener('change', applyFilters);
+                container.appendChild(label);
+            });
+        }
 
         // Fetch and parse CSV data
         fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTef4md7UDxIUWVcycO5Idee3si3uSqlF1KBG52-aC64aKfyNuMARbz3YvL1WMnNzYGgvHKwwScWUt0/pub?gid=509407845&single=true&output=csv')
@@ -713,6 +827,7 @@
                 });
 
                 console.log('Course data loaded:', courseData.length, 'courses');
+                populatePotFilter(courseData);
                 applyFilters();
             })
             .catch(error => {
@@ -728,59 +843,141 @@
             }
         });
 
+        // SVG icon templates (used in column headers)
+        const icons = {
+            person: '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+            calendar: '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            building: '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>',
+            mapPin: '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+            tag: '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+            users: '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+        };
+
+        // Group filtered sections into course cards
+        function groupByCourseNumber(data) {
+            const groups = {};
+            const order = [];
+            data.forEach(r => {
+                const key = r['COURSE NUMBER'] || 'UNKNOWN';
+                if (!groups[key]) {
+                    groups[key] = {
+                        courseNumber: key,
+                        courseName: r['COURSE NAME'] || '',
+                        sections: []
+                    };
+                    order.push(key);
+                }
+                groups[key].sections.push(r);
+            });
+            return order.map(k => groups[k]);
+        }
+
+        let courseGroups = [];
+
         function renderTable() {
-            courseTableBody.innerHTML = '';
-            if (filteredData.length === 0) {
-                const tr = document.createElement('tr');
-                const td = document.createElement('td');
-                td.colSpan = 12;
-                td.classList.add('no-results');
-                td.textContent = 'No matching results found.';
-                tr.appendChild(td);
-                courseTableBody.appendChild(tr);
+            courseCardContainer.innerHTML = '';
+            courseGroups = groupByCourseNumber(filteredData);
+
+            if (courseGroups.length === 0) {
+                courseCardContainer.innerHTML = '<div class="no-results">No matching results found.</div>';
                 paginationContainer.style.display = 'none';
                 return;
             }
 
             paginationContainer.style.display = '';
             const start = (currentPage - 1) * rowsPerPage;
-            const pageData = filteredData.slice(start, start + rowsPerPage);
+            const pageGroups = courseGroups.slice(start, start + rowsPerPage);
 
-            pageData.forEach(r => {
-                const tr = document.createElement('tr');
-                const seats = parseInt(r['SEATS AVAILABLE']);
-                if (!isNaN(seats) && seats === 0) tr.classList.add('full-course');
+            pageGroups.forEach(group => {
+                // Format course number with space (e.g. "ENGL1101" → "ENGL 1101")
+                let courseNum = group.courseNumber;
+                if (courseNum.length > 4) {
+                    courseNum = courseNum.slice(0, 4) + ' ' + courseNum.slice(4);
+                }
 
-                tr.innerHTML = `
-                    <td>${r['COURSE NUMBER'] || ''}</td>
-                    <td>${r['COURSE NAME'] || ''}</td>
-                    <td>${r['CRN'] || ''}</td>
-                    <td>${r['INSTRUCTOR'] || ''}</td>
-                    <td>${r['CAMPUS'] || ''}</td>
-                    <td>${r['PART OF TERM'] || ''}</td>
-                    <td>${r['DAYS'] || ''}</td>
-                    <td>${r['TIME'] || ''}</td>
-                    <td>${r['BUILDING'] || ''}</td>
-                    <td>${r['ROOM'] || ''}</td>
-                    <td>${r['MAX STUDENTS'] || ''}</td>
-                    <td>${r['SEATS AVAILABLE'] || ''}</td>
+                const sectionCount = group.sections.length;
+                const card = document.createElement('div');
+                card.className = 'course-card';
+
+                // Card header with course number + title + section count badge
+                let html = `
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-course-num">${courseNum}</span>
+                            <span class="card-title">${group.courseName}</span>
+                            <span class="section-count">${sectionCount} section${sectionCount !== 1 ? 's' : ''}</span>
+                        </div>
+                    </div>
+                    <div class="section-rows">
+                        <div class="section-header">
+                            <span>CRN</span>
+                            <span>${icons.person} Instructor</span>
+                            <span>${icons.calendar} Schedule</span>
+                            <span>${icons.building} Location</span>
+                            <span>${icons.mapPin} Campus</span>
+                            <span>${icons.tag} Part of Term</span>
+                            <span>${icons.users} Seats</span>
+                        </div>
                 `;
 
-                courseTableBody.appendChild(tr);
-            });
+                // Render each section as a row
+                group.sections.forEach(r => {
+                    const availSeats = parseInt(r['SEATS AVAILABLE']);
+                    const maxSeats = parseInt(r['MAX STUDENTS']);
+                    const isFull = !isNaN(availSeats) && availSeats === 0;
+                    const hasSeatsData = !isNaN(maxSeats) && !isNaN(availSeats);
 
-            courseTableBody.querySelectorAll('tr td:first-child').forEach(cell => {
-                const txt = cell.textContent.trim();
-                if (txt.length > 4) {
-                    cell.innerHTML = txt.slice(0, 4) + ' ' + txt.slice(4);
-                }
+                    // Combine days + time per session
+                    const daysArr = (r['DAYS'] || '').split('<br>');
+                    const timeArr = (r['TIME'] || '').split('<br>');
+                    const schedule = daysArr.map((d, i) => {
+                        const t = timeArr[i] || '';
+                        return [d, t].filter(Boolean).join(' ');
+                    }).filter(s => s.trim()).join('<br>') || 'TBA';
+
+                    // Combine building + room per session
+                    const bldgArr = (r['BUILDING'] || '').split('<br>');
+                    const roomArr = (r['ROOM'] || '').split('<br>');
+                    const location = bldgArr.map((b, i) => {
+                        const rm = roomArr[i] || '';
+                        return [b, rm].filter(Boolean).join(' ');
+                    }).filter(s => s.trim()).join('<br>') || 'TBA';
+
+                    // Seats display
+                    let seatsHtml = '';
+                    if (isFull) {
+                        seatsHtml = '<span class="full-badge">Full</span>';
+                    } else if (hasSeatsData) {
+                        const pct = maxSeats > 0 ? (availSeats / maxSeats) * 100 : 100;
+                        const cls = pct <= 0 ? ' seats-none' : pct < 25 ? ' seats-low' : '';
+                        seatsHtml = `<span class="seats-text${cls}">${availSeats} / ${maxSeats}</span>`;
+                    } else {
+                        seatsHtml = '<span class="seats-text">—</span>';
+                    }
+
+                    html += `
+                        <div class="section-row${isFull ? ' section-full' : ''}">
+                            <span class="section-crn">${r['CRN'] || ''}</span>
+                            <span class="section-cell">${r['INSTRUCTOR'] || 'TBA'}</span>
+                            <span class="section-cell">${schedule}</span>
+                            <span class="section-cell">${location}</span>
+                            <span class="section-cell">${r['CAMPUS'] || ''}</span>
+                            <span class="section-cell">${r['PART OF TERM'] || ''}</span>
+                            <div class="section-seats">${seatsHtml}</div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                card.innerHTML = html;
+                courseCardContainer.appendChild(card);
             });
         }
 
         function renderPagination() {
-            const total = Math.ceil(filteredData.length / rowsPerPage);
-            console.log('Rendering pagination:', filteredData.length, 'items,', total, 'pages');
-            paginationInfo.textContent = `Showing ${rowsPerPage} per page · Page ${currentPage} of ${total}`;
+            const total = Math.ceil(courseGroups.length / rowsPerPage);
+            const sectionTotal = filteredData.length;
+            paginationInfo.textContent = `${courseGroups.length} courses · ${sectionTotal} sections · Page ${currentPage} of ${total}`;
             paginationContainer.innerHTML = '';
 
             const btn = (p) => {
@@ -791,6 +988,7 @@
                     currentPage = p;
                     renderTable();
                     renderPagination();
+                    window.scrollTo({ top: document.querySelector('.course-cards').offsetTop - 100, behavior: 'smooth' });
                 });
                 paginationContainer.appendChild(b);
             };
